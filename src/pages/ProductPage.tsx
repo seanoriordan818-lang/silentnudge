@@ -1,20 +1,29 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Reveal } from '@/components/Reveal';
-import { ProductCircle } from '@/components/ProductCircle';
-import { Divider, Label, HeadingSm, Gold, Section, Stars } from '@/components/shared';
-import { Check, ArrowRight, Shield, Truck, RefreshCw } from 'lucide-react';
+import { Divider, Label, Stars } from '@/components/shared';
+import { Check, ArrowRight, Shield, Truck, RefreshCw, Lock, Loader2 } from 'lucide-react';
 import { useCartStore } from '@/stores/cartStore';
 import { storefrontApiRequest, STOREFRONT_PRODUCTS_QUERY, ShopifyProduct } from '@/lib/shopify';
 import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
+import { ProductVisual } from '@/components/product/ProductVisual';
+import { OrderBump } from '@/components/product/OrderBump';
+import { ScienceSection } from '@/components/product/ScienceSection';
+import { ComparisonTable } from '@/components/product/ComparisonTable';
+import { PersonaSection } from '@/components/product/PersonaSection';
+import { ReviewsSection } from '@/components/product/ReviewsSection';
+import { FAQSection } from '@/components/product/FAQSection';
+import { GuaranteeStrip } from '@/components/product/GuaranteeStrip';
+import { StickyBottomBar } from '@/components/product/StickyBottomBar';
 
-const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+const imgViews = ['Front', 'Wrist', 'Escalation', 'Band', 'Charging'];
 
 const ProductPage = () => {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [img, setImg] = useState(0);
+  const [addedBump, setAddedBump] = useState(false);
+  const [addedCase, setAddedCase] = useState(false);
   const addItem = useCartStore(state => state.addItem);
   const isCartLoading = useCartStore(state => state.isLoading);
 
@@ -37,7 +46,6 @@ const ProductPage = () => {
   const product = products[0];
   const variant = product?.node?.variants?.edges?.[0]?.node;
   const productImage = product?.node?.images?.edges?.[0]?.node?.url;
-  const imgViews = ['Front', 'Wrist', 'Escalation', 'Band', 'Charging'];
 
   const handleAddToCart = async () => {
     if (!product || !variant) return;
@@ -62,14 +70,17 @@ const ProductPage = () => {
 
   if (!product) {
     return (
-      <Section className="pt-24 text-center">
-        <HeadingSm>No products found</HeadingSm>
+      <section className="max-w-[1200px] mx-auto py-20 px-7 pt-24 text-center">
+        <h2 className="font-display text-[clamp(22px,3.2vw,34px)] leading-[1.15] font-medium">No products found</h2>
         <p className="text-muted-foreground mt-4">Products will appear here once they're added to the store.</p>
-      </Section>
+      </section>
     );
   }
 
   const price = parseFloat(product.node.priceRange.minVariantPrice.amount);
+  const bumpPrice = 59;
+  const casePrice = 19;
+  const total = price + (addedBump ? bumpPrice : 0) + (addedCase ? casePrice : 0);
 
   return (
     <>
@@ -81,141 +92,121 @@ const ProductPage = () => {
       </div>
 
       {/* PDP GRID */}
-      <Section className="pt-4">
+      <section className="max-w-[1200px] mx-auto px-7 pt-4 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           {/* Gallery */}
-          <div className="flex gap-3.5">
-            <div className="flex flex-col gap-2">
+          <div className="flex gap-4">
+            <div className="flex flex-col gap-2 max-[480px]:flex-row max-[480px]:overflow-x-auto">
               {imgViews.map((label, i) => (
                 <div
                   key={i}
                   onClick={() => setImg(i)}
-                  className={`w-[60px] h-[60px] rounded-[10px] cursor-pointer flex items-center justify-center transition-all text-[9px] uppercase tracking-wider text-muted-foreground ${
-                    img === i ? 'border-2 border-gold-faint bg-raised2' : 'border-2 border-transparent bg-raised'
+                  className={`w-16 h-16 max-[480px]:w-14 max-[480px]:h-14 max-[480px]:flex-shrink-0 rounded-[10px] cursor-pointer flex items-center justify-center transition-all text-[9px] uppercase tracking-wider text-muted-foreground ${
+                    img === i ? 'border-2 border-gold/40 bg-raised2' : 'border-2 border-transparent bg-raised'
                   }`}
                 >
                   {label}
                 </div>
               ))}
             </div>
-            <div className="flex-1 aspect-square rounded-[20px] border border-gold-subtle flex items-center justify-center overflow-hidden relative" style={{ background: 'linear-gradient(135deg, hsl(252 18% 14%), hsl(255 25% 7.5%))' }}>
-              {img === 0 && productImage ? (
-                <img src={productImage} alt={product.node.title} className="w-full h-full object-cover" />
-              ) : img === 2 ? (
-                <div className="flex flex-col items-center gap-3.5">
-                  <div className="text-[11px] tracking-[3px] uppercase" style={{ color: 'hsl(var(--gold) / 0.4)' }}>5-Stage Escalation</div>
-                  <div className="flex items-end gap-2">
-                    {[20, 30, 42, 56, 72].map((h, i) => (
-                      <div key={i} className="w-7 rounded-md animate-bar-pulse" style={{ height: h, background: `linear-gradient(to top, hsl(var(--gold) / ${0.15 + i * 0.12}), hsl(var(--gold) / ${0.3 + i * 0.15}))`, animationDelay: `${i * 0.15}s` }} />
-                    ))}
-                  </div>
-                  <div className="flex gap-5 mt-1">
-                    {['Gentle', 'Rhythmic', 'Firm', 'Strong', 'Max'].map((l, i) => (
-                      <div key={i} className="text-[9px] text-center w-7" style={{ color: 'hsl(var(--gold) / 0.3)' }}>{l}</div>
-                    ))}
-                  </div>
-                </div>
-              ) : img === 4 ? (
-                <div className="text-center">
-                  <div className="text-2xl opacity-40 mb-2">⚡</div>
-                  <div className="text-sm font-display" style={{ color: 'hsl(var(--gold) / 0.5)' }}>USB Fast Charge</div>
-                  <div className="text-[12px] text-faint mt-1">1 hour → 7+ days</div>
-                </div>
-              ) : img === 3 ? (
-                <div className="text-center">
-                  <div className="w-[120px] h-4 rounded-lg mx-auto mb-3" style={{ background: 'linear-gradient(90deg, hsl(var(--gold) / 0.15), hsl(var(--gold) / 0.06))' }} />
-                  <div className="text-sm font-display" style={{ color: 'hsl(var(--gold) / 0.5)' }}>Medical-grade silicone</div>
-                  <div className="text-[12px] text-faint mt-1">Hypoallergenic · Breathable · 22g</div>
-                </div>
-              ) : (
-                <ProductCircle size={220} />
-              )}
+            <div
+              className="flex-1 aspect-square rounded-[20px] border border-gold-subtle flex items-center justify-center overflow-hidden relative transition-colors duration-400"
+              style={{ background: 'linear-gradient(135deg, hsl(252 18% 14%), hsl(255 25% 7.5%))' }}
+            >
+              <ProductVisual type={imgViews[img].toLowerCase().replace('charging', 'charge')} productImage={img <= 1 ? productImage : undefined} productTitle={product.node.title} />
             </div>
           </div>
 
           {/* BUY BOX */}
-          <div className="md:sticky md:top-20">
-            <h1 className="font-display text-[30px] font-medium leading-tight mb-2">{product.node.title}</h1>
-            <p className="text-[15px] text-muted-foreground mb-5 font-light">{product.node.description}</p>
-
-            <div className="flex items-baseline gap-3 mb-6">
-              <span className="font-display text-[38px] text-gold">${price.toFixed(0)}</span>
-              <span className="text-[16px] text-faint line-through">${(price * 1.5).toFixed(0)}</span>
-              <span className="text-[11px] font-bold bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full">SAVE ${((price * 1.5) - price).toFixed(0)}</span>
+          <div className="md:sticky md:top-6">
+            {/* Rating */}
+            <div className="flex items-center gap-2 mb-3">
+              <Stars />
+              <span className="text-[13px] text-muted-foreground">4.8 / 5</span>
+              <span className="text-[12px] text-faint">· 1,247 reviews</span>
             </div>
 
-            <div className="mb-5">
-              <div className="text-[11px] tracking-[2px] uppercase text-gold-dim font-semibold mb-2.5">What's included</div>
-              {['SilentNudge with purpose-built 5-stage wake motor', 'Silicone wristband (medical-grade, hypoallergenic)', 'USB magnetic charging cable', 'Quick-start card'].map((item, i) => (
-                <div key={i} className="flex gap-2.5 items-center mb-1.5">
-                  <Check size={14} className="text-gold flex-shrink-0" />
+            <h1 className="font-display text-[32px] font-medium leading-tight mb-2">{product.node.title}</h1>
+            <p className="text-[15px] text-muted-foreground mb-5 font-light">{product.node.description}</p>
+
+            {/* Price */}
+            <div className="flex items-baseline gap-3 mb-6">
+              <span className="font-display text-[40px] text-gold">${price.toFixed(0)}</span>
+              <span className="text-[17px] text-faint line-through">${(price * 1.5).toFixed(0)}</span>
+              <span className="text-[12px] font-bold bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full">SAVE ${((price * 1.5) - price).toFixed(0)}</span>
+            </div>
+
+            {/* What's included */}
+            <div className="mb-6">
+              <div className="text-[11px] tracking-[2px] uppercase text-gold-dim font-semibold mb-3">What's included</div>
+              {['SilentNudge with purpose-built 5-stage wake motor', '2 silicone bands (standard + slim night band)', 'USB-C magnetic charging cable', 'Quick-start card (no manual needed)'].map((item, i) => (
+                <div key={i} className="flex gap-2.5 items-center mb-2">
+                  <Check size={16} className="text-gold flex-shrink-0" />
                   <span className="text-[13px] text-muted-foreground font-light">{item}</span>
                 </div>
               ))}
             </div>
 
+            {/* Order Bumps */}
+            <div className="mb-6 flex flex-col gap-2.5">
+              <OrderBump
+                selected={addedBump}
+                onToggle={() => setAddedBump(!addedBump)}
+                title={<>Add a second band for your partner <span className="text-gold">— 40% off</span></>}
+                subtitle={<>Couples pack / travel backup · <span className="line-through">$99</span> <span className="text-gold font-semibold">$59</span></>}
+              />
+              <OrderBump
+                selected={addedCase}
+                onToggle={() => setAddedCase(!addedCase)}
+                title="Add travel case"
+                subtitle={<>Hard-shell protection for your bag · <span className="text-gold font-semibold">$19</span></>}
+              />
+            </div>
+
+            {/* CTA */}
             <button
               onClick={handleAddToCart}
               disabled={isCartLoading}
-              className="w-full py-4 rounded-full bg-primary text-primary-foreground font-bold text-[15px] shadow-gold flex items-center justify-center gap-2.5 transition-all hover:brightness-110 disabled:opacity-50 mb-4"
+              className="w-full py-[18px] rounded-full bg-primary text-primary-foreground font-bold text-base shadow-gold flex items-center justify-center gap-2.5 transition-all hover:brightness-110 disabled:opacity-50 mb-3"
             >
-              {isCartLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Add to Cart — ${price.toFixed(0)} <ArrowRight size={16} /></>}
+              {isCartLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Add to Cart — ${total} <ArrowRight size={16} /></>}
             </button>
 
-            <div className="grid grid-cols-3 gap-3 mt-4">
+            <div className="flex items-center justify-center gap-1.5 mb-6">
+              <Lock size={14} className="text-faint" />
+              <span className="text-[11px] text-faint">Secure checkout · 256-bit encryption</span>
+            </div>
+
+            {/* Trust badges 2x2 */}
+            <div className="grid grid-cols-2 gap-3.5">
               {[
-                { icon: <Truck size={18} />, label: 'Free Shipping' },
-                { icon: <Shield size={18} />, label: '100-Night Trial' },
-                { icon: <RefreshCw size={18} />, label: '2-Year Warranty' },
+                { icon: <Shield size={18} />, label: '100-night guarantee' },
+                { icon: <Truck size={18} />, label: 'Free shipping' },
+                { icon: <RefreshCw size={18} />, label: '2-year warranty' },
+                { icon: <Stars n={1} />, label: '4.8★ · 1,247 reviews' },
               ].map((g, i) => (
-                <div key={i} className="flex flex-col items-center gap-1.5 py-3 rounded-xl bg-raised border border-gold-subtle">
+                <div key={i} className="flex items-center gap-2 text-[12px] text-muted-foreground">
                   <span className="text-gold">{g.icon}</span>
-                  <span className="text-[10px] text-muted-foreground font-medium">{g.label}</span>
+                  {g.label}
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </Section>
-      <Divider />
+      </section>
 
-      {/* COMPARISON TABLE */}
-      <Section>
-        <Reveal>
-          <div className="text-center mb-10">
-            <Label>How We Compare</Label>
-            <HeadingSm>Your $400 watch uses a <Gold>text-message motor</Gold> to wake you.</HeadingSm>
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="bg-raised rounded-[20px] border border-gold-subtle overflow-hidden max-w-[860px] mx-auto">
-            <div className="grid grid-cols-4 p-3.5 px-5" style={{ background: 'hsl(var(--gold) / 0.04)', borderBottom: '2px solid hsl(var(--gold) / 0.08)' }}>
-              <span className="text-[11px] tracking-[2px] uppercase text-faint font-semibold">Feature</span>
-              <span className="text-[11px] tracking-[2px] uppercase text-gold font-semibold text-center">SilentNudge</span>
-              <span className="text-[11px] tracking-[2px] uppercase text-faint font-semibold text-center">Smartwatch</span>
-              <span className="text-[11px] tracking-[2px] uppercase text-faint font-semibold text-center">Others</span>
-            </div>
-            {[
-              ['Purpose-built wake motor', true, false, false],
-              ['5-stage escalation', true, false, '3 levels'],
-              ['Harvard-backed mechanism', true, false, false],
-              ['Standalone (no phone)', true, false, true],
-              ['7+ day battery', true, false, true],
-              ['Deep sleeper guarantee', true, false, true],
-              ['Price', '$99', '$250–$500', '$49–$84'],
-            ].map(([f, sn, sw, ot], i) => (
-              <div key={i} className="grid grid-cols-4 px-5 py-3 items-center" style={{ borderBottom: '1px solid hsl(0 0% 100% / 0.04)' }}>
-                <span className="text-[13px] text-muted-foreground">{f as string}</span>
-                {([sn, sw, ot] as (boolean | string)[]).map((val, j) => (
-                  <span key={j} className={`text-center ${typeof val === 'string' ? 'text-[12px] font-semibold' : 'text-[16px]'} ${j === 0 ? 'text-gold' : 'text-faint'}`}>
-                    {val === true ? <Check size={j === 0 ? 18 : 16} className={`mx-auto ${j !== 0 ? 'opacity-40' : ''}`} /> : val === false ? '✕' : val}
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </Reveal>
-      </Section>
+      <Divider />
+      <ScienceSection />
+      <Divider />
+      <ComparisonTable />
+      <Divider />
+      <PersonaSection />
+      <Divider />
+      <ReviewsSection />
+      <Divider />
+      <FAQSection />
+      <GuaranteeStrip />
+      <StickyBottomBar price={price} onAddToCart={handleAddToCart} isLoading={isCartLoading} />
     </>
   );
 };
