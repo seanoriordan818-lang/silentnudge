@@ -36,7 +36,7 @@ export const ComparisonTable = () => (
           <span className="text-[11px] tracking-[2px] uppercase text-faint font-semibold">Feature</span>
           <span className="text-[11px] tracking-[2px] uppercase text-gold font-semibold text-center">SilentNudge</span>
           <span className="text-[11px] tracking-[2px] uppercase text-faint font-semibold text-center">Smartwatch</span>
-          <span className="text-[11px] tracking-[2px] uppercase text-faint font-semibold text-center">FitSleeps</span>
+          <span className="text-[11px] tracking-[2px] uppercase text-faint font-semibold text-center">OTHERS</span>
         </div>
         {rows.map((row, i) => (
           <div key={i} className="grid grid-cols-4 px-5 py-3.5 items-center hover:bg-gold/[0.02] transition-colors" style={{ borderBottom: '1px solid hsl(0 0% 100% / 0.04)' }}>
