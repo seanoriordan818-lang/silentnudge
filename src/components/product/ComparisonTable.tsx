@@ -10,7 +10,7 @@ const rows: { f: string; sn: boolean | string; sw: boolean | string; fs: boolean
   { f: '7+ day battery', sn: true, sw: false, fs: true },
   { f: 'One-button alarm setting', sn: true, sw: false, fs: false },
   { f: 'Deep sleeper guarantee', sn: true, sw: false, fs: true },
-  { f: 'USB-C charging', sn: true, sw: true, fs: false },
+  { f: 'USB Charging', sn: true, sw: true, fs: false },
   { f: 'Premium build + 2yr warranty', sn: true, sw: true, fs: false },
   { f: 'Price', sn: '$99', sw: '$250–$500', fs: '$49–$84' },
 ];
