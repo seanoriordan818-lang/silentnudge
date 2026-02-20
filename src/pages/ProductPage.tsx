@@ -139,7 +139,7 @@ const ProductPage = () => {
             {/* What's included */}
             <div className="mb-6">
               <div className="text-[11px] tracking-[2px] uppercase text-gold-dim font-semibold mb-3">What's included</div>
-              {['SilentNudge with purpose-built 5-stage wake motor', 'USB-C magnetic charging cable', 'Quick-start card (no manual needed)'].map((item, i) => (
+              {['SilentNudge with purpose-built 5-stage wake motor', 'USB charging port', 'Quick-start card (no manual needed)'].map((item, i) => (
                 <div key={i} className="flex gap-2.5 items-center mb-2">
                   <Check size={16} className="text-gold flex-shrink-0" />
                   <span className="text-[13px] text-muted-foreground font-light">{item}</span>
