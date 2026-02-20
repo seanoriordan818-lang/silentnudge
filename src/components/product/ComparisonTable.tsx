@@ -7,7 +7,7 @@ const rows: { f: string; sn: boolean | string; sw: boolean | string; fs: boolean
   { f: '5-stage escalating vibration', sn: true, sw: false, fs: '3 levels' },
   { f: 'Harvard-backed mechanism', sn: true, sw: false, fs: false },
   { f: 'Standalone (no phone/app)', sn: true, sw: false, fs: true },
-  { f: '7+ day battery', sn: true, sw: false, fs: true },
+  { f: '7+ day battery', sn: true, sw: false, fs: false },
   { f: 'One-button alarm setting', sn: true, sw: false, fs: false },
   { f: 'Deep sleeper guarantee', sn: true, sw: false, fs: true },
   { f: 'USB Charging', sn: true, sw: true, fs: false },
