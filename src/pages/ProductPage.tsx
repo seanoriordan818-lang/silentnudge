@@ -6,7 +6,7 @@ import { Check, ArrowRight, Shield, Truck, RefreshCw, Lock, Loader2 } from 'luci
 import { useCartStore } from '@/stores/cartStore';
 import { storefrontApiRequest, STOREFRONT_PRODUCTS_QUERY, ShopifyProduct } from '@/lib/shopify';
 import { toast } from 'sonner';
-import { ProductVisual } from '@/components/product/ProductVisual';
+import { ProductCircle } from '@/components/ProductCircle';
 import { OrderBump } from '@/components/product/OrderBump';
 import { ScienceSection } from '@/components/product/ScienceSection';
 import { ComparisonTable } from '@/components/product/ComparisonTable';
@@ -16,7 +16,7 @@ import { FAQSection } from '@/components/product/FAQSection';
 import { GuaranteeStrip } from '@/components/product/GuaranteeStrip';
 import { StickyBottomBar } from '@/components/product/StickyBottomBar';
 
-const imgViews = ['Front', 'Wrist', 'Escalation', 'Band', 'Charging'];
+
 
 const ProductPage = () => {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
@@ -45,7 +45,7 @@ const ProductPage = () => {
 
   const product = products[0];
   const variant = product?.node?.variants?.edges?.[0]?.node;
-  const productImage = product?.node?.images?.edges?.[0]?.node?.url;
+  const productImages = product?.node?.images?.edges || [];
 
   const handleAddToCart = async () => {
     if (!product || !variant) return;
@@ -96,24 +96,30 @@ const ProductPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           {/* Gallery */}
           <div className="flex gap-4">
-            <div className="flex flex-col gap-2 max-[480px]:flex-row max-[480px]:overflow-x-auto">
-              {imgViews.map((label, i) => (
-                <div
-                  key={i}
-                  onClick={() => setImg(i)}
-                  className={`w-16 h-16 max-[480px]:w-14 max-[480px]:h-14 max-[480px]:flex-shrink-0 rounded-[10px] cursor-pointer flex items-center justify-center transition-all text-[9px] uppercase tracking-wider text-muted-foreground ${
-                    img === i ? 'border-2 border-gold/40 bg-raised2' : 'border-2 border-transparent bg-raised'
-                  }`}
-                >
-                  {label}
-                </div>
-              ))}
-            </div>
+            {productImages.length > 1 && (
+              <div className="flex flex-col gap-2 max-[480px]:flex-row max-[480px]:overflow-x-auto">
+                {productImages.map((image, i) => (
+                  <div
+                    key={i}
+                    onClick={() => setImg(i)}
+                    className={`w-16 h-16 max-[480px]:w-14 max-[480px]:h-14 max-[480px]:flex-shrink-0 rounded-[10px] cursor-pointer overflow-hidden transition-all ${
+                      img === i ? 'border-2 border-gold/40' : 'border-2 border-transparent opacity-60 hover:opacity-100'
+                    }`}
+                  >
+                    <img src={image.node.url} alt={image.node.altText || product.node.title} className="w-full h-full object-cover" />
+                  </div>
+                ))}
+              </div>
+            )}
             <div
               className="flex-1 aspect-square rounded-[20px] border border-gold-subtle flex items-center justify-center overflow-hidden relative transition-colors duration-400"
               style={{ background: 'linear-gradient(135deg, hsl(252 18% 14%), hsl(255 25% 7.5%))' }}
             >
-              <ProductVisual type={imgViews[img].toLowerCase().replace('charging', 'charge')} productImage={img <= 1 ? productImage : undefined} productTitle={product.node.title} />
+              {productImages.length > 0 ? (
+                <img src={productImages[img]?.node.url} alt={product.node.title} className="w-full h-full object-cover" />
+              ) : (
+                <ProductCircle size={220} />
+              )}
             </div>
           </div>
 
