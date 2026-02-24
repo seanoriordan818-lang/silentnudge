@@ -56,7 +56,7 @@ export const BundleSelector = ({ selected, onSelect }: BundleSelectorProps) => (
           <button
             key={b.id}
             onClick={() => onSelect(b.id)}
-            className={`relative text-left p-3 sm:p-4 rounded-[12px] sm:rounded-[14px] transition-all cursor-pointer ${
+            className={`relative text-left p-3 sm:p-4 rounded-[12px] sm:rounded-[14px] transition-all cursor-pointer overflow-hidden ${
               isActive
                 ? 'border-2 border-solid bg-gold/[0.08]'
                 : 'border border-solid border-gold/15 bg-gold/[0.03] hover:border-gold/30'
@@ -80,7 +80,7 @@ export const BundleSelector = ({ selected, onSelect }: BundleSelectorProps) => (
                   <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-gold" />
                 )}
               </div>
-              <span className="text-[11px] sm:text-[13px] font-semibold text-foreground leading-tight whitespace-nowrap">{b.name}</span>
+              <span className="text-[10px] sm:text-[13px] font-semibold text-foreground leading-tight whitespace-nowrap truncate">{b.name}</span>
             </div>
 
             <div className="text-[10px] sm:text-[11px] text-muted-foreground mb-1.5 whitespace-nowrap">{b.description}</div>
