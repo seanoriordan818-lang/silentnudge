@@ -9,9 +9,9 @@ const personas = [
 ];
 
 export const PersonaSection = () => (
-  <section className="max-w-[1200px] mx-auto py-14 px-7">
+  <section className="max-w-[1200px] mx-auto py-14 px-5 md:px-7">
     <Reveal>
-      <div className="text-center mb-12">
+      <div className="text-center mb-8 md:mb-12">
         <Label>Perfect For</Label>
         <h2 className="font-display text-[clamp(24px,3.5vw,34px)] font-medium">
           Designed for the people <Gold>the alarm industry forgot.</Gold>
