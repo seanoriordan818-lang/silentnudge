@@ -165,15 +165,15 @@ const ProductPage = () => {
             </span>
           </div>
 
-          {/* Product name — prominent, gold */}
-          <p className="font-display text-[22px] md:text-[28px] font-semibold leading-[1.2] text-gold mb-1">
-            SilentNudge Wristband Alarm
-          </p>
-
           {/* Headline — smaller, muted */}
-          <h1 className="text-[13px] text-muted-foreground tracking-[1px] uppercase font-medium mb-4">
+          <h1 className="text-[13px] text-muted-foreground tracking-[1px] uppercase font-medium mb-1">
             The Alarm That Wakes Only You.
           </h1>
+
+          {/* Product name — prominent, gold */}
+          <p className="font-display text-[22px] md:text-[28px] font-semibold leading-[1.2] text-gold mb-4">
+            SilentNudge Wristband Alarm
+          </p>
 
           {/* Price line */}
           <div className="flex items-baseline gap-3 mb-6">
