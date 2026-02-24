@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Reveal } from '@/components/Reveal';
 import { Divider, Label, Stars } from '@/components/shared';
 import { Check, ArrowRight, Shield, Truck, RefreshCw, Lock, Loader2 } from 'lucide-react';
@@ -19,10 +19,11 @@ import { StickyBottomBar } from '@/components/product/StickyBottomBar';
 
 
 const ProductPage = () => {
+  const [searchParams] = useSearchParams();
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [img, setImg] = useState(0);
-  const [addedBump, setAddedBump] = useState(false);
+  const [addedBump, setAddedBump] = useState(searchParams.get('bundle') === 'true');
   const [addedCase, setAddedCase] = useState(false);
   const addItem = useCartStore(state => state.addItem);
   const isCartLoading = useCartStore(state => state.isLoading);
