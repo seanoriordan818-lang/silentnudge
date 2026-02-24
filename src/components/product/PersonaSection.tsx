@@ -9,7 +9,7 @@ const personas = [
 ];
 
 export const PersonaSection = () => (
-  <section className="max-w-[1200px] mx-auto py-20 px-7">
+  <section className="max-w-[1200px] mx-auto py-14 px-7">
     <Reveal>
       <div className="text-center mb-12">
         <Label>Perfect For</Label>

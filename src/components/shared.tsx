@@ -21,7 +21,7 @@ export const Gold = ({ children }: { children: ReactNode }) => (
 );
 
 export const Section = ({ children, className = '' }: { children: ReactNode; className?: string }) => (
-  <section className={`max-w-[1200px] mx-auto py-20 px-7 ${className}`}>{children}</section>
+  <section className={`max-w-[1200px] mx-auto py-14 px-7 ${className}`}>{children}</section>
 );
 
 export const Stars = ({ n = 5 }: { n?: number }) => (

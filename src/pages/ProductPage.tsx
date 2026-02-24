@@ -92,7 +92,7 @@ const ProductPage = () => {
       </div>
 
       {/* PDP GRID */}
-      <section className="max-w-[1200px] mx-auto px-7 pt-4 pb-16">
+      <section className="max-w-[1200px] mx-auto px-7 pt-4 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           {/* Gallery */}
           <div className="flex gap-4">
@@ -106,7 +106,7 @@ const ProductPage = () => {
                       img === i ? 'border-2 border-gold/40' : 'border-2 border-transparent opacity-60 hover:opacity-100'
                     }`}
                   >
-                    <img src={image.node.url} alt={image.node.altText || product.node.title} className="w-full h-full object-cover" />
+                    <img src={image.node.url} alt={image.node.altText || product.node.title} className="w-full h-full object-cover" loading="lazy" />
                   </div>
                 ))}
               </div>
