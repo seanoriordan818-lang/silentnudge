@@ -14,7 +14,7 @@ const faqs = [
 ];
 
 export const FAQSection = () => (
-  <section id="faq" className="max-w-[720px] mx-auto py-20 px-7">
+  <section id="faq" className="max-w-[720px] mx-auto py-14 px-7">
     <Reveal>
       <div className="text-center mb-10">
         <Label>FAQ</Label>

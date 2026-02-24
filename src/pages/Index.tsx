@@ -13,7 +13,7 @@ const HomePage = () => {
       <section className="min-h-screen flex items-center pt-[68px] relative overflow-hidden">
         <div className="absolute top-[8%] right-[-4%] w-[450px] h-[450px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, hsl(var(--gold) / 0.035) 0%, transparent 70%)' }} />
         <div className="max-w-[1200px] mx-auto w-full px-7 py-12 md:py-[50px]">
-          <div className="flex flex-col md:flex-row items-center gap-12 md:gap-[72px]">
+          <div className="flex flex-col md:flex-row items-center gap-10 md:gap-[60px]">
             <div className="flex-[1.3] text-center md:text-left">
               <div className="inline-flex items-center gap-2.5 bg-gold-faint border border-gold-faint rounded-full py-[7px] px-[18px] mb-8 animate-fade-up">
                 <span className="w-[5px] h-[5px] rounded-full bg-primary animate-breathe" />

@@ -2,7 +2,7 @@ import { Reveal } from '@/components/Reveal';
 import { Label } from '@/components/shared';
 
 export const ScienceSection = () => (
-  <section className="max-w-[1200px] mx-auto py-20 px-7">
+  <section className="max-w-[1200px] mx-auto py-14 px-7">
     <Reveal>
       <div className="text-center mb-14">
         <Label>The Science Others Don't Have</Label>

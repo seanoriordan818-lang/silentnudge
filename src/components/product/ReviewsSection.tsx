@@ -11,7 +11,7 @@ const reviews = [
 ];
 
 export const ReviewsSection = () => (
-  <section id="reviews" className="max-w-[1200px] mx-auto py-20 px-7">
+  <section id="reviews" className="max-w-[1200px] mx-auto py-14 px-7">
     <Reveal>
       <div className="text-center mb-12">
         <Label>Reviews</Label>
