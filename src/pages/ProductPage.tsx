@@ -155,30 +155,30 @@ const ProductPage = () => {
       </section>
 
       {/* SOCIAL PROOF + HEADLINE + PRICE + BENEFITS + BUNDLES + CTA */}
-      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-5 pb-2 text-center">
+      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-5 pb-2 text-left">
         <Reveal>
           {/* Rating line */}
-          <div className="flex items-center justify-center gap-2 mb-3">
+          <div className="flex items-center gap-2 mb-3">
             <Stars />
             <span className="text-[13px] text-muted-foreground">
               Rated <span className="text-foreground font-medium">4.8/5</span> by 30,000+ Happy Customers
             </span>
           </div>
 
-          {/* Product name — small, muted, all caps */}
-          <p className="text-[11px] text-gold-dim tracking-[2px] uppercase font-medium mb-1">
-            SilentNudge Wristband Alarm
-          </p>
-
-          {/* Headline — reduced size */}
-          <h1 className="font-display text-[22px] md:text-[28px] font-semibold leading-[1.2] mb-4">
+          {/* Headline — bold, left-aligned */}
+          <h1 className="font-display text-[22px] md:text-[28px] font-semibold leading-[1.2] mb-1">
             The Alarm That Wakes Only You.
           </h1>
 
+          {/* Product name — small, muted, all caps */}
+          <p className="text-[11px] text-gold-dim tracking-[2px] uppercase font-medium mb-4">
+            SilentNudge Wristband Alarm
+          </p>
+
           {/* Price line */}
-          <div className="flex items-baseline justify-center gap-3 mb-6">
+          <div className="flex items-baseline gap-3 mb-6">
             <span className="text-[14px] text-faint line-through">${currentBundle.originalPrice}</span>
-            <span className="font-display text-[32px] md:text-[36px] text-gold">${currentBundle.price}</span>
+            <span className="font-display text-[24px] md:text-[28px] text-gold">${currentBundle.price}</span>
             {currentBundle.originalPrice - currentBundle.price > 0 && (
               <span className="text-[11px] font-bold bg-primary text-primary-foreground px-2.5 py-1 rounded-full uppercase tracking-wide">
                 Save ${currentBundle.originalPrice - currentBundle.price}
