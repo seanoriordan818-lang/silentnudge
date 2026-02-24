@@ -225,32 +225,6 @@ const ProductPage = () => {
           ═══════════════════════════════════════════════════ */}
       <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-8 pb-2">
         <Reveal>
-          {/* Backup band bump */}
-          <div
-            onClick={() => setAddedBackup(!addedBackup)}
-            className={`p-4 px-[18px] rounded-[14px] cursor-pointer flex gap-3.5 items-center transition-all ${
-              addedBackup
-                ? 'border border-solid border-gold/40 bg-gold/[0.08]'
-                : 'border border-dashed border-gold/15 bg-gold/[0.04] hover:border-gold/30'
-            }`}
-          >
-            <div
-              className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all ${
-                addedBackup ? 'border-gold bg-gold' : 'border-gold/25 bg-transparent'
-              }`}
-            >
-              {addedBackup && <span className="text-background text-[11px] font-extrabold">✓</span>}
-            </div>
-            <div className="flex-1">
-              <div className="text-[13px] font-semibold text-foreground">
-                Add a Backup Band — <span className="text-gold">$19</span>
-              </div>
-              <div className="text-[11px] text-faint">
-                Keep one charging, wear one always. Never miss an alarm.
-              </div>
-            </div>
-          </div>
-
           {/* Micro trust icons */}
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-5 text-[11px] text-muted-foreground">
             <span className="flex items-center gap-1.5">
