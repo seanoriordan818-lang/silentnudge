@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Reveal } from '@/components/Reveal';
 import { Divider, Label, Stars } from '@/components/shared';
@@ -16,15 +16,16 @@ import { FAQSection } from '@/components/product/FAQSection';
 import { GuaranteeStrip } from '@/components/product/GuaranteeStrip';
 import { StickyBottomBar } from '@/components/product/StickyBottomBar';
 
-
 const ProductPage = () => {
   const [searchParams] = useSearchParams();
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [img, setImg] = useState(0);
   const [selectedBundle, setSelectedBundle] = useState(
-    searchParams.get('bundle') === 'true' ? 'couples' : 'couples'
+    searchParams.get('bundle') === 'true' ? 'couples' : 'single'
   );
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const [ctaPassed, setCtaPassed] = useState(false);
   const [addedBackup, setAddedBackup] = useState(true);
   const addItem = useCartStore(state => state.addItem);
   const isCartLoading = useCartStore(state => state.isLoading);
@@ -44,6 +45,14 @@ const ProductPage = () => {
     };
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setCtaPassed(!entry.isIntersecting), { threshold: 0 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [loading]);
 
   const product = products[0];
   const variant = product?.node?.variants?.edges?.[0]?.node;
@@ -171,12 +180,12 @@ const ProductPage = () => {
           </h1>
 
           {/* Product name — prominent, gold */}
-          <p className="font-display text-[22px] md:text-[28px] font-semibold leading-[1.2] text-gold mb-4">
+          <p className="font-display text-[22px] md:text-[28px] font-semibold leading-[1.2] text-gold mb-2">
             SilentNudge Wristband Alarm
           </p>
 
           {/* Price line */}
-          <div className="flex items-baseline gap-3 mb-6">
+          <div className="flex items-baseline gap-3 mb-3">
             <span className="text-[14px] text-faint line-through">${currentBundle.originalPrice}</span>
             <span className="font-display text-[24px] md:text-[28px] text-gold">${currentBundle.price}</span>
             {currentBundle.originalPrice - currentBundle.price > 0 && (
@@ -187,7 +196,7 @@ const ProductPage = () => {
           </div>
 
           {/* Benefit ticks */}
-          <div className="flex flex-col gap-2.5 text-left max-w-[440px] mx-auto mb-8">
+          <div className="flex flex-col gap-2.5 text-left max-w-[440px] mx-auto mb-4">
             {[
               'Your partner sleeps through every alarm',
               '5-stage escalation — built for deep sleepers',
@@ -210,7 +219,7 @@ const ProductPage = () => {
       </section>
 
       {/* ADD TO CART CTA */}
-      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-6 pb-6">
+      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-6 pb-6" ref={ctaRef}>
         <Reveal>
           <button
             onClick={handleAddToCart}
@@ -253,7 +262,7 @@ const ProductPage = () => {
       <Divider />
       <FAQSection />
       <GuaranteeStrip />
-      <StickyBottomBar price={total} onAddToCart={handleAddToCart} isLoading={isCartLoading} />
+      {ctaPassed && <StickyBottomBar price={total} onAddToCart={handleAddToCart} isLoading={isCartLoading} />}
     </>
   );
 };
