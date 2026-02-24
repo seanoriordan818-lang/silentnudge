@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { Check, ArrowRight, Zap, Brain, Wifi } from 'lucide-react';
-import { AnnouncementBanner } from '@/components/AnnouncementBanner';
 
 const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -34,11 +33,8 @@ const reviews = [
 const HomePage = () => {
   return (
     <>
-      {/* STEP 1 — ANNOUNCEMENT BANNER */}
-      <AnnouncementBanner />
-
       {/* STEP 3 — HERO SECTION */}
-      <section className="pt-[52px]" style={{ background: 'linear-gradient(180deg, hsl(220 30% 8%) 0%, hsl(var(--background)) 100%)' }}>
+      <section style={{ background: 'linear-gradient(180deg, hsl(220 30% 8%) 0%, hsl(var(--background)) 100%)' }}>
         <div className="max-w-[1200px] mx-auto w-full">
           <div className="flex flex-col lg:flex-row">
             {/* Hero Image Placeholder */}

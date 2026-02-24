@@ -7,7 +7,7 @@ export function AnnouncementBanner() {
 
   return (
     <div className="w-full bg-raised py-2.5 px-4 text-center relative z-[201]" style={{ borderBottom: '1px solid hsl(var(--gold) / 0.08)' }}>
-      <p className="text-[11px] sm:text-[12px] tracking-wide text-muted-foreground">
+      <p className="text-[11px] sm:text-[12px] tracking-wide text-gold-dim">
         🚚 Free US Shipping on All Orders · 100-Night Guarantee · Wake Only You
       </p>
       <button
