@@ -207,7 +207,7 @@ const HomePage = () => {
                 </p>
                 <p className="text-[12px] text-muted-foreground mb-5">One for each of you</p>
                 <Link
-                  to="/product"
+                  to="/product?bundle=true"
                   onClick={scrollTop}
                   className="w-full inline-flex items-center justify-center border font-bold text-[14px] py-3.5 rounded-full no-underline text-muted-foreground min-h-[48px]"
                   style={{ borderColor: 'hsl(var(--gold) / 0.2)' }}
