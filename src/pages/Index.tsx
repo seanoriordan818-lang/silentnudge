@@ -221,16 +221,31 @@ const HomePage = () => {
       </section>
 
       {/* STEP 8 — CREDIBILITY BAR */}
-      <section className="py-10 px-5" style={{ background: 'hsl(220 20% 9%)', borderTop: '1px solid hsl(var(--gold) / 0.06)', borderBottom: '1px solid hsl(var(--gold) / 0.06)' }}>
-        <div className="max-w-[900px] mx-auto text-center">
-          <p className="text-[11px] tracking-[3px] uppercase text-muted-foreground mb-6">As Seen In / Backed By Research</p>
-          <div className="flex items-center justify-center gap-8 sm:gap-12 flex-wrap">
-            {['Harvard Medical School Research', 'Forbes', "Men's Health", 'Sleep Foundation'].map((name, i) => (
-              <div key={i} className="flex flex-col items-center gap-1.5 opacity-40">
-                <div className="w-16 h-10 rounded border border-dashed flex items-center justify-center" style={{ borderColor: 'hsl(var(--gold) / 0.2)' }}>
-                  <span className="text-[8px] text-muted-foreground">[ LOGO ]</span>
-                </div>
-                <span className="text-[9px] text-muted-foreground">{name}</span>
+      <section className="py-8 px-5 overflow-hidden" style={{ background: 'hsl(220 20% 9%)', borderTop: '1px solid hsl(var(--gold) / 0.06)', borderBottom: '1px solid hsl(var(--gold) / 0.06)' }}>
+        <p className="text-[10px] tracking-[3px] uppercase text-muted-foreground text-center mb-5">As Seen In / Backed By Research</p>
+        <div className="relative">
+          <div className="absolute left-0 top-0 bottom-0 w-12 z-10" style={{ background: 'linear-gradient(90deg, hsl(220 20% 9%), transparent)' }} />
+          <div className="absolute right-0 top-0 bottom-0 w-12 z-10" style={{ background: 'linear-gradient(270deg, hsl(220 20% 9%), transparent)' }} />
+          <div className="flex animate-ticker whitespace-nowrap">
+            {[...Array(3)].map((_, setIdx) => (
+              <div key={setIdx} className="flex items-center shrink-0">
+                {[
+                  { name: 'HARVARD', sub: 'MEDICAL SCHOOL', serif: true },
+                  { name: 'Forbes', sub: '', serif: true },
+                  { name: "MEN'S HEALTH", sub: '', serif: false },
+                  { name: 'Sleep Foundation', sub: '', serif: true },
+                ].map((logo, i) => (
+                  <div key={i} className="flex items-center justify-center px-10 sm:px-14 opacity-50 hover:opacity-80 transition-opacity">
+                    <div className="text-center">
+                      <span className={`text-[18px] sm:text-[22px] tracking-wide ${logo.serif ? 'font-display italic' : 'font-body font-bold uppercase tracking-[3px] text-[14px] sm:text-[16px]'}`} style={{ color: 'hsl(var(--gold) / 0.6)' }}>
+                        {logo.name}
+                      </span>
+                      {logo.sub && (
+                        <span className="block text-[8px] tracking-[2px] uppercase" style={{ color: 'hsl(var(--gold) / 0.35)' }}>{logo.sub}</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
