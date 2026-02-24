@@ -134,16 +134,19 @@ const ProductPage = () => {
               )}
             </div>
 
-            {/* Swipe dot indicators (mobile only) */}
+            {/* Mobile thumbnail strip */}
             {productImages.length > 1 && (
-              <div className="flex md:hidden gap-1.5 justify-center mt-3">
-                {productImages.map((_, i) => (
-                  <div
+              <div className="flex md:hidden gap-2 mt-3 overflow-x-auto pb-1">
+                {productImages.map((image, i) => (
+                  <button
                     key={i}
-                    className={`w-1.5 h-1.5 rounded-full transition-all ${
-                      img === i ? 'bg-gold w-3' : 'bg-muted-foreground/30'
+                    onClick={() => setImg(i)}
+                    className={`w-14 h-14 flex-shrink-0 rounded-[8px] overflow-hidden transition-all ${
+                      img === i ? 'border-2 border-gold/50' : 'border-2 border-transparent opacity-50 hover:opacity-100'
                     }`}
-                  />
+                  >
+                    <img src={image.node.url} alt={image.node.altText || product.node.title} className="w-full h-full object-cover" />
+                  </button>
                 ))}
               </div>
             )}
