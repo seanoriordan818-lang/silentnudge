@@ -5,7 +5,7 @@ import { CartDrawer } from './CartDrawer';
 
 const links = [
   { label: 'Home', href: '/' },
-  { label: 'How It Works', href: '/science' },
+  { label: 'The Science', href: '/science' },
   { label: 'Reviews', href: '/reviews' },
   { label: 'FAQ', href: '/faq' },
 ];
