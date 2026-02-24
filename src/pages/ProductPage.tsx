@@ -86,7 +86,7 @@ const ProductPage = () => {
   return (
     <>
       {/* Breadcrumb */}
-      <div className="max-w-[1200px] mx-auto px-5 md:px-7 pt-20 pb-0">
+      <div className="max-w-[1200px] mx-auto px-5 md:px-7 pt-14 pb-0">
         <span className="text-[12px] text-faint">
           <Link to="/" className="text-faint no-underline hover:text-gold">Home</Link> / Shop / <span className="text-gold-dim">{product.node.title}</span>
         </span>
