@@ -86,7 +86,7 @@ const ProductPage = () => {
   return (
     <>
       {/* Breadcrumb */}
-      {/* Gallery */}
+      <div className="pt-4" />
 
       {/* IMAGE GALLERY — full width, untouched */}
       <section className="max-w-[700px] mx-auto px-5 md:px-7 pt-4 pb-4">
