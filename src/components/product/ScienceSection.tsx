@@ -2,9 +2,9 @@ import { Reveal } from '@/components/Reveal';
 import { Label } from '@/components/shared';
 
 export const ScienceSection = () => (
-  <section className="max-w-[1200px] mx-auto py-14 px-7">
+  <section className="max-w-[1200px] mx-auto py-14 px-5 md:px-7">
     <Reveal>
-      <div className="text-center mb-14">
+      <div className="text-center mb-10 md:mb-14">
         <Label>The Science Others Don't Have</Label>
         <h2 className="font-display text-[clamp(26px,4vw,38px)] leading-[1.15] font-medium">
           Your wrist is wired to wake you through a<br />

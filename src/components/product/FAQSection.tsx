@@ -14,9 +14,9 @@ const faqs = [
 ];
 
 export const FAQSection = () => (
-  <section id="faq" className="max-w-[720px] mx-auto py-14 px-7">
+  <section id="faq" className="max-w-[720px] mx-auto py-14 px-5 md:px-7">
     <Reveal>
-      <div className="text-center mb-10">
+      <div className="text-center mb-8 md:mb-10">
         <Label>FAQ</Label>
         <h2 className="font-display text-[clamp(24px,3vw,32px)] font-medium">
           Before you <Gold>decide.</Gold>
