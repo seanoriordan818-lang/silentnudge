@@ -257,7 +257,7 @@ const ProductPage = () => {
           <div className="flex flex-col items-center gap-2 text-[12px] text-muted-foreground">
             <div className="flex items-center gap-1.5">
               <Lock size={13} className="text-faint" />
-              <span>Secure Shopify Checkout</span>
+              <span>Secure Checkout</span>
             </div>
             <div className="flex items-center gap-1.5">
               <RefreshCw size={13} className="text-faint" />
