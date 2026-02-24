@@ -134,19 +134,6 @@ const ProductPage = () => {
               )}
             </div>
 
-            {/* Mobile dot indicators */}
-            {productImages.length > 1 && (
-              <div className="flex md:hidden justify-center gap-1.5 mt-3">
-                {productImages.map((_, i) => (
-                  <div
-                    key={i}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      img === i ? 'bg-gold w-5' : 'bg-gold/25'
-                    }`}
-                  />
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </section>
