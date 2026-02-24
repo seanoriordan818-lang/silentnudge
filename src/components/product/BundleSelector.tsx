@@ -25,16 +25,16 @@ const bundles: BundleOption[] = [
     description: '2× Bands',
     price: 169,
     originalPrice: 298,
-    badge: 'Save $129',
+    badge: 'Save $29',
     topBadge: 'MOST POPULAR',
   },
   {
-    id: 'deep-sleeper',
-    name: 'Deep Sleeper Kit',
-    description: '1× Band + Backup',
-    price: 118,
-    originalPrice: 168,
-    badge: 'Never miss an alarm',
+    id: 'family',
+    name: 'Family Pack',
+    description: '4× Bands',
+    price: 299,
+    originalPrice: 396,
+    badge: 'Save $97',
     topBadge: 'BEST VALUE',
   },
 ];
@@ -80,17 +80,17 @@ export const BundleSelector = ({ selected, onSelect }: BundleSelectorProps) => (
                   <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-gold" />
                 )}
               </div>
-              <span className="text-[11px] sm:text-[13px] font-semibold text-foreground leading-tight">{b.name}</span>
+              <span className="text-[11px] sm:text-[13px] font-semibold text-foreground leading-tight whitespace-nowrap">{b.name}</span>
             </div>
 
-            <div className="text-[10px] sm:text-[11px] text-muted-foreground mb-1.5">{b.description}</div>
-            <div className="flex items-baseline gap-1.5 flex-wrap">
+            <div className="text-[10px] sm:text-[11px] text-muted-foreground mb-1.5 whitespace-nowrap">{b.description}</div>
+            <div className="flex items-baseline gap-1.5 flex-nowrap">
               <span className="text-[10px] sm:text-[12px] text-faint line-through">${b.originalPrice}</span>
               <span className="font-display text-[18px] sm:text-[22px] text-gold">${b.price}</span>
             </div>
             <div className="mt-1.5">
               <span
-                className={`text-[8px] sm:text-[9px] font-semibold tracking-wide px-1.5 sm:px-2 py-0.5 rounded-full ${
+                className={`text-[8px] sm:text-[9px] font-semibold tracking-wide px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap ${
                   isActive
                     ? 'bg-gold/20 text-gold'
                     : 'bg-gold/10 text-gold-dim'
