@@ -23,7 +23,7 @@ const ProductPage = () => {
   const [loading, setLoading] = useState(true);
   const [img, setImg] = useState(0);
   const [selectedBundle, setSelectedBundle] = useState(
-    searchParams.get('bundle') === 'true' ? 'couples' : 'single'
+    searchParams.get('bundle') === 'true' ? 'couples' : 'couples'
   );
   const [addedBackup, setAddedBackup] = useState(true);
   const addItem = useCartStore(state => state.addItem);
@@ -50,8 +50,7 @@ const ProductPage = () => {
   const productImages = product?.node?.images?.edges || [];
 
   const currentBundle = bundles.find(b => b.id === selectedBundle) || bundles[0];
-  const backupPrice = 19;
-  const total = currentBundle.price + (addedBackup ? backupPrice : 0);
+  const total = currentBundle.price;
 
   const handleAddToCart = async () => {
     if (!product || !variant) return;
@@ -85,11 +84,11 @@ const ProductPage = () => {
 
   return (
     <>
-      {/* Breadcrumb */}
+      {/* Breadcrumb spacer */}
       <div className="pt-4" />
 
-      {/* IMAGE GALLERY — full width, untouched */}
-      <section className="max-w-[700px] mx-auto px-5 md:px-7 pt-4 pb-4">
+      {/* IMAGE GALLERY */}
+      <section className="max-w-[700px] mx-auto px-5 md:px-7 pt-4 pb-0">
         <div className="flex flex-col md:flex-row gap-3 md:gap-4">
           {/* Desktop thumbnails */}
           {productImages.length > 1 && (
@@ -135,17 +134,19 @@ const ProductPage = () => {
               )}
             </div>
 
-            {/* Mobile dot indicators */}
+            {/* Mobile thumbnail strip */}
             {productImages.length > 1 && (
-              <div className="flex md:hidden justify-center gap-1.5 mt-3">
-                {productImages.map((_, i) => (
+              <div className="flex md:hidden gap-2 mt-3 overflow-x-auto pb-1">
+                {productImages.map((image, i) => (
                   <button
                     key={i}
                     onClick={() => setImg(i)}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      img === i ? 'bg-gold w-5' : 'bg-gold/25'
+                    className={`w-14 h-14 flex-shrink-0 rounded-[8px] overflow-hidden transition-all ${
+                      img === i ? 'border-2 border-gold/50' : 'border-2 border-transparent opacity-50 hover:opacity-100'
                     }`}
-                  />
+                  >
+                    <img src={image.node.url} alt={image.node.altText || product.node.title} className="w-full h-full object-cover" />
+                  </button>
                 ))}
               </div>
             )}
@@ -153,10 +154,8 @@ const ProductPage = () => {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════
-          STEP 4 — SOCIAL PROOF + HEADLINE
-          ═══════════════════════════════════════════════════ */}
-      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-6 pb-2 text-center">
+      {/* SOCIAL PROOF + HEADLINE + PRICE + BENEFITS + BUNDLES + CTA */}
+      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-5 pb-2 text-center">
         <Reveal>
           {/* Rating line */}
           <div className="flex items-center justify-center gap-2 mb-3">
@@ -166,80 +165,52 @@ const ProductPage = () => {
             </span>
           </div>
 
-          {/* Product name */}
-          <p className="text-[14px] text-gold-dim tracking-wide uppercase font-medium mb-1">
+          {/* Product name — small, muted, all caps */}
+          <p className="text-[11px] text-gold-dim tracking-[2px] uppercase font-medium mb-1">
             SilentNudge Wristband Alarm
           </p>
 
-          {/* Headline */}
-          <h1 className="font-display text-[28px] md:text-[38px] font-semibold leading-[1.15] mb-4">
-            The Alarm That Wakes<br className="hidden sm:block" /> Only You.
+          {/* Headline — reduced size */}
+          <h1 className="font-display text-[22px] md:text-[28px] font-semibold leading-[1.2] mb-4">
+            The Alarm That Wakes Only You.
           </h1>
 
           {/* Price line */}
-          <div className="flex items-baseline justify-center gap-3">
-            <span className="text-[16px] text-faint line-through">$149</span>
-            <span className="font-display text-[36px] md:text-[42px] text-gold">$99</span>
-            <span className="text-[11px] font-bold bg-primary text-primary-foreground px-2.5 py-1 rounded-full uppercase tracking-wide">
-              Save $50
-            </span>
+          <div className="flex items-baseline justify-center gap-3 mb-6">
+            <span className="text-[14px] text-faint line-through">${currentBundle.originalPrice}</span>
+            <span className="font-display text-[32px] md:text-[36px] text-gold">${currentBundle.price}</span>
+            {currentBundle.originalPrice - currentBundle.price > 0 && (
+              <span className="text-[11px] font-bold bg-primary text-primary-foreground px-2.5 py-1 rounded-full uppercase tracking-wide">
+                Save ${currentBundle.originalPrice - currentBundle.price}
+              </span>
+            )}
           </div>
-        </Reveal>
-      </section>
 
-      {/* ═══════════════════════════════════════════════════
-          STEP 5 — BUNDLE SELECTOR
-          ═══════════════════════════════════════════════════ */}
-      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-8 pb-2">
-        <Reveal>
-          <BundleSelector selected={selectedBundle} onSelect={setSelectedBundle} />
-        </Reveal>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════
-          STEP 6 — KEY BENEFITS
-          ═══════════════════════════════════════════════════ */}
-      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-8 pb-2">
-        <Reveal>
-          <div className="flex flex-col gap-3">
+          {/* Benefit ticks */}
+          <div className="flex flex-col gap-2.5 text-left max-w-[440px] mx-auto mb-8">
             {[
-              'Wakes you through touch — your partner never hears a thing',
-              '5-stage escalation — works even if you\'ve failed with vibrating alarms before',
-              'Standalone — set it on the band, no phone or app ever required',
+              'Your partner sleeps through every alarm',
+              '5-stage escalation — built for deep sleepers',
+              'No phone. No app. No Bluetooth. Ever.',
             ].map((text, i) => (
-              <div key={i} className="flex gap-3 items-start">
-                <Check size={18} className="text-gold flex-shrink-0 mt-0.5" />
-                <span className="text-[14px] text-muted-foreground leading-relaxed">{text}</span>
+              <div key={i} className="flex gap-2.5 items-start">
+                <Check size={16} className="text-gold flex-shrink-0 mt-0.5" />
+                <span className="text-[13px] text-muted-foreground leading-snug">{text}</span>
               </div>
             ))}
           </div>
         </Reveal>
       </section>
 
-      {/* ═══════════════════════════════════════════════════
-          STEP 7 — ORDER BUMP
-          ═══════════════════════════════════════════════════ */}
-      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-8 pb-2">
+      {/* BUNDLE SELECTOR */}
+      <section className="max-w-[600px] mx-auto px-5 md:px-7 pb-2">
         <Reveal>
-          {/* Micro trust icons */}
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-5 text-[11px] text-muted-foreground">
-            <span className="flex items-center gap-1.5">
-              <Shield size={14} className="text-gold" /> 100-Night Guarantee
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Truck size={14} className="text-gold" /> Free US Shipping
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Zap size={14} className="text-gold" /> Harvard-Backed Research
-            </span>
-          </div>
+          <BundleSelector selected={selectedBundle} onSelect={setSelectedBundle} />
         </Reveal>
       </section>
 
-      {/* ═══════════════════════════════════════════════════
-          STEP 8 — ADD TO CART CTA
-          ═══════════════════════════════════════════════════ */}
-      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-8 pb-6">
+      {/* ADD TO CART CTA */}
+      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-6 pb-6">
         <Reveal>
           <button
             onClick={handleAddToCart}
@@ -249,7 +220,7 @@ const ProductPage = () => {
             {isCartLoading ? (
               <Loader2 className="w-5 h-5 animate-spin" />
             ) : (
-              <>Add to Cart — ${total} <ArrowRight size={16} /></>
+              <>Add to Cart</>
             )}
           </button>
 

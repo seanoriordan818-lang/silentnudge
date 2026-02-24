@@ -19,7 +19,7 @@ export const StickyBottomBar = ({ price, onAddToCart, isLoading }: StickyBottomB
       {isLoading ? (
         <Loader2 className="w-4 h-4 animate-spin" />
       ) : (
-        <>Add to Cart — ${price} <ArrowRight size={15} /></>
+        <>Add to Cart</>
       )}
     </button>
   </div>
