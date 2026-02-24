@@ -5,8 +5,9 @@ export type BundleOption = {
   name: string;
   description: string;
   price: number;
+  originalPrice: number;
   badge: string;
-  recommended?: boolean;
+  topBadge?: string;
 };
 
 const bundles: BundleOption[] = [
@@ -15,6 +16,7 @@ const bundles: BundleOption[] = [
     name: 'Single',
     description: '1× Band',
     price: 99,
+    originalPrice: 149,
     badge: 'Free US Shipping',
   },
   {
@@ -22,15 +24,18 @@ const bundles: BundleOption[] = [
     name: 'Couples Pack',
     description: '2× Bands',
     price: 169,
-    badge: 'Save $29',
-    recommended: true,
+    originalPrice: 298,
+    badge: 'Save $129',
+    topBadge: 'MOST POPULAR',
   },
   {
     id: 'deep-sleeper',
     name: 'Deep Sleeper Kit',
-    description: '1× Band + Backup Band',
+    description: '1× Band + Backup',
     price: 118,
+    originalPrice: 168,
     badge: 'Never miss an alarm',
+    topBadge: 'BEST VALUE',
   },
 ];
 
@@ -44,47 +49,48 @@ export const BundleSelector = ({ selected, onSelect }: BundleSelectorProps) => (
     <div className="text-[11px] tracking-[2px] uppercase text-gold-dim font-semibold mb-3">
       Select Your Bundle:
     </div>
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <div className="grid grid-cols-3 gap-2 sm:gap-3">
       {bundles.map((b) => {
         const isActive = selected === b.id;
         return (
           <button
             key={b.id}
             onClick={() => onSelect(b.id)}
-            className={`relative text-left p-4 rounded-[14px] transition-all cursor-pointer ${
+            className={`relative text-left p-3 sm:p-4 rounded-[12px] sm:rounded-[14px] transition-all cursor-pointer ${
               isActive
                 ? 'border-2 border-solid bg-gold/[0.08]'
                 : 'border border-solid border-gold/15 bg-gold/[0.03] hover:border-gold/30'
             }`}
             style={isActive ? { borderColor: 'hsl(var(--gold) / 0.5)' } : undefined}
           >
-            {b.recommended && (
-              <span className="absolute -top-2.5 left-4 text-[9px] font-bold uppercase tracking-wider bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full">
-                Recommended
+            {b.topBadge && (
+              <span className="absolute -top-2.5 left-2 sm:left-3 text-[7px] sm:text-[8px] font-bold uppercase tracking-wider bg-primary text-primary-foreground px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap">
+                {b.topBadge}
               </span>
             )}
 
             {/* Radio dot */}
-            <div className="flex items-center gap-2.5 mb-2">
+            <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5">
               <div
-                className={`w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                className={`w-[14px] h-[14px] sm:w-[16px] sm:h-[16px] rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                   isActive ? 'border-gold' : 'border-gold/25'
                 }`}
               >
                 {isActive && (
-                  <div className="w-2.5 h-2.5 rounded-full bg-gold" />
+                  <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-gold" />
                 )}
               </div>
-              <span className="text-[14px] font-semibold text-foreground">{b.name}</span>
+              <span className="text-[11px] sm:text-[13px] font-semibold text-foreground leading-tight">{b.name}</span>
             </div>
 
-            <div className="text-[12px] text-muted-foreground mb-1.5 pl-[30px]">{b.description}</div>
-            <div className="flex items-baseline gap-2 pl-[30px]">
-              <span className="font-display text-[22px] text-gold">${b.price}</span>
+            <div className="text-[10px] sm:text-[11px] text-muted-foreground mb-1.5">{b.description}</div>
+            <div className="flex items-baseline gap-1.5 flex-wrap">
+              <span className="text-[10px] sm:text-[12px] text-faint line-through">${b.originalPrice}</span>
+              <span className="font-display text-[18px] sm:text-[22px] text-gold">${b.price}</span>
             </div>
-            <div className="mt-2 pl-[30px]">
+            <div className="mt-1.5">
               <span
-                className={`text-[10px] font-semibold tracking-wide px-2 py-0.5 rounded-full ${
+                className={`text-[8px] sm:text-[9px] font-semibold tracking-wide px-1.5 sm:px-2 py-0.5 rounded-full ${
                   isActive
                     ? 'bg-gold/20 text-gold'
                     : 'bg-gold/10 text-gold-dim'
