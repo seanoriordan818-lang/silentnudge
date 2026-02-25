@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 
-const FREE_SHIPPING_THRESHOLD = 150;
+const FREE_SHIPPING_THRESHOLD = 100;
 
 function useCountdown(items: any[]) {
   const [seconds, setSeconds] = useState(600);
