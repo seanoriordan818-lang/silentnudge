@@ -3,6 +3,13 @@ import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
+import { bundles } from "@/components/product/BundleSelector";
+
+/* Look up the compare-at (original) price for a given selling price */
+function getCompareAtPrice(sellingPrice: number): number | null {
+  const bundle = bundles.find((b) => b.price === sellingPrice);
+  return bundle ? bundle.originalPrice : null;
+}
 
 const FREE_SHIPPING_THRESHOLD = 100;
 
@@ -237,9 +244,28 @@ export const CartDrawer = () => {
                             </div>
 
                             {/* Price */}
-                            <div className="text-right">
-                              <span className="block font-bold text-foreground transition-all duration-200" style={{ fontSize: priceSz }}>${(price * item.quantity).toFixed(2)}</span>
-                            </div>
+                            {(() => {
+                              const lineTotal = price * item.quantity;
+                              const compareAt = getCompareAtPrice(price);
+                              const savings = compareAt ? (compareAt - price) * item.quantity : 0;
+                              return (
+                                <div className="text-right flex flex-col items-end gap-0.5">
+                                  {compareAt && (
+                                    <span className="block text-[11px] line-through transition-all duration-200" style={{ color: 'hsl(0 0% 100% / 0.45)' }}>
+                                      ${(compareAt * item.quantity).toFixed(2)}
+                                    </span>
+                                  )}
+                                  <span className="block font-bold text-gold transition-all duration-200" style={{ fontSize: priceSz }}>
+                                    ${lineTotal.toFixed(2)}
+                                  </span>
+                                  {savings > 0 && (
+                                    <span className="inline-block text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-primary text-white whitespace-nowrap">
+                                      Save ${savings.toFixed(0)}
+                                    </span>
+                                  )}
+                                </div>
+                              );
+                            })()}
                           </div>
                         </div>
 
