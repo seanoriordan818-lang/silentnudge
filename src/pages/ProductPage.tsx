@@ -25,7 +25,7 @@ const ProductPage = () => {
     searchParams.get('bundle') === 'true' ? 'couples' : 'single'
   );
   const ctaRef = useRef<HTMLDivElement>(null);
-  const [ctaPassed, setCtaPassed] = useState(false);
+  const [stickyVisible, setStickyVisible] = useState(false);
   const [addedBackup, setAddedBackup] = useState(true);
   const addItem = useCartStore((state) => state.addItem);
   const isCartLoading = useCartStore((state) => state.isLoading);
@@ -49,18 +49,19 @@ const ProductPage = () => {
   useEffect(() => {
     const el = ctaRef.current;
     if (!el) return;
-    let observer: IntersectionObserver | null = null;
-    const timer = setTimeout(() => {
-      observer = new IntersectionObserver(
-        ([entry]) => setCtaPassed(!entry.isIntersecting),
-        { threshold: 0 }
-      );
-      observer.observe(el);
-    }, 500);
-    return () => {
-      clearTimeout(timer);
-      observer?.disconnect();
-    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStickyVisible(false);
+        } else {
+          const rect = el.getBoundingClientRect();
+          setStickyVisible(rect.bottom < 0);
+        }
+      },
+      { threshold: 0, rootMargin: '0px 0px -40px 0px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, [loading]);
 
   const product = products[0];
@@ -230,7 +231,7 @@ const ProductPage = () => {
       {/* ADD TO CART CTA */}
       <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-6 pb-6">
         <Reveal>
-          <div ref={ctaRef}>
+          <div ref={ctaRef} id="main-atc">
           <button
             onClick={handleAddToCart}
             disabled={isCartLoading}
@@ -273,7 +274,7 @@ const ProductPage = () => {
       <Divider />
       <FAQSection />
       <GuaranteeStrip />
-      {ctaPassed && <StickyBottomBar price={total} onAddToCart={handleAddToCart} isLoading={isCartLoading} />}
+      {stickyVisible && <StickyBottomBar price={total} onAddToCart={handleAddToCart} isLoading={isCartLoading} />}
     </>);
 
 };
