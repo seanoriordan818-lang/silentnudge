@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Moon, Menu, X } from 'lucide-react';
-import { CartDrawer } from './CartDrawer';
+import { CartTrigger } from './CartTrigger';
 
 const links = [
 { label: 'Home', href: '/' },
@@ -76,7 +76,7 @@ export function Navbar() {
             </div>
 
             <div className="flex items-center gap-3">
-              <CartDrawer />
+              <CartTrigger />
               <button onClick={() => setMobileOpen(!mobileOpen)} className="text-muted-foreground md:hidden">
                 {mobileOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
