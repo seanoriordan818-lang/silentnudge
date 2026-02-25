@@ -175,17 +175,24 @@ export const CartDrawer = () => {
           ) : (
             <>
               {/* ─── LINE ITEMS ─── */}
-              <div className="px-4">
+               <div className="px-4">
                 {items.map((item, idx) => {
                   const price = parseFloat(item.price.amount);
                   const firstImage = item.product.node.images?.edges?.[0]?.node;
+                  const isCompact = items.length >= 3;
+                  const isMid = items.length === 2;
+                  const thumbSize = isCompact ? 72 : isMid ? 88 : 112;
+                  const nameSz = isCompact ? '14px' : isMid ? '15px' : '18px';
+                  const priceSz = isCompact ? '16px' : isMid ? '17px' : '20px';
+                  const btnSz = isCompact ? 32 : isMid ? 34 : 40;
+                  const pyClass = isCompact ? 'py-3' : isMid ? 'py-4' : 'py-6';
                   return (
                     <div key={item.variantId}>
-                      <div className="flex gap-4 py-5 relative animate-[itemIn_0.3s_ease_forwards]">
+                      <div className={`flex gap-4 ${pyClass} relative animate-[itemIn_0.3s_ease_forwards]`}>
                         {/* Thumbnail */}
                         <div
-                          className="w-[96px] h-[96px] rounded-[10px] overflow-hidden flex-shrink-0 flex items-center justify-center"
-                          style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
+                          className="rounded-[10px] overflow-hidden flex-shrink-0 flex items-center justify-center transition-all duration-200"
+                          style={{ width: thumbSize, height: thumbSize, background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
                         >
                           {firstImage ? (
                             <img src={firstImage.url} alt={item.product.node.title} className="w-full h-full object-cover" />
@@ -196,7 +203,7 @@ export const CartDrawer = () => {
 
                         {/* Details */}
                         <div className="flex-1 min-w-0">
-                          <div className="text-[16px] font-semibold text-foreground leading-tight mb-0.5">
+                          <div className="font-semibold text-foreground leading-tight mb-0.5 transition-all duration-200" style={{ fontSize: nameSz }}>
                             {item.product.node.title}
                           </div>
                           <div className="text-[11px] mb-3" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
@@ -212,7 +219,8 @@ export const CartDrawer = () => {
                             >
                               <button
                                 onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
-                                className="w-[36px] h-[36px] flex items-center justify-center text-foreground text-[18px] leading-none bg-transparent border-none cursor-pointer transition-colors hover:bg-[hsl(0_0%_100%/0.08)]"
+                                className="flex items-center justify-center text-foreground text-[18px] leading-none bg-transparent border-none cursor-pointer transition-all hover:bg-[hsl(0_0%_100%/0.08)]"
+                                style={{ width: btnSz, height: btnSz }}
                               >
                                 −
                               </button>
@@ -221,7 +229,8 @@ export const CartDrawer = () => {
                               </span>
                               <button
                                 onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
-                                className="w-[36px] h-[36px] flex items-center justify-center text-foreground text-[18px] leading-none bg-transparent border-none cursor-pointer transition-colors hover:bg-[hsl(0_0%_100%/0.08)]"
+                                className="flex items-center justify-center text-foreground text-[18px] leading-none bg-transparent border-none cursor-pointer transition-all hover:bg-[hsl(0_0%_100%/0.08)]"
+                                style={{ width: btnSz, height: btnSz }}
                               >
                                 +
                               </button>
@@ -229,7 +238,7 @@ export const CartDrawer = () => {
 
                             {/* Price */}
                             <div className="text-right">
-                              <span className="block text-[18px] font-bold text-foreground">${(price * item.quantity).toFixed(2)}</span>
+                              <span className="block font-bold text-foreground transition-all duration-200" style={{ fontSize: priceSz }}>${(price * item.quantity).toFixed(2)}</span>
                             </div>
                           </div>
                         </div>
