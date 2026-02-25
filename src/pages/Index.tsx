@@ -164,59 +164,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* STEP 7 — PRODUCT SECTION */}
-      <section className="py-14 px-5" style={{ background: 'hsl(var(--background))' }}>
-        <div className="max-w-[900px] mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {/* Card 1 — Best Seller */}
-            <div className="rounded-2xl border overflow-hidden" style={{ background: 'hsl(220 18% 13%)', borderColor: 'hsl(var(--gold) / 0.1)' }}>
-              <div className="min-h-[200px] flex items-center justify-center" style={{ background: 'hsl(220 20% 15%)' }}>
-                <p className="text-[12px] text-muted-foreground opacity-50">[ PRODUCT IMAGE ]</p>
-              </div>
-              <div className="p-6">
-                <span className="text-[11px] font-semibold tracking-wider uppercase text-gold">🏆 Best Seller</span>
-                <h3 className="text-[18px] font-semibold text-foreground mt-2 mb-1">SilentNudge Wristband</h3>
-                <p className="text-[22px] font-bold text-foreground mb-1">$99</p>
-                <p className="text-[12px] text-muted-foreground mb-5">Free US Shipping · 100-Night Guarantee</p>
-                <Link
-                  to="/product"
-                  onClick={scrollTop}
-                  className="w-full inline-flex items-center justify-center bg-primary text-primary-foreground font-bold text-[14px] py-3.5 rounded-full no-underline shadow-gold min-h-[48px]"
-                >
-                  Shop Now
-                </Link>
-              </div>
-            </div>
-
-            {/* Card 2 — Couples */}
-            <div className="rounded-2xl border overflow-hidden" style={{ background: 'hsl(220 18% 13%)', borderColor: 'hsl(var(--gold) / 0.1)' }}>
-              <div className="min-h-[200px] flex items-center justify-center" style={{ background: 'hsl(220 20% 15%)' }}>
-                <p className="text-[12px] text-muted-foreground opacity-50">[ PRODUCT IMAGE ]</p>
-              </div>
-              <div className="p-6">
-                <span className="text-[11px] font-semibold tracking-wider uppercase text-gold">❤️ Most Popular for Couples</span>
-                <h3 className="text-[18px] font-semibold text-foreground mt-2 mb-1">SilentNudge 2-Pack</h3>
-                <p className="text-foreground mb-1">
-                  <span className="text-[22px] font-bold">$169</span>
-                  <span className="text-[14px] text-muted-foreground line-through ml-2">$198</span>
-                  <span className="text-[12px] text-gold ml-2 font-semibold">Save $29</span>
-                </p>
-                <p className="text-[12px] text-muted-foreground mb-5">One for each of you</p>
-                <Link
-                  to="/product?bundle=true"
-                  onClick={scrollTop}
-                  className="w-full inline-flex items-center justify-center border font-bold text-[14px] py-3.5 rounded-full no-underline text-muted-foreground min-h-[48px]"
-                  style={{ borderColor: 'hsl(var(--gold) / 0.2)' }}
-                >
-                  Shop Now
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* STEP 8 — CREDIBILITY BAR */}
+      {/* STEP 7 — CREDIBILITY BAR */}
       <section className="py-8 px-5 overflow-hidden" style={{ background: 'hsl(220 20% 9%)', borderTop: '1px solid hsl(var(--gold) / 0.06)', borderBottom: '1px solid hsl(var(--gold) / 0.06)' }}>
         <p className="text-[10px] tracking-[3px] uppercase text-muted-foreground text-center mb-5">As Seen In / Backed By Research</p>
         <div className="relative">
@@ -244,6 +192,58 @@ const HomePage = () => {
                 ))}
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* STEP 8 — PRODUCT SECTION (Best Sellers) */}
+      <section className="py-14 px-5" style={{ background: 'hsl(var(--background))' }}>
+        <div className="max-w-[900px] mx-auto">
+          <div className="grid grid-cols-2 gap-3 sm:gap-5">
+            {/* Card 1 — Best Seller */}
+            <div className="rounded-2xl border overflow-hidden" style={{ background: 'hsl(220 18% 13%)', borderColor: 'hsl(var(--gold) / 0.1)' }}>
+              <div className="min-h-[120px] sm:min-h-[200px] flex items-center justify-center" style={{ background: 'hsl(220 20% 15%)' }}>
+                <p className="text-[10px] sm:text-[12px] text-muted-foreground opacity-50">[ PRODUCT IMAGE ]</p>
+              </div>
+              <div className="p-3 sm:p-6">
+                <span className="text-[9px] sm:text-[11px] font-semibold tracking-wider uppercase text-gold">🏆 Best Seller</span>
+                <h3 className="text-[14px] sm:text-[18px] font-semibold text-foreground mt-1 sm:mt-2 mb-1">SilentNudge Wristband</h3>
+                <p className="text-[18px] sm:text-[22px] font-bold text-foreground mb-1">$99</p>
+                <p className="text-[10px] sm:text-[12px] text-muted-foreground mb-3 sm:mb-5">Free US Shipping · 100-Night Guarantee</p>
+                <Link
+                  to="/product"
+                  onClick={scrollTop}
+                  className="w-full inline-flex items-center justify-center bg-primary text-primary-foreground font-bold text-[12px] sm:text-[14px] py-2.5 sm:py-3.5 rounded-full no-underline shadow-gold min-h-[40px] sm:min-h-[48px]"
+                >
+                  Shop Now
+                </Link>
+              </div>
+            </div>
+
+            {/* Card 2 — Couples */}
+            <div className="rounded-2xl border overflow-hidden" style={{ background: 'hsl(220 18% 13%)', borderColor: 'hsl(var(--gold) / 0.1)' }}>
+              <div className="min-h-[120px] sm:min-h-[200px] flex items-center justify-center" style={{ background: 'hsl(220 20% 15%)' }}>
+                <p className="text-[10px] sm:text-[12px] text-muted-foreground opacity-50">[ PRODUCT IMAGE ]</p>
+              </div>
+              <div className="p-3 sm:p-6">
+                <span className="text-[9px] sm:text-[11px] font-semibold tracking-wider uppercase text-gold">❤️ Most Popular for Couples</span>
+                <h3 className="text-[14px] sm:text-[18px] font-semibold text-foreground mt-1 sm:mt-2 mb-1">SilentNudge 2-Pack</h3>
+                <p className="text-foreground mb-1">
+                  <span className="text-[18px] sm:text-[22px] font-bold">$169</span>
+                  <span className="text-[11px] sm:text-[14px] text-muted-foreground line-through ml-1 sm:ml-2">$198</span>
+                  <span className="text-[10px] sm:text-[12px] text-gold ml-1 sm:ml-2 font-semibold">Save $29</span>
+                </p>
+                <p className="text-[10px] sm:text-[12px] text-muted-foreground mb-3 sm:mb-5">One for each of you</p>
+                <Link
+                  to="/product?bundle=true"
+                  onClick={scrollTop}
+                  className="w-full inline-flex items-center justify-center border font-bold text-[12px] sm:text-[14px] py-2.5 sm:py-3.5 rounded-full no-underline text-muted-foreground min-h-[40px] sm:min-h-[48px]"
+                  style={{ borderColor: 'hsl(var(--gold) / 0.2)' }}
+                >
+                  Shop Now
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
