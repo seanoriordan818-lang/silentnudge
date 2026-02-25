@@ -5,7 +5,6 @@ import { Stars } from '@/components/shared';
 import { Check, ArrowRight, Shield, Truck, RefreshCw, Lock, Loader2, Zap } from 'lucide-react';
 import { useCartStore } from '@/stores/cartStore';
 import { storefrontApiRequest, STOREFRONT_PRODUCTS_QUERY, ShopifyProduct } from '@/lib/shopify';
-import { toast } from 'sonner';
 import { ProductCircle } from '@/components/ProductCircle';
 import { BundleSelector, bundles } from '@/components/product/BundleSelector';
 import { HowItWorksSection } from '@/components/product/HowItWorksSection';
@@ -31,6 +30,7 @@ const ProductPage = () => {
   const [addedBackup, setAddedBackup] = useState(true);
   const addItem = useCartStore((state) => state.addItem);
   const isCartLoading = useCartStore((state) => state.isLoading);
+  const openDrawer = useCartStore((state) => state.openDrawer);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -76,7 +76,7 @@ const ProductPage = () => {
       quantity: 1,
       selectedOptions: variant.selectedOptions || []
     });
-    toast.success('Added to cart!', { position: 'top-center' });
+    openDrawer();
   };
 
   if (loading) {
