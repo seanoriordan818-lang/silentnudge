@@ -15,7 +15,7 @@
     --popover: 252 18% 12.5%;
     --popover-foreground: 0 0% 92%;
 
-    --primary: 38 55% 65%;
+    --primary: 40 91% 44%;
     --primary-foreground: 255 25% 7.5%;
 
     --secondary: 252 15% 16%;
@@ -24,34 +24,34 @@
     --muted: 252 15% 16%;
     --muted-foreground: 0 0% 58%;
 
-    --accent: 38 55% 65%;
+    --accent: 40 91% 44%;
     --accent-foreground: 255 25% 7.5%;
 
     --destructive: 0 60% 50%;
     --destructive-foreground: 0 0% 92%;
 
-    --border: 38 20% 18%;
-    --input: 38 20% 18%;
-    --ring: 38 55% 65%;
+    --border: 40 20% 18%;
+    --input: 40 20% 18%;
+    --ring: 40 91% 44%;
 
     --radius: 0.75rem;
 
     /* Custom SilentNudge tokens */
-    --gold: 38 55% 65%;
-    --gold-dim: 38 55% 65%;
-    --gold-faint: 38 55% 65%;
+    --gold: 40 91% 44%;
+    --gold-dim: 40 91% 44%;
+    --gold-faint: 40 91% 44%;
     --raised: 252 18% 12.5%;
     --raised2: 255 18% 15%;
     --faint: 0 0% 30%;
 
     --sidebar-background: 252 18% 10%;
     --sidebar-foreground: 0 0% 92%;
-    --sidebar-primary: 38 55% 65%;
+    --sidebar-primary: 40 91% 44%;
     --sidebar-primary-foreground: 255 25% 7.5%;
     --sidebar-accent: 252 15% 16%;
     --sidebar-accent-foreground: 0 0% 92%;
     --sidebar-border: 252 15% 16%;
-    --sidebar-ring: 38 55% 65%;
+    --sidebar-ring: 40 91% 44%;
   }
 }
 

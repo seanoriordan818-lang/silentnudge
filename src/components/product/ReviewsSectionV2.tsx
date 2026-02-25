@@ -30,11 +30,11 @@ const reviews = [
 ];
 
 export const ReviewsSectionV2 = () => (
-  <section className="bg-foreground py-16 md:py-20 px-5 md:px-7">
+  <section className="bg-white py-16 md:py-20 px-5 md:px-7">
     <div className="max-w-[1200px] mx-auto">
       <Reveal>
         <div className="text-center mb-10 md:mb-12">
-          <Label><span className="text-primary-foreground/40">Reviews</span></Label>
+          <Label>Reviews</Label>
           <h2 className="font-display text-[clamp(26px,4vw,38px)] leading-[1.15] font-medium text-primary-foreground">
             30,000+ People Waking Up <span style={{ color: 'hsl(var(--gold))' }}>Differently.</span>
           </h2>
@@ -49,12 +49,14 @@ export const ReviewsSectionV2 = () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[900px] mx-auto">
         {reviews.map((r, i) => (
           <Reveal key={i} delay={i * 0.06}>
-            <div className="p-6 rounded-[16px] border border-primary-foreground/[0.06]" style={{ background: 'hsl(255 25% 7.5% / 0.5)' }}>
+            <div
+              className="p-6 rounded-[16px] bg-white border border-[hsl(0_0%_90%)] shadow-[0_2px_12px_hsl(0_0%_0%/0.06)]"
+            >
               <div className="flex items-center gap-3 mb-4">
                 {/* Avatar placeholder */}
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold text-gold font-display flex-shrink-0"
-                  style={{ background: 'hsl(252 18% 14%)' }}
+                  style={{ background: 'hsl(var(--background))' }}
                 >
                   {r.init}
                 </div>
@@ -78,7 +80,7 @@ export const ReviewsSectionV2 = () => (
         <div
           className="mt-10 max-w-[800px] mx-auto aspect-video rounded-[16px] flex flex-col items-center justify-center gap-3"
           style={{
-            background: 'hsl(255 25% 7.5%)',
+            background: 'hsl(var(--background))',
             border: '2px dashed hsl(var(--gold) / 0.3)',
           }}
         >

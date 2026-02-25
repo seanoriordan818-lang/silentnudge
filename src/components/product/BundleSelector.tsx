@@ -64,7 +64,7 @@ export const BundleSelector = ({ selected, onSelect }: BundleSelectorProps) => (
             style={isActive ? { borderColor: 'hsl(var(--gold) / 0.5)' } : undefined}
           >
             {b.topBadge && (
-              <span className="absolute -top-[9px] left-1/2 -translate-x-1/2 text-[7px] sm:text-[8px] font-bold uppercase tracking-wider bg-primary text-primary-foreground px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap z-10">
+              <span className="absolute -top-[9px] left-1/2 -translate-x-1/2 text-[7px] sm:text-[8px] font-bold uppercase tracking-wider bg-primary text-white px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap z-10">
                 {b.topBadge}
               </span>
             )}
