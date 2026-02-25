@@ -1,19 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Reveal } from '@/components/Reveal';
-import { Divider, Label, Stars } from '@/components/shared';
+import { Stars } from '@/components/shared';
 import { Check, ArrowRight, Shield, Truck, RefreshCw, Lock, Loader2, Zap } from 'lucide-react';
 import { useCartStore } from '@/stores/cartStore';
 import { storefrontApiRequest, STOREFRONT_PRODUCTS_QUERY, ShopifyProduct } from '@/lib/shopify';
 import { toast } from 'sonner';
 import { ProductCircle } from '@/components/ProductCircle';
 import { BundleSelector, bundles } from '@/components/product/BundleSelector';
-import { ScienceSection } from '@/components/product/ScienceSection';
-import { ComparisonTable } from '@/components/product/ComparisonTable';
-import { PersonaSection } from '@/components/product/PersonaSection';
-import { ReviewsSection } from '@/components/product/ReviewsSection';
-import { FAQSection } from '@/components/product/FAQSection';
-import { GuaranteeStrip } from '@/components/product/GuaranteeStrip';
+import { HowItWorksSection } from '@/components/product/HowItWorksSection';
+import { ScienceSectionV2 } from '@/components/product/ScienceSectionV2';
+import { ReviewsSectionV2 } from '@/components/product/ReviewsSectionV2';
+import { ComparisonTableV2 } from '@/components/product/ComparisonTableV2';
+import { ProductFeaturesSection } from '@/components/product/ProductFeaturesSection';
+import { GuaranteeSection } from '@/components/product/GuaranteeSection';
+import { FAQSectionV2 } from '@/components/product/FAQSectionV2';
+import { FinalCTASection } from '@/components/product/FinalCTASection';
 import { StickyBottomBar } from '@/components/product/StickyBottomBar';
 
 const ProductPage = () => {
@@ -256,17 +258,14 @@ const ProductPage = () => {
         </Reveal>
       </section>
 
-      <Divider />
-      <ScienceSection />
-      <Divider />
-      <ComparisonTable />
-      <Divider />
-      <PersonaSection />
-      <Divider />
-      <ReviewsSection />
-      <Divider />
-      <FAQSection />
-      <GuaranteeStrip />
+      <HowItWorksSection />
+      <ScienceSectionV2 />
+      <ReviewsSectionV2 />
+      <ComparisonTableV2 />
+      <ProductFeaturesSection />
+      <GuaranteeSection onAddToCart={handleAddToCart} isLoading={isCartLoading} />
+      <FAQSectionV2 />
+      <FinalCTASection onAddToCart={handleAddToCart} isLoading={isCartLoading} />
       {stickyVisible && <StickyBottomBar price={total} onAddToCart={handleAddToCart} isLoading={isCartLoading} />}
     </>);
 
