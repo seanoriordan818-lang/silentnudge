@@ -49,9 +49,18 @@ const ProductPage = () => {
   useEffect(() => {
     const el = ctaRef.current;
     if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => setCtaPassed(!entry.isIntersecting), { threshold: 0 });
-    observer.observe(el);
-    return () => observer.disconnect();
+    let observer: IntersectionObserver | null = null;
+    const timer = setTimeout(() => {
+      observer = new IntersectionObserver(
+        ([entry]) => setCtaPassed(!entry.isIntersecting),
+        { threshold: 0 }
+      );
+      observer.observe(el);
+    }, 500);
+    return () => {
+      clearTimeout(timer);
+      observer?.disconnect();
+    };
   }, [loading]);
 
   const product = products[0];
@@ -219,8 +228,9 @@ const ProductPage = () => {
       </section>
 
       {/* ADD TO CART CTA */}
-      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-6 pb-6" ref={ctaRef}>
+      <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-6 pb-6">
         <Reveal>
+          <div ref={ctaRef}>
           <button
             onClick={handleAddToCart}
             disabled={isCartLoading}
@@ -232,6 +242,7 @@ const ProductPage = () => {
             <>Add to Cart</>
             }
           </button>
+          </div>
 
           {/* Reassurance lines */}
           <div className="flex flex-col items-center gap-2 text-[12px] text-muted-foreground">
