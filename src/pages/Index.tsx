@@ -95,7 +95,7 @@ const HomePage = () => {
 
               {/* Reassurance */}
               <p className="text-[11px] text-faint mt-4 text-center sm:text-left">
-                100-Night Guarantee · Free US Shipping · Ships in 24h
+                100-Night Guarantee · Free US Shipping
               </p>
             </div>
           </div>
