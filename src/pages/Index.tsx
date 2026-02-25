@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Check, ArrowRight, Zap, Brain, Wifi } from 'lucide-react';
+import heroLifestyle from '@/assets/hero-lifestyle.png';
 
 const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -38,13 +39,8 @@ const HomePage = () => {
         <div className="max-w-[1200px] mx-auto w-full">
           <div className="flex flex-col lg:flex-row">
             {/* Hero Image Placeholder */}
-            <div className="w-full lg:w-[55%] min-h-[420px] lg:min-h-[600px] flex items-center justify-center relative" style={{ background: 'hsl(220 20% 12%)' }}>
-              <div className="text-center p-8">
-                <div className="w-20 h-20 mx-auto mb-4 rounded-full border-2 border-dashed opacity-20" style={{ borderColor: 'hsl(var(--gold))' }} />
-                <p className="text-[13px] text-muted-foreground leading-relaxed max-w-[280px] mx-auto opacity-60">
-                  [ HERO LIFESTYLE IMAGE — dark bedroom, wrist wearing SilentNudge, partner asleep ]
-                </p>
-              </div>
+            <div className="w-full lg:w-[55%] min-h-[420px] lg:min-h-[600px] relative overflow-hidden">
+              <img src={heroLifestyle} alt="Man waking up with SilentNudge wristband while partner sleeps peacefully" className="w-full h-full object-cover absolute inset-0" />
             </div>
 
             {/* Hero Copy */}
