@@ -16,6 +16,10 @@ const faqs = [
     a: 'No. The vibration is delivered directly to your wrist through skin contact. It is imperceptible to anyone not wearing the band — even a partner sleeping in contact with you.',
   },
   {
+    q: '$99 is a lot for an alarm.',
+    a: "Pavlok costs $128 plus a $4.99 monthly subscription. An Apple Watch is $400+. SilentNudge is a one-time purchase — no subscription, no app fees — with a 100-night guarantee and a 2-year warranty. If it doesn't wake you, you pay nothing.",
+  },
+  {
     q: 'Does it need my phone or an app?',
     a: 'Never. Set the alarm directly on the band display. It operates completely standalone — no Bluetooth, no Wi-Fi, no phone. It works whether your phone is on, off, or in another room.',
   },
@@ -25,12 +29,12 @@ const faqs = [
   },
   {
     q: 'What if it stops working or breaks?',
-    a: 'We cover it. 100-night guarantee plus product warranty. Contact us and we sort it — no lengthy process.',
+    a: 'We cover it. 100-night guarantee plus a 2-year full warranty. Contact us and we sort it — no lengthy process.',
   },
 ];
 
 export const FAQSectionV2 = () => (
-  <section className="bg-white py-16 md:py-20 px-5 md:px-7">
+  <section className="bg-white py-12 md:py-20 px-5 md:px-7 pb-20 md:pb-20">
     <div className="max-w-[700px] mx-auto">
       <Reveal>
         <div className="text-center mb-10 md:mb-12">

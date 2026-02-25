@@ -41,6 +41,9 @@ export const ScienceSectionV2 = () => (
             <p className="text-sm md:text-[15px] leading-7 text-foreground font-medium">
               You wake up. Your body doesn't fight it.
             </p>
+            <p className="text-sm md:text-[15px] leading-7 text-foreground font-medium mt-2">
+              No cortisol spike. No grogginess. No panic.
+            </p>
 
             {/* Credibility badge */}
             <div className="mt-6 inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-gold/[0.08] border border-gold/[0.15]">

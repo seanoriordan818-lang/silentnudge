@@ -35,7 +35,7 @@ export function Footer() {
           ))}
         </div>
         <div className="border-t border-border/30 pt-5 flex justify-between flex-wrap gap-2">
-          <p className="text-[11px] text-faint">© 2025 SilentNudge. All rights reserved. Not a medical device.</p>
+          <p className="text-[11px] text-faint"><p className="text-[11px] text-faint">© 2026 SilentNudge. All rights reserved. Not a medical device.</p>. All rights reserved. Not a medical device.</p>
           <p className="text-[11px] text-faint">Designed with purpose. Engineered for every sleeper.</p>
         </div>
       </div>

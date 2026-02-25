@@ -101,6 +101,26 @@ const SciencePage = () => {
           </div>
         </Reveal>
       </Section>
+
+      {/* CTA Section */}
+      <Section className="text-center pb-20">
+        <Reveal>
+          <h2 className="font-display text-[clamp(26px,4vw,38px)] leading-[1.15] font-medium mb-5">
+            Ready to wake up <span className="text-gold">differently?</span>
+          </h2>
+          <Link
+            to="/product"
+            onClick={scrollTop}
+            className="inline-flex items-center justify-center gap-2 font-bold text-[15px] px-10 py-4 rounded-full no-underline shadow-gold min-h-[52px]"
+            style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))' }}
+          >
+            Shop SilentNudge — $99
+          </Link>
+          <p className="text-[12px] text-muted-foreground mt-4">
+            100-Night Guarantee · Free US Shipping · 2-Year Warranty
+          </p>
+        </Reveal>
+      </Section>
     </>
   );
 };

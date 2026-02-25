@@ -7,7 +7,7 @@ interface GuaranteeSectionProps {
 }
 
 export const GuaranteeSection = ({ onAddToCart, isLoading }: GuaranteeSectionProps) => (
-  <section className="bg-background py-16 md:py-20 px-5 md:px-7">
+  <section className="bg-background py-12 md:py-20 px-5 md:px-7">
     <div className="max-w-[600px] mx-auto text-center">
       <Reveal>
         <Shield size={48} className="text-gold mx-auto mb-6" />

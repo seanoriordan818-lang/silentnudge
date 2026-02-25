@@ -17,6 +17,8 @@ import { FAQSectionV2 } from '@/components/product/FAQSectionV2';
 import { FinalCTASection } from '@/components/product/FinalCTASection';
 import { StickyBottomBar } from '@/components/product/StickyBottomBar';
 
+const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
 const ProductPage = () => {
   const [searchParams] = useSearchParams();
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
@@ -29,7 +31,6 @@ const ProductPage = () => {
   const finalCtaRef = useRef<HTMLDivElement>(null);
   const [stickyVisible, setStickyVisible] = useState(false);
   const [finalCtaVisible, setFinalCtaVisible] = useState(false);
-  const [addedBackup, setAddedBackup] = useState(true);
   const addItem = useCartStore((state) => state.addItem);
   const isCartLoading = useCartStore((state) => state.isLoading);
   const openDrawer = useCartStore((state) => state.openDrawer);
@@ -96,8 +97,8 @@ const ProductPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center pt-[68px]">
         <Loader2 className="h-8 w-8 animate-spin text-gold" />
-      </div>);
-
+      </div>
+    );
   }
 
   if (!product) {
@@ -105,8 +106,8 @@ const ProductPage = () => {
       <section className="max-w-[1200px] mx-auto py-20 px-7 pt-24 text-center">
         <h2 className="font-display text-[clamp(22px,3.2vw,34px)] leading-[1.15] font-medium">No products found</h2>
         <p className="text-muted-foreground mt-4">Products will appear here once they're added to the store.</p>
-      </section>);
-
+      </section>
+    );
   }
 
   return (
@@ -118,21 +119,21 @@ const ProductPage = () => {
       <section className="max-w-[700px] mx-auto px-5 md:px-7 pt-4 pb-0">
         <div className="flex flex-col md:flex-row gap-3 md:gap-4">
           {/* Desktop thumbnails */}
-          {productImages.length > 1 &&
-          <div className="hidden md:flex flex-col gap-2">
-              {productImages.map((image, i) =>
-            <div
-              key={i}
-              onClick={() => setImg(i)}
-              className={`w-16 h-16 rounded-[10px] cursor-pointer overflow-hidden transition-all ${
-              img === i ? 'border-2 border-gold/40' : 'border-2 border-transparent opacity-60 hover:opacity-100'}`
-              }>
-
+          {productImages.length > 1 && (
+            <div className="hidden md:flex flex-col gap-2">
+              {productImages.map((image, i) => (
+                <div
+                  key={i}
+                  onClick={() => setImg(i)}
+                  className={`w-16 h-16 rounded-[10px] cursor-pointer overflow-hidden transition-all ${
+                    img === i ? 'border-2 border-gold/40' : 'border-2 border-transparent opacity-60 hover:opacity-100'
+                  }`}
+                >
                   <img src={image.node.url} alt={image.node.altText || product.node.title} className="w-full h-full object-cover" loading="lazy" />
                 </div>
-            )}
+              ))}
             </div>
-          }
+          )}
 
           {/* Main image */}
           <div className="relative flex-1">
@@ -152,31 +153,31 @@ const ProductPage = () => {
                   if (diff > 0 && img < productImages.length - 1) setImg(img + 1);
                   if (diff < 0 && img > 0) setImg(img - 1);
                 }
-              }}>
-
-              {productImages.length > 0 ?
-              <img src={productImages[img]?.node.url} alt={product.node.title} className="w-full h-full object-cover" /> :
-
-              <ProductCircle size={220} />
-              }
+              }}
+            >
+              {productImages.length > 0 ? (
+                <img src={productImages[img]?.node.url} alt={product.node.title} className="w-full h-full object-cover" />
+              ) : (
+                <ProductCircle size={220} />
+              )}
             </div>
 
             {/* Mobile thumbnail strip */}
-            {productImages.length > 1 &&
-            <div className="flex md:hidden gap-2 mt-3 overflow-x-auto pb-1">
-                {productImages.map((image, i) =>
-              <button
-                key={i}
-                onClick={() => setImg(i)}
-                className={`w-14 h-14 flex-shrink-0 rounded-[8px] overflow-hidden transition-all ${
-                img === i ? 'border-2 border-gold/50' : 'border-2 border-transparent opacity-50 hover:opacity-100'}`
-                }>
-
+            {productImages.length > 1 && (
+              <div className="flex md:hidden gap-2 mt-3 overflow-x-auto pb-1">
+                {productImages.map((image, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setImg(i)}
+                    className={`w-14 h-14 flex-shrink-0 rounded-[8px] overflow-hidden transition-all ${
+                      img === i ? 'border-2 border-gold/50' : 'border-2 border-transparent opacity-50 hover:opacity-100'
+                    }`}
+                  >
                     <img src={image.node.url} alt={image.node.altText || product.node.title} className="w-full h-full object-cover" />
                   </button>
-              )}
+                ))}
               </div>
-            }
+            )}
           </div>
         </div>
       </section>
@@ -192,39 +193,39 @@ const ProductPage = () => {
             </span>
           </div>
 
-          {/* Headline — smaller, muted */}
+          {/* Headline */}
           <h1 className="text-[13px] tracking-[1px] uppercase font-medium mb-1 text-primary">
             The Alarm That Wakes Only You.
           </h1>
 
-          {/* Product name — prominent, gold */}
+          {/* Product name */}
           <p ref={nameRef} className="font-display text-[22px] md:text-[28px] font-semibold leading-[1.2] mb-2 text-muted-foreground">
             SilentNudge Wristband Alarm
           </p>
 
-          {/* Price line */}
+          {/* Price line — anchor $129 */}
           <div className="flex items-baseline gap-3 mb-3">
             <span className="text-[14px] text-faint line-through">${currentBundle.originalPrice}</span>
             <span className="font-display text-[24px] md:text-[28px] text-gold">${currentBundle.price}</span>
-            {currentBundle.originalPrice - currentBundle.price > 0 &&
-            <span className="text-[11px] font-bold bg-primary text-white px-2.5 py-1 rounded-full uppercase tracking-wide">
+            {currentBundle.originalPrice - currentBundle.price > 0 && (
+              <span className="text-[11px] font-bold bg-primary text-white px-2.5 py-1 rounded-full uppercase tracking-wide">
                 Save ${currentBundle.originalPrice - currentBundle.price}
               </span>
-            }
+            )}
           </div>
 
           {/* Benefit ticks */}
           <div className="flex flex-col gap-2.5 text-left max-w-[440px] mx-auto mb-4">
             {[
-            'Your partner sleeps through every alarm',
-            '5-stage escalation — built for deep sleepers',
-            'No phone. No app. No Bluetooth. Ever.'].
-            map((text, i) =>
-            <div key={i} className="flex gap-2.5 items-start">
+              'Your partner sleeps through every alarm',
+              '5-stage escalation — built for deep sleepers',
+              'No phone. No app. No Bluetooth. Ever.',
+            ].map((text, i) => (
+              <div key={i} className="flex gap-2.5 items-start">
                 <Check size={16} className="text-gold flex-shrink-0 mt-0.5" />
                 <span className="text-[13px] text-muted-foreground leading-snug">{text}</span>
               </div>
-            )}
+            ))}
           </div>
         </Reveal>
       </section>
@@ -240,17 +241,17 @@ const ProductPage = () => {
       <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-6 pb-6">
         <Reveal>
           <div>
-          <button
-            onClick={handleAddToCart}
-            disabled={isCartLoading}
-            className="w-full py-4 min-h-[56px] rounded-full bg-primary text-white font-bold text-[16px] shadow-gold flex items-center justify-center gap-2.5 transition-all hover:brightness-110 disabled:opacity-50 mb-4">
-
-            {isCartLoading ?
-            <Loader2 className="w-5 h-5 animate-spin" /> :
-
-            <>Add to Cart</>
-            }
-          </button>
+            <button
+              onClick={handleAddToCart}
+              disabled={isCartLoading}
+              className="w-full py-4 min-h-[56px] rounded-full bg-primary text-white font-bold text-[16px] shadow-gold flex items-center justify-center gap-2.5 transition-all hover:brightness-110 disabled:opacity-50 mb-4"
+            >
+              {isCartLoading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <>Add to Cart</>
+              )}
+            </button>
           </div>
 
           {/* Reassurance lines */}
@@ -281,9 +282,33 @@ const ProductPage = () => {
       <div ref={finalCtaRef}>
         <FinalCTASection onAddToCart={handleAddToCart} isLoading={isCartLoading} />
       </div>
-      {stickyVisible && !finalCtaVisible && <StickyBottomBar price={total} onAddToCart={handleAddToCart} isLoading={isCartLoading} />}
-    </>);
 
+      {/* CONTACT SECTION */}
+      <section className="py-12 md:py-16 px-5 md:px-7" style={{ background: 'hsl(var(--raised))' }}>
+        <div className="max-w-[600px] mx-auto text-center">
+          <Reveal>
+            <p className="text-[10px] tracking-[3px] uppercase text-gold-dim font-semibold mb-3">Questions?</p>
+            <h2 className="font-display text-[clamp(24px,4vw,36px)] leading-[1.15] font-medium text-foreground mb-4">
+              We're here to help.
+            </h2>
+            <p className="text-[15px] leading-relaxed text-muted-foreground font-light mb-5">
+              Whether it's about the product, your order, or just want to know if SilentNudge is right for you — reach out.
+            </p>
+            <p className="text-[13px] text-muted-foreground mb-4">Email us anytime at <span className="text-gold font-medium">support@silentnudge.com</span></p>
+            <Link
+              to="/contact"
+              onClick={scrollTop}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-gold no-underline"
+            >
+              Contact Us →
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+
+      {stickyVisible && !finalCtaVisible && <StickyBottomBar price={total} onAddToCart={handleAddToCart} isLoading={isCartLoading} />}
+    </>
+  );
 };
 
 export default ProductPage;

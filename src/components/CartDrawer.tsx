@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 
-const FREE_SHIPPING_THRESHOLD = 100;
+const FREE_SHIPPING_THRESHOLD = 99;
 
 function useCountdown(items: any[]) {
   const [seconds, setSeconds] = useState(600);
@@ -20,8 +20,8 @@ function useCountdown(items: any[]) {
 }
 
 const crossSellItems = [
-  { name: "Family Pack", price: 299, originalPrice: 396, description: "4× bands — one for everyone in the house" },
-  { name: "Single Band", price: 99, originalPrice: 149, description: "Just for you — one alarm, one solution" },
+  { name: "Couples Pack", price: 169, originalPrice: 258, description: "2× bands — one for each of you" },
+  { name: "Family Pack", price: 299, originalPrice: 516, description: "4× bands — one for everyone in the house" },
 ];
 
 /* Wristband SVG placeholder for items without images */

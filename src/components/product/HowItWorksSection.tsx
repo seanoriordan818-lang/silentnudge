@@ -4,11 +4,11 @@ import { Label } from '@/components/shared';
 const steps = [
   { num: '01', title: 'Wear It', desc: "Put it on before bed. Soft, slim — you'll forget it's there." },
   { num: '02', title: 'Set It', desc: 'Set your alarm directly on the band. No phone. No app. No pairing.' },
-  { num: '03', title: 'Wake Up', desc: 'Gentle escalating vibration wakes you through your wrist. Your partner sleeps on.' },
+  { num: '03', title: 'Wake Up', desc: "Escalating vibration wakes you through your wrist. Your partner doesn't feel a thing." },
 ];
 
 export const HowItWorksSection = () => (
-  <section className="bg-white py-16 md:py-20 px-5 md:px-7">
+  <section className="bg-white py-12 md:py-20 px-5 md:px-7">
     <div className="max-w-[1200px] mx-auto">
       <Reveal>
         <div className="text-center mb-10 md:mb-14">
