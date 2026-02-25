@@ -24,7 +24,7 @@ const ProductPage = () => {
   const [selectedBundle, setSelectedBundle] = useState(
     searchParams.get('bundle') === 'true' ? 'couples' : 'single'
   );
-  const ctaRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLParagraphElement>(null);
   const [stickyVisible, setStickyVisible] = useState(false);
   const [addedBackup, setAddedBackup] = useState(true);
   const addItem = useCartStore((state) => state.addItem);
@@ -47,18 +47,11 @@ const ProductPage = () => {
   }, []);
 
   useEffect(() => {
-    const el = ctaRef.current;
+    const el = nameRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setStickyVisible(false);
-        } else {
-          const rect = el.getBoundingClientRect();
-          setStickyVisible(rect.bottom < 0);
-        }
-      },
-      { threshold: 0, rootMargin: '0px 0px -40px 0px' }
+      ([entry]) => setStickyVisible(!entry.isIntersecting && el.getBoundingClientRect().bottom < 0),
+      { threshold: 0 }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -190,7 +183,7 @@ const ProductPage = () => {
           </h1>
 
           {/* Product name — prominent, gold */}
-          <p className="font-display text-[22px] md:text-[28px] font-semibold leading-[1.2] mb-2 text-muted-foreground">
+          <p ref={nameRef} className="font-display text-[22px] md:text-[28px] font-semibold leading-[1.2] mb-2 text-muted-foreground">
             SilentNudge Wristband Alarm
           </p>
 
@@ -231,7 +224,7 @@ const ProductPage = () => {
       {/* ADD TO CART CTA */}
       <section className="max-w-[600px] mx-auto px-5 md:px-7 pt-6 pb-6">
         <Reveal>
-          <div ref={ctaRef} id="main-atc">
+          <div>
           <button
             onClick={handleAddToCart}
             disabled={isCartLoading}
