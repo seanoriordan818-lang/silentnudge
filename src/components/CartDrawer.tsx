@@ -455,7 +455,7 @@ export const CartDrawer = () => {
             {/* Continue shopping */}
             <div className="text-center mb-2.5">
               <button
-                onClick={closeDrawer}
+                onClick={(e) => { e.stopPropagation(); closeDrawer(); }}
                 className="text-[12px] bg-transparent border-none cursor-pointer underline underline-offset-[3px] transition-colors"
                 style={{ color: 'hsl(0 0% 100% / 0.55)', fontFamily: 'inherit' }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = 'hsl(var(--foreground))')}
