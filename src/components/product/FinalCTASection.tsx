@@ -7,7 +7,7 @@ interface FinalCTASectionProps {
 }
 
 export const FinalCTASection = ({ onAddToCart, isLoading }: FinalCTASectionProps) => (
-  <section className="relative bg-background py-20 md:py-28 px-5 md:px-7 overflow-hidden">
+  <section className="relative bg-background py-16 md:py-28 px-5 md:px-7 overflow-hidden">
     {/* Background image placeholder — swap in a hero lifestyle image */}
     <div
       className="absolute inset-0 flex items-center justify-center opacity-[0.07]"

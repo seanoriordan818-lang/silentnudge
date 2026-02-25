@@ -16,7 +16,7 @@ const bundles: BundleOption[] = [
     name: 'Single',
     description: '1× Band',
     price: 99,
-    originalPrice: 149,
+    originalPrice: 129,
     badge: 'Free US Shipping',
   },
   {
@@ -24,8 +24,8 @@ const bundles: BundleOption[] = [
     name: 'Couples Pack',
     description: '2× Bands',
     price: 169,
-    originalPrice: 298,
-    badge: 'Save $29',
+    originalPrice: 258,
+    badge: 'Save $89',
     topBadge: 'MOST POPULAR',
   },
   {
@@ -33,8 +33,8 @@ const bundles: BundleOption[] = [
     name: 'Family Pack',
     description: '4× Bands',
     price: 299,
-    originalPrice: 396,
-    badge: 'Save $97',
+    originalPrice: 516,
+    badge: 'Save $217',
     topBadge: 'BEST VALUE',
   },
 ];

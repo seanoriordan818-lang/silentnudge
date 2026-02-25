@@ -4,10 +4,13 @@ import { Moon, Menu, X } from 'lucide-react';
 import { CartTrigger } from './CartTrigger';
 
 const links = [
-{ label: 'Home', href: '/' },
-{ label: 'The Science', href: '/science' },
-{ label: 'Reviews', href: '/reviews' },
-{ label: 'FAQ', href: '/faq' }];
+  { label: 'Home', href: '/' },
+  { label: 'Shop', href: '/product' },
+  { label: 'The Science', href: '/science' },
+  { label: 'Reviews', href: '/reviews' },
+  { label: 'FAQ', href: '/faq' },
+  { label: 'Contact', href: '/contact' },
+];
 
 
 export function Navbar() {
@@ -96,7 +99,7 @@ export function Navbar() {
               {l.label}
             </Link>
         )}
-          <Link to="/product" className="text-[14px] font-semibold bg-primary text-primary-foreground px-8 py-3 rounded-full no-underline mt-3">
+          <Link to="/product" className="text-[14px] font-semibold no-underline mt-3 px-8 py-3 rounded-full" style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))' }}>
             Shop Now
           </Link>
         </div>

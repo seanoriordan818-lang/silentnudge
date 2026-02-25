@@ -30,7 +30,7 @@ const reviews = [
 ];
 
 export const ReviewsSectionV2 = () => (
-  <section className="bg-white py-16 md:py-20 px-5 md:px-7">
+  <section className="bg-white py-12 md:py-20 px-5 md:px-7">
     <div className="max-w-[1200px] mx-auto">
       <Reveal>
         <div className="text-center mb-10 md:mb-12">

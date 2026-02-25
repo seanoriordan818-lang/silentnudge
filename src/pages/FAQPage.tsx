@@ -48,8 +48,27 @@ const FAQPage = () => {
         <Reveal>
           {faqs.map((f, i) => <Accordion key={i} q={f.q} a={f.a} />)}
         </Reveal>
+
+        {/* CTA after FAQs */}
+        <Reveal delay={0.08}>
+          <div className="mt-10 p-8 rounded-[18px] text-center" style={{ background: 'hsl(var(--gold) / 0.08)', border: '1px solid hsl(var(--gold) / 0.2)' }}>
+            <h3 className="font-display text-[22px] font-medium text-foreground mb-3">Ready to try it?</h3>
+            <Link
+              to="/product"
+              onClick={scrollTop}
+              className="inline-flex items-center justify-center gap-2 font-bold text-[15px] px-10 py-4 rounded-full no-underline shadow-gold min-h-[52px]"
+              style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))' }}
+            >
+              Shop SilentNudge — $99
+            </Link>
+            <p className="text-[12px] text-muted-foreground mt-3">
+              100-Night Guarantee · Free US Shipping
+            </p>
+          </div>
+        </Reveal>
+
         <Reveal delay={0.1}>
-          <div className="text-center mt-12 p-8 bg-raised rounded-[18px] border border-gold-subtle">
+          <div className="text-center mt-10 p-8 bg-raised rounded-[18px] border border-gold-subtle">
             <p className="text-[15px] text-muted-foreground mb-4">Still have questions?</p>
             <Link to="/contact" onClick={scrollTop} className="inline-flex items-center gap-2 text-sm font-semibold text-gold no-underline border-b pb-0.5" style={{ borderColor: 'hsl(var(--gold) / 0.25)' }}>
               Contact our team <ArrowRight size={14} />
