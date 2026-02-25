@@ -5,7 +5,7 @@ import heroLifestyle from '@/assets/hero-lifestyle.png';
 const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
 const StarIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="hsl(38, 55%, 65%)" className="inline-block">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="hsl(var(--gold))" className="inline-block">
     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
   </svg>
 );
@@ -35,7 +35,7 @@ const HomePage = () => {
   return (
     <>
       {/* STEP 3 — HERO SECTION */}
-      <section style={{ background: 'linear-gradient(180deg, hsl(220 30% 8%) 0%, hsl(var(--background)) 100%)' }}>
+      <section style={{ background: 'linear-gradient(180deg, hsl(var(--banner)) 0%, hsl(var(--background)) 100%)' }}>
         <div className="max-w-[1200px] mx-auto w-full">
           <div className="flex flex-col lg:flex-row">
             {/* Hero Image Placeholder */}
@@ -103,11 +103,11 @@ const HomePage = () => {
       </section>
 
       {/* CREDIBILITY BAR */}
-      <section className="py-8 px-5 overflow-hidden" style={{ background: 'hsl(220 20% 9%)', borderTop: '1px solid hsl(var(--gold) / 0.06)', borderBottom: '1px solid hsl(var(--gold) / 0.06)' }}>
+      <section className="py-8 px-5 overflow-hidden" style={{ background: 'hsl(var(--raised))', borderTop: '1px solid hsl(var(--border))', borderBottom: '1px solid hsl(var(--border))' }}>
         <p className="text-[10px] tracking-[3px] uppercase text-muted-foreground text-center mb-5">As Seen In / Backed By Research</p>
         <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-12 z-10" style={{ background: 'linear-gradient(90deg, hsl(220 20% 9%), transparent)' }} />
-          <div className="absolute right-0 top-0 bottom-0 w-12 z-10" style={{ background: 'linear-gradient(270deg, hsl(220 20% 9%), transparent)' }} />
+          <div className="absolute left-0 top-0 bottom-0 w-12 z-10" style={{ background: 'linear-gradient(90deg, hsl(var(--raised)), transparent)' }} />
+          <div className="absolute right-0 top-0 bottom-0 w-12 z-10" style={{ background: 'linear-gradient(270deg, hsl(var(--raised)), transparent)' }} />
           <div className="flex animate-ticker whitespace-nowrap">
             {[...Array(3)].map((_, setIdx) => (
               <div key={setIdx} className="flex items-center shrink-0">
@@ -140,7 +140,7 @@ const HomePage = () => {
           <div className="grid grid-cols-2 gap-3 sm:gap-5">
             {/* Card 1 — Best Seller */}
             <div className="rounded-2xl border overflow-hidden" style={{ background: 'hsl(220 18% 13%)', borderColor: 'hsl(var(--gold) / 0.1)' }}>
-              <div className="min-h-[120px] sm:min-h-[200px] flex items-center justify-center" style={{ background: 'hsl(220 20% 15%)' }}>
+            <div className="min-h-[120px] sm:min-h-[200px] flex items-center justify-center" style={{ background: 'hsl(var(--raised2))' }}>
                 <p className="text-[10px] sm:text-[12px] text-muted-foreground opacity-50">[ PRODUCT IMAGE ]</p>
               </div>
               <div className="p-3 sm:p-6">
@@ -159,8 +159,8 @@ const HomePage = () => {
             </div>
 
             {/* Card 2 — Couples */}
-            <div className="rounded-2xl border overflow-hidden" style={{ background: 'hsl(220 18% 13%)', borderColor: 'hsl(var(--gold) / 0.1)' }}>
-              <div className="min-h-[120px] sm:min-h-[200px] flex items-center justify-center" style={{ background: 'hsl(220 20% 15%)' }}>
+            <div className="rounded-2xl border overflow-hidden" style={{ background: 'hsl(var(--card))', borderColor: 'hsl(var(--border))' }}>
+              <div className="min-h-[120px] sm:min-h-[200px] flex items-center justify-center" style={{ background: 'hsl(var(--raised2))' }}>
                 <p className="text-[10px] sm:text-[12px] text-muted-foreground opacity-50">[ PRODUCT IMAGE ]</p>
               </div>
               <div className="p-3 sm:p-6">
@@ -187,14 +187,14 @@ const HomePage = () => {
       </section>
 
       {/* SOCIAL PROOF STRIP (Reviews) */}
-      <section className="py-10 px-5" style={{ background: 'hsl(220 20% 10%)' }}>
+      <section className="py-10 px-5" style={{ background: 'hsl(var(--raised))' }}>
         <div className="max-w-[1200px] mx-auto">
           <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide">
             {reviews.map((r, i) => (
               <div
                 key={i}
                 className="min-w-[300px] sm:min-w-[340px] flex-1 snap-start rounded-2xl p-6 border"
-                style={{ background: 'hsl(220 18% 13%)', borderColor: 'hsl(var(--gold) / 0.08)' }}
+                style={{ background: 'hsl(var(--card))', borderColor: 'hsl(var(--border))' }}
               >
                 <Stars5 />
                 <p className="text-[14px] leading-relaxed text-foreground/85 mt-3 mb-4 font-light italic">
@@ -213,9 +213,9 @@ const HomePage = () => {
       </section>
 
       {/* HOW IT WORKS / BENEFITS */}
-      <section className="py-14 px-5" style={{ background: 'hsl(220 15% 96%)' }}>
+      <section className="py-14 px-5 bg-white">
         <div className="max-w-[1200px] mx-auto">
-          <h2 className="font-display text-[clamp(22px,3.5vw,32px)] leading-[1.15] font-medium text-center mb-10" style={{ color: 'hsl(220 20% 12%)' }}>
+          <h2 className="font-display text-[clamp(22px,3.5vw,32px)] leading-[1.15] font-medium text-center mb-10 text-[#1a1a1a]">
             The First Alarm Designed for How Your Body Actually Works.
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -236,12 +236,12 @@ const HomePage = () => {
                 body: 'Set it directly on the band. 14+ day battery. Standard USB charging. It works whether your phone is on or off.',
               },
             ].map((f, i) => (
-              <div key={i} className="rounded-2xl p-7 text-center" style={{ background: 'white', boxShadow: '0 2px 16px hsl(220 20% 12% / 0.06)' }}>
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full mb-4" style={{ background: 'hsl(38 55% 65% / 0.12)', color: 'hsl(38 55% 55%)' }}>
+              <div key={i} className="rounded-2xl p-7 text-center bg-white border border-[hsl(var(--light-border))] shadow-card-light">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full mb-4" style={{ background: 'hsl(var(--gold) / 0.12)', color: 'hsl(var(--gold))' }}>
                   {f.icon}
                 </div>
-                <h3 className="text-[16px] font-semibold mb-2" style={{ color: 'hsl(220 20% 12%)' }}>{f.title}</h3>
-                <p className="text-[14px] leading-relaxed font-light" style={{ color: 'hsl(220 10% 40%)' }}>{f.body}</p>
+                <h3 className="text-[16px] font-semibold mb-2 text-[#1a1a1a]">{f.title}</h3>
+                <p className="text-[14px] leading-relaxed font-light text-[#6b6b6b]">{f.body}</p>
               </div>
             ))}
           </div>

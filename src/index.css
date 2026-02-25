@@ -6,51 +6,63 @@
 
 @layer base {
   :root {
-    --background: 255 25% 7.5%;
+    /* Primary dark bg: #0E0D16 */
+    --background: 247 26% 7%;
     --foreground: 0 0% 92%;
 
-    --card: 252 18% 12.5%;
+    /* Dark card bg: #1C1B28 */
+    --card: 245 19% 13%;
     --card-foreground: 0 0% 92%;
 
-    --popover: 252 18% 12.5%;
+    --popover: 245 19% 13%;
     --popover-foreground: 0 0% 92%;
 
+    /* Amber Gold: #D4920A */
     --primary: 40 91% 44%;
-    --primary-foreground: 255 25% 7.5%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 252 15% 16%;
+    /* Secondary dark bg: #16151F */
+    --secondary: 246 19% 10%;
     --secondary-foreground: 0 0% 92%;
 
-    --muted: 252 15% 16%;
-    --muted-foreground: 0 0% 58%;
+    --muted: 246 19% 10%;
+    --muted-foreground: 0 0% 55%;
 
     --accent: 40 91% 44%;
-    --accent-foreground: 255 25% 7.5%;
+    --accent-foreground: 247 26% 7%;
 
     --destructive: 0 60% 50%;
     --destructive-foreground: 0 0% 92%;
 
-    --border: 40 20% 18%;
-    --input: 40 20% 18%;
+    /* Dark border: #2A2840 */
+    --border: 245 23% 20%;
+    --input: 245 23% 20%;
     --ring: 40 91% 44%;
 
     --radius: 0.75rem;
 
     /* Custom SilentNudge tokens */
     --gold: 40 91% 44%;
+    --gold-hover: 42 87% 49%;
     --gold-dim: 40 91% 44%;
     --gold-faint: 40 91% 44%;
-    --raised: 252 18% 12.5%;
-    --raised2: 255 18% 15%;
+    /* Secondary dark: #16151F */
+    --raised: 246 19% 10%;
+    /* Dark card: #1C1B28 */
+    --raised2: 245 19% 13%;
     --faint: 0 0% 30%;
+    /* Banner bg: #080710 */
+    --banner: 247 39% 5%;
+    /* Light section border: #E5E5E5 */
+    --light-border: 0 0% 90%;
 
-    --sidebar-background: 252 18% 10%;
+    --sidebar-background: 246 19% 10%;
     --sidebar-foreground: 0 0% 92%;
     --sidebar-primary: 40 91% 44%;
-    --sidebar-primary-foreground: 255 25% 7.5%;
-    --sidebar-accent: 252 15% 16%;
+    --sidebar-primary-foreground: 247 26% 7%;
+    --sidebar-accent: 245 19% 13%;
     --sidebar-accent-foreground: 0 0% 92%;
-    --sidebar-border: 252 15% 16%;
+    --sidebar-border: 245 23% 20%;
     --sidebar-ring: 40 91% 44%;
   }
 }
@@ -109,6 +121,15 @@
   }
   .shadow-gold {
     box-shadow: 0 4px 24px hsl(var(--gold) / 0.22);
+  }
+  .bg-banner {
+    background: hsl(var(--banner));
+  }
+  .border-light {
+    border-color: hsl(var(--light-border));
+  }
+  .shadow-card-light {
+    box-shadow: 0 2px 12px hsl(0 0% 0% / 0.06);
   }
   .scrollbar-hide {
     -ms-overflow-style: none;

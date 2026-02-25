@@ -35,7 +35,7 @@ export const FAQSectionV2 = () => (
       <Reveal>
         <div className="text-center mb-10 md:mb-12">
           <Label>FAQ</Label>
-          <h2 className="font-display text-[clamp(24px,3.5vw,36px)] leading-[1.15] font-medium text-primary-foreground">
+          <h2 className="font-display text-[clamp(24px,3.5vw,36px)] leading-[1.15] font-medium text-[#1a1a1a]">
             Questions We Get <span style={{ color: 'hsl(var(--gold))' }}>Every Day.</span>
           </h2>
         </div>
@@ -44,11 +44,11 @@ export const FAQSectionV2 = () => (
       <Reveal delay={0.05}>
         <Accordion type="single" collapsible defaultValue="item-0">
           {faqs.map((faq, i) => (
-            <AccordionItem key={i} value={`item-${i}`} className="border-b border-primary-foreground/[0.08]">
-              <AccordionTrigger className="text-[15px] text-primary-foreground font-medium text-left py-5 hover:no-underline [&>svg]:text-gold">
+            <AccordionItem key={i} value={`item-${i}`} className="border-b border-[hsl(var(--light-border))]">
+              <AccordionTrigger className="text-[15px] text-[#1a1a1a] font-medium text-left py-5 hover:no-underline [&>svg]:text-gold">
                 {faq.q}
               </AccordionTrigger>
-              <AccordionContent className="text-sm leading-7 text-primary-foreground/55 pb-5">
+              <AccordionContent className="text-sm leading-7 text-[#6b6b6b] pb-5">
                 {faq.a}
               </AccordionContent>
             </AccordionItem>

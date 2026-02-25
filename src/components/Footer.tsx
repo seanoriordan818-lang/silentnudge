@@ -5,7 +5,7 @@ export function Footer() {
   const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <footer className="border-t border-border/30 pt-16 pb-10 px-7" style={{ background: 'hsl(0 0% 0% / 0.15)' }}>
+    <footer className="border-t border-border/30 pt-16 pb-10 px-7" style={{ background: 'hsl(var(--banner))' }}>
       <div className="max-w-[1200px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           <div>
