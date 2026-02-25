@@ -102,69 +102,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* STEP 4 — SOCIAL PROOF STRIP */}
-      <section className="py-10 px-5" style={{ background: 'hsl(220 20% 10%)' }}>
-        <div className="max-w-[1200px] mx-auto">
-          <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide">
-            {reviews.map((r, i) => (
-              <div
-                key={i}
-                className="min-w-[300px] sm:min-w-[340px] flex-1 snap-start rounded-2xl p-6 border"
-                style={{ background: 'hsl(220 18% 13%)', borderColor: 'hsl(var(--gold) / 0.08)' }}
-              >
-                <Stars5 />
-                <p className="text-[14px] leading-relaxed text-foreground/85 mt-3 mb-4 font-light italic">
-                  "{r.quote}"
-                </p>
-                <p className="text-[13px] font-semibold text-foreground">
-                  — {r.name}, <span className="text-gold-dim font-normal">Verified Buyer</span>
-                </p>
-                <p className="text-[10px] text-faint mt-2 uppercase tracking-wider opacity-40">
-                  [ Placeholder — Replace with real photo reviews ]
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* STEP 5 + 6 — HOW IT WORKS / BENEFITS */}
-      <section className="py-14 px-5" style={{ background: 'hsl(220 15% 96%)' }}>
-        <div className="max-w-[1200px] mx-auto">
-          <h2 className="font-display text-[clamp(22px,3.5vw,32px)] leading-[1.15] font-medium text-center mb-10" style={{ color: 'hsl(220 20% 12%)' }}>
-            The First Alarm Designed for How Your Body Actually Works.
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                icon: <Zap size={28} />,
-                title: 'Wakes You. Not the Room.',
-                body: '5-stage vibration escalation travels through deep-pressure nerve receptors in your wrist. Zero sound. Zero disruption.',
-              },
-              {
-                icon: <Brain size={28} />,
-                title: 'No Stress Response.',
-                body: 'Sound alarms shock your brain awake. SilentNudge bypasses the cortisol spike entirely. You wake calm.',
-              },
-              {
-                icon: <Wifi size={28} />,
-                title: 'No Phone. No App. No Failure.',
-                body: 'Set it directly on the band. 14+ day battery. Standard USB charging. It works whether your phone is on or off.',
-              },
-            ].map((f, i) => (
-              <div key={i} className="rounded-2xl p-7 text-center" style={{ background: 'white', boxShadow: '0 2px 16px hsl(220 20% 12% / 0.06)' }}>
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full mb-4" style={{ background: 'hsl(38 55% 65% / 0.12)', color: 'hsl(38 55% 55%)' }}>
-                  {f.icon}
-                </div>
-                <h3 className="text-[16px] font-semibold mb-2" style={{ color: 'hsl(220 20% 12%)' }}>{f.title}</h3>
-                <p className="text-[14px] leading-relaxed font-light" style={{ color: 'hsl(220 10% 40%)' }}>{f.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* STEP 7 — CREDIBILITY BAR */}
+      {/* CREDIBILITY BAR */}
       <section className="py-8 px-5 overflow-hidden" style={{ background: 'hsl(220 20% 9%)', borderTop: '1px solid hsl(var(--gold) / 0.06)', borderBottom: '1px solid hsl(var(--gold) / 0.06)' }}>
         <p className="text-[10px] tracking-[3px] uppercase text-muted-foreground text-center mb-5">As Seen In / Backed By Research</p>
         <div className="relative">
@@ -196,7 +134,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* STEP 8 — PRODUCT SECTION (Best Sellers) */}
+      {/* BEST SELLERS */}
       <section className="py-14 px-5" style={{ background: 'hsl(var(--background))' }}>
         <div className="max-w-[900px] mx-auto">
           <div className="grid grid-cols-2 gap-3 sm:gap-5">
@@ -248,7 +186,69 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* STEP 9 — FOOTER / TRUST CLOSE (rendered separately via App.tsx Footer) */}
+      {/* SOCIAL PROOF STRIP (Reviews) */}
+      <section className="py-10 px-5" style={{ background: 'hsl(220 20% 10%)' }}>
+        <div className="max-w-[1200px] mx-auto">
+          <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide">
+            {reviews.map((r, i) => (
+              <div
+                key={i}
+                className="min-w-[300px] sm:min-w-[340px] flex-1 snap-start rounded-2xl p-6 border"
+                style={{ background: 'hsl(220 18% 13%)', borderColor: 'hsl(var(--gold) / 0.08)' }}
+              >
+                <Stars5 />
+                <p className="text-[14px] leading-relaxed text-foreground/85 mt-3 mb-4 font-light italic">
+                  "{r.quote}"
+                </p>
+                <p className="text-[13px] font-semibold text-foreground">
+                  — {r.name}, <span className="text-gold-dim font-normal">Verified Buyer</span>
+                </p>
+                <p className="text-[10px] text-faint mt-2 uppercase tracking-wider opacity-40">
+                  [ Placeholder — Replace with real photo reviews ]
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS / BENEFITS */}
+      <section className="py-14 px-5" style={{ background: 'hsl(220 15% 96%)' }}>
+        <div className="max-w-[1200px] mx-auto">
+          <h2 className="font-display text-[clamp(22px,3.5vw,32px)] leading-[1.15] font-medium text-center mb-10" style={{ color: 'hsl(220 20% 12%)' }}>
+            The First Alarm Designed for How Your Body Actually Works.
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: <Zap size={28} />,
+                title: 'Wakes You. Not the Room.',
+                body: '5-stage vibration escalation travels through deep-pressure nerve receptors in your wrist. Zero sound. Zero disruption.',
+              },
+              {
+                icon: <Brain size={28} />,
+                title: 'No Stress Response.',
+                body: 'Sound alarms shock your brain awake. SilentNudge bypasses the cortisol spike entirely. You wake calm.',
+              },
+              {
+                icon: <Wifi size={28} />,
+                title: 'No Phone. No App. No Failure.',
+                body: 'Set it directly on the band. 14+ day battery. Standard USB charging. It works whether your phone is on or off.',
+              },
+            ].map((f, i) => (
+              <div key={i} className="rounded-2xl p-7 text-center" style={{ background: 'white', boxShadow: '0 2px 16px hsl(220 20% 12% / 0.06)' }}>
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full mb-4" style={{ background: 'hsl(38 55% 65% / 0.12)', color: 'hsl(38 55% 55%)' }}>
+                  {f.icon}
+                </div>
+                <h3 className="text-[16px] font-semibold mb-2" style={{ color: 'hsl(220 20% 12%)' }}>{f.title}</h3>
+                <p className="text-[14px] leading-relaxed font-light" style={{ color: 'hsl(220 10% 40%)' }}>{f.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER (rendered separately via App.tsx Footer) */}
     </>
   );
 };
