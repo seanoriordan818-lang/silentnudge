@@ -82,7 +82,7 @@ const HomePage = () => {
                 onClick={scrollTop}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-bold text-[15px] px-8 py-4 rounded-full no-underline shadow-gold text-center min-h-[52px]"
               >
-                Add To Cart
+                Shop Now
               </Link>
               <Link
                 to="/science"
