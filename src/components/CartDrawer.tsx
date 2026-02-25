@@ -251,66 +251,6 @@ export const CartDrawer = () => {
                 })}
               </div>
 
-              {/* ─── CROSS-SELL ─── */}
-              <div
-                className="px-4 py-4 flex-shrink-0"
-                style={{ borderTop: '1px solid hsl(var(--border))', background: 'hsl(var(--raised))' }}
-              >
-                <div className="text-[10px] font-bold tracking-[0.12em] uppercase text-gold mb-3">
-                  Complete Your Order
-                </div>
-                <div ref={crossSellRef} className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
-                  {crossSellItems.map((cs, i) => (
-                    <div
-                      key={i}
-                      className="min-w-[148px] flex-shrink-0 rounded-xl p-3 transition-colors"
-                      style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
-                      onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'hsl(var(--gold))')}
-                      onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'hsl(var(--border))')}
-                    >
-                      {/* Image placeholder */}
-                      <div
-                        className="w-full h-[80px] rounded-lg mb-2.5 flex items-center justify-center"
-                        style={{ background: 'hsl(var(--background))', border: '1px dashed hsl(var(--border))' }}
-                      >
-                        <span className="text-[9px] text-center px-2 leading-snug" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
-                          [ ADD PRODUCT IMAGE ]
-                        </span>
-                      </div>
-                      <div className="text-[12px] font-semibold text-foreground mb-0.5">{cs.name}</div>
-                      <div className="text-[10px] leading-snug mb-2" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
-                        {cs.description}
-                      </div>
-                      <div className="text-[13px] font-bold text-gold mb-2">
-                        ${cs.price}{" "}
-                        {cs.originalPrice && (
-                          <span className="text-[11px] font-normal line-through" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
-                            ${cs.originalPrice}
-                          </span>
-                        )}
-                      </div>
-                      <button
-                        className="w-full py-[7px] rounded-md text-[11px] font-bold tracking-wide cursor-pointer transition-colors"
-                        style={{
-                          background: 'hsl(var(--gold) / 0.15)',
-                          border: '1px solid hsl(var(--gold) / 0.4)',
-                          color: 'hsl(var(--gold))',
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background = 'hsl(var(--gold))';
-                          e.currentTarget.style.color = 'hsl(var(--background))';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = 'hsl(var(--gold) / 0.15)';
-                          e.currentTarget.style.color = 'hsl(var(--gold))';
-                        }}
-                      >
-                        Add to Cart
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </>
           )}
         </div>
@@ -318,6 +258,66 @@ export const CartDrawer = () => {
         {/* ─── STICKY FOOTER ─── */}
         {totalItems > 0 && (
           <div className="flex-shrink-0 px-4 pb-4 pt-3" style={{ borderTop: '1px solid hsl(var(--border))', background: 'hsl(var(--background))' }}>
+            {/* ─── CROSS-SELL ─── */}
+            <div
+              className="pb-3 mb-3 flex-shrink-0"
+              style={{ borderBottom: '1px solid hsl(var(--border))' }}
+            >
+              <div className="text-[10px] font-bold tracking-[0.12em] uppercase text-gold mb-3">
+                Complete Your Order
+              </div>
+              <div ref={crossSellRef} className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
+                {crossSellItems.map((cs, i) => (
+                  <div
+                    key={i}
+                    className="min-w-[148px] flex-shrink-0 rounded-xl p-3 transition-colors"
+                    style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'hsl(var(--gold))')}
+                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'hsl(var(--border))')}
+                  >
+                    <div
+                      className="w-full h-[80px] rounded-lg mb-2.5 flex items-center justify-center"
+                      style={{ background: 'hsl(var(--background))', border: '1px dashed hsl(var(--border))' }}
+                    >
+                      <span className="text-[9px] text-center px-2 leading-snug" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+                        [ ADD PRODUCT IMAGE ]
+                      </span>
+                    </div>
+                    <div className="text-[12px] font-semibold text-foreground mb-0.5">{cs.name}</div>
+                    <div className="text-[10px] leading-snug mb-2" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+                      {cs.description}
+                    </div>
+                    <div className="text-[13px] font-bold text-gold mb-2">
+                      ${cs.price}{" "}
+                      {cs.originalPrice && (
+                        <span className="text-[11px] font-normal line-through" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+                          ${cs.originalPrice}
+                        </span>
+                      )}
+                    </div>
+                    <button
+                      className="w-full py-[7px] rounded-md text-[11px] font-bold tracking-wide cursor-pointer transition-colors"
+                      style={{
+                        background: 'hsl(var(--gold) / 0.15)',
+                        border: '1px solid hsl(var(--gold) / 0.4)',
+                        color: 'hsl(var(--gold))',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'hsl(var(--gold))';
+                        e.currentTarget.style.color = 'hsl(var(--background))';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'hsl(var(--gold) / 0.15)';
+                        e.currentTarget.style.color = 'hsl(var(--gold))';
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Discount */}
             <div className="mb-2">
               <button
