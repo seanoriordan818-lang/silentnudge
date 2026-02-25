@@ -254,7 +254,7 @@ export const CartDrawer = () => {
               {/* ─── CROSS-SELL ─── */}
               <div
                 className="px-4 py-4 flex-shrink-0"
-                style={{ background: 'hsl(var(--raised))' }}
+                style={{ borderTop: '1px solid hsl(var(--border))', background: 'hsl(var(--raised))' }}
               >
                 <div className="text-[10px] font-bold tracking-[0.12em] uppercase text-gold mb-3">
                   Complete Your Order
