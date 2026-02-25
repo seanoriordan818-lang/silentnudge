@@ -49,14 +49,14 @@ export const BundleSelector = ({ selected, onSelect }: BundleSelectorProps) => (
     <div className="text-[11px] tracking-[2px] uppercase text-gold-dim font-semibold mb-3">
       Select Your Bundle:
     </div>
-    <div className="grid grid-cols-3 gap-2 sm:gap-3">
+    <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-3">
       {bundles.map((b) => {
         const isActive = selected === b.id;
         return (
           <button
             key={b.id}
             onClick={() => onSelect(b.id)}
-            className={`relative text-left p-3 sm:p-4 rounded-[12px] sm:rounded-[14px] transition-all cursor-pointer overflow-hidden ${
+            className={`relative text-left pt-4 sm:pt-5 p-3 sm:p-4 rounded-[12px] sm:rounded-[14px] transition-all cursor-pointer ${
               isActive
                 ? 'border-2 border-solid bg-gold/[0.08]'
                 : 'border border-solid border-gold/15 bg-gold/[0.03] hover:border-gold/30'
@@ -64,7 +64,7 @@ export const BundleSelector = ({ selected, onSelect }: BundleSelectorProps) => (
             style={isActive ? { borderColor: 'hsl(var(--gold) / 0.5)' } : undefined}
           >
             {b.topBadge && (
-              <span className="absolute -top-2.5 left-2 sm:left-3 text-[7px] sm:text-[8px] font-bold uppercase tracking-wider bg-primary text-primary-foreground px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap">
+              <span className="absolute -top-[9px] left-1/2 -translate-x-1/2 text-[7px] sm:text-[8px] font-bold uppercase tracking-wider bg-primary text-primary-foreground px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap z-10">
                 {b.topBadge}
               </span>
             )}
@@ -80,7 +80,7 @@ export const BundleSelector = ({ selected, onSelect }: BundleSelectorProps) => (
                   <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-gold" />
                 )}
               </div>
-              <span className="text-[10px] sm:text-[13px] font-semibold text-foreground leading-tight whitespace-nowrap truncate">{b.name}</span>
+              <span className="text-[10px] sm:text-[13px] font-semibold text-foreground leading-tight">{b.name}</span>
             </div>
 
             <div className="text-[10px] sm:text-[11px] text-muted-foreground mb-1.5 whitespace-nowrap">{b.description}</div>
