@@ -35,12 +35,12 @@ export const ReviewsSectionV2 = () => (
       <Reveal>
         <div className="text-center mb-10 md:mb-12">
           <Label>Reviews</Label>
-          <h2 className="font-display text-[clamp(26px,4vw,38px)] leading-[1.15] font-medium text-primary-foreground">
+          <h2 className="font-display text-[clamp(26px,4vw,38px)] leading-[1.15] font-medium text-[#1a1a1a]">
             30,000+ People Waking Up <span style={{ color: 'hsl(var(--gold))' }}>Differently.</span>
           </h2>
           <div className="flex items-center justify-center gap-2 mt-4">
             <Stars />
-            <span className="text-sm text-primary-foreground/50">4.8/5</span>
+            <span className="text-sm text-[#6b6b6b]">4.8/5</span>
           </div>
         </div>
       </Reveal>
@@ -50,7 +50,7 @@ export const ReviewsSectionV2 = () => (
         {reviews.map((r, i) => (
           <Reveal key={i} delay={i * 0.06}>
             <div
-              className="p-6 rounded-[16px] bg-white border border-[hsl(0_0%_90%)] shadow-[0_2px_12px_hsl(0_0%_0%/0.06)]"
+              className="p-6 rounded-[16px] bg-white border border-[hsl(var(--light-border))] shadow-card-light"
             >
               <div className="flex items-center gap-3 mb-4">
                 {/* Avatar placeholder */}
@@ -61,15 +61,15 @@ export const ReviewsSectionV2 = () => (
                   {r.init}
                 </div>
                 <div>
-                  <div className="text-[13px] font-semibold text-primary-foreground">{r.name}</div>
-                  <div className="text-[10px] text-primary-foreground/40">Verified Buyer</div>
+                  <div className="text-[13px] font-semibold text-[#1a1a1a]">{r.name}</div>
+                  <div className="text-[10px] text-[#6b6b6b]">Verified Buyer</div>
                 </div>
-                <span className="ml-auto text-[10px] tracking-[1px] uppercase font-semibold px-2.5 py-1 rounded-full bg-gold/[0.1] text-gold">
+                <span className="ml-auto text-[10px] tracking-[1px] uppercase font-semibold px-2.5 py-1 rounded-full text-gold" style={{ background: 'hsl(var(--gold) / 0.15)', border: '1px solid hsl(var(--gold) / 0.3)' }}>
                   {r.tag}
                 </span>
               </div>
               <div className="mb-3"><Stars /></div>
-              <p className="font-serif italic text-sm leading-7 text-primary-foreground/65">"{r.quote}"</p>
+              <p className="font-serif italic text-sm leading-7 text-[#6b6b6b]">"{r.quote}"</p>
             </div>
           </Reveal>
         ))}

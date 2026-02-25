@@ -29,8 +29,8 @@ export function Navbar() {
       <div className="fixed top-0 left-0 right-0 z-[200]">
         {/* Announcement Banner */}
         {bannerVisible &&
-        <div className="w-full bg-raised py-2 px-4 text-center relative" style={{ borderBottom: '1px solid hsl(var(--gold) / 0.08)' }}>
-            <p className="text-[11px] sm:text-[12px] tracking-wide text-gold-dim">
+        <div className="w-full bg-banner py-2 px-4 text-center relative" style={{ borderBottom: '1px solid hsl(var(--border))' }}>
+            <p className="text-[11px] sm:text-[12px] tracking-wide" style={{ color: 'hsl(0 0% 100% / 0.85)' }}>
               🚚 Free US Shipping on All Orders · 100-Night Guarantee
             </p>
             <button

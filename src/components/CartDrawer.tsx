@@ -92,7 +92,7 @@ export const CartDrawer = () => {
           {totalItems > 0 && (
             <>
               {/* Countdown */}
-              <div className="py-2.5 text-center" style={{ background: "hsl(220 20% 10%)" }}>
+              <div className="py-2.5 text-center" style={{ background: "hsl(var(--raised))" }}>
                 <p className="text-gold text-[12px] font-medium">
                   Your cart will expire in <span className="font-bold">{countdown}</span> ⏰
                 </p>
@@ -107,7 +107,7 @@ export const CartDrawer = () => {
                     Add <span className="text-gold font-bold">${shippingRemaining.toFixed(2)}</span> to unlock <span className="font-semibold">Free shipping</span>!
                   </p>
                 )}
-                <div className="mt-2 h-2.5 rounded-full overflow-hidden relative" style={{ background: "hsl(220 18% 14%)" }}>
+                <div className="mt-2 h-2.5 rounded-full overflow-hidden relative" style={{ background: "hsl(var(--card))" }}>
                   <div
                     className="h-full rounded-full transition-all duration-500 ease-out"
                     style={{ width: `${shippingProgress}%`, background: "hsl(var(--gold))" }}
@@ -145,7 +145,7 @@ export const CartDrawer = () => {
                     <div key={item.variantId}>
                       <div className="flex gap-3.5 py-3.5 relative">
                         {/* Thumbnail */}
-                        <div className="w-[80px] h-[80px] rounded-lg overflow-hidden flex-shrink-0 border border-border/20" style={{ background: "hsl(220 18% 14%)" }}>
+                        <div className="w-[80px] h-[80px] rounded-lg overflow-hidden flex-shrink-0 border border-border/20" style={{ background: "hsl(var(--card))" }}>
                           {item.product.node.images?.edges?.[0]?.node && (
                             <img src={item.product.node.images.edges[0].node.url} alt={item.product.node.title} className="w-full h-full object-cover" />
                           )}
@@ -226,10 +226,10 @@ export const CartDrawer = () => {
                         <div
                           key={i}
                           className="min-w-[170px] w-[170px] flex-shrink-0 rounded-xl border border-border/20 p-3 flex flex-col"
-                          style={{ background: "hsl(220 18% 12%)" }}
+                          style={{ background: "hsl(var(--card))" }}
                         >
                           {/* Image placeholder */}
-                          <div className="w-full h-[100px] rounded-lg mb-2.5 flex items-center justify-center overflow-hidden" style={{ background: "hsl(220 18% 16%)" }}>
+                          <div className="w-full h-[100px] rounded-lg mb-2.5 flex items-center justify-center overflow-hidden" style={{ background: "hsl(var(--raised2))" }}>
                             <span className="text-[9px] text-muted-foreground/40 text-center px-2">[ ADD PRODUCT IMAGE ]</span>
                           </div>
                           <p className="text-foreground font-bold text-[13px] leading-tight mb-1">{cs.name}</p>

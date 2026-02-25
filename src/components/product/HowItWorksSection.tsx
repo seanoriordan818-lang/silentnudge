@@ -13,7 +13,7 @@ export const HowItWorksSection = () => (
       <Reveal>
         <div className="text-center mb-10 md:mb-14">
           <Label>How It Works</Label>
-          <h2 className="font-display text-[clamp(26px,4vw,38px)] leading-[1.15] font-medium text-primary-foreground">
+          <h2 className="font-display text-[clamp(26px,4vw,38px)] leading-[1.15] font-medium text-[#1a1a1a]">
             Set Up in <span style={{ color: 'hsl(var(--gold))' }}>60 Seconds.</span>
           </h2>
         </div>
@@ -39,11 +39,11 @@ export const HowItWorksSection = () => (
         {steps.map((step, i) => (
           <Reveal key={i} delay={i * 0.08}>
             <div className="text-center md:text-left">
-              <div className="text-[11px] tracking-[3px] uppercase font-semibold mb-2" style={{ color: 'hsl(var(--gold) / 0.7)' }}>
+              <div className="text-[11px] tracking-[3px] uppercase font-semibold mb-2 text-gold">
                 Step {step.num}
               </div>
-              <h3 className="font-display text-lg md:text-xl font-semibold text-primary-foreground mb-2">{step.title}</h3>
-              <p className="text-sm leading-relaxed text-primary-foreground/60">{step.desc}</p>
+              <h3 className="font-display text-lg md:text-xl font-semibold text-[#1a1a1a] mb-2">{step.title}</h3>
+              <p className="text-sm leading-relaxed text-[#6b6b6b]">{step.desc}</p>
             </div>
           </Reveal>
         ))}

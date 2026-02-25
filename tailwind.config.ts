@@ -52,10 +52,14 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        gold: "hsl(var(--gold))",
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          hover: "hsl(var(--gold-hover))",
+        },
         raised: "hsl(var(--raised))",
         raised2: "hsl(var(--raised2))",
         faint: "hsl(var(--faint))",
+        banner: "hsl(var(--banner))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

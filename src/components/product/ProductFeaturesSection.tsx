@@ -48,7 +48,7 @@ export const ProductFeaturesSection = () => (
                   {f.placeholder}
                 </p>
               </div>
-              <h3 className="font-display text-lg font-semibold mb-2">{f.title}</h3>
+              <h3 className="font-display text-lg font-semibold mb-2 text-foreground">{f.title}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{f.desc}</p>
             </div>
           </Reveal>
