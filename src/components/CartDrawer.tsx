@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
-import { ShoppingCart, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 
 const FREE_SHIPPING_THRESHOLD = 150;
@@ -76,24 +77,8 @@ export const CartDrawer = () => {
     }
   };
 
-  return (
+  return createPortal(
     <>
-      {/* ─── TRIGGER BUTTON (used in Navbar) ─── */}
-      <button
-        onClick={openDrawer}
-        className="relative p-2 rounded-lg transition-colors"
-        style={{ border: '1px solid hsl(var(--border))' }}
-      >
-        <ShoppingCart className="h-5 w-5 text-foreground" />
-        {totalItems > 0 && (
-          <span
-            className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full text-[10px] font-bold flex items-center justify-center"
-            style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))' }}
-          >
-            {totalItems}
-          </span>
-        )}
-      </button>
 
       {/* ─── OVERLAY ─── */}
       <div
@@ -472,6 +457,7 @@ export const CartDrawer = () => {
           </div>
         )}
       </div>
-    </>
+    </>,
+    document.body
   );
 };

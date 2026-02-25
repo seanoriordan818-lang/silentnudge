@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useCartSync } from "@/hooks/useCartSync";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { CartDrawer } from "@/components/CartDrawer";
 import { Loader2 } from "lucide-react";
 
 const Index = lazy(() => import("./pages/Index"));
@@ -45,6 +46,7 @@ function AppContent() {
         </Routes>
       </Suspense>
       <Footer />
+      <CartDrawer />
     </>
   );
 }
