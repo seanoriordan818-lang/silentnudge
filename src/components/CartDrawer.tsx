@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { X, Minus, Plus, Trash2, Loader2, ShoppingCart, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { ShoppingCart, Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 
 const FREE_SHIPPING_THRESHOLD = 150;
@@ -19,9 +19,17 @@ function useCountdown(items: any[]) {
 }
 
 const crossSellItems = [
-  { name: "Backup Band", price: 19, originalPrice: 29, description: "Never miss an alarm — keep one charging, wear one always.", placeholder: true },
-  { name: "Couples Pack Upgrade", price: 79, originalPrice: 99, description: "Already have one? Add a second band for your partner.", placeholder: true },
+  { name: "Family Pack", price: 299, originalPrice: 396, description: "4× bands — one for everyone in the house" },
+  { name: "Single Band", price: 99, originalPrice: 149, description: "Just for you — one alarm, one solution" },
 ];
+
+/* Wristband SVG placeholder for items without images */
+const WristbandPlaceholder = () => (
+  <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style={{ opacity: 0.3 }}>
+    <rect x="4" y="14" width="28" height="8" rx="4" stroke="hsl(var(--gold))" strokeWidth="1.5" />
+    <rect x="8" y="12" width="20" height="12" rx="6" stroke="hsl(var(--gold))" strokeWidth="1" opacity="0.4" />
+  </svg>
+);
 
 export const CartDrawer = () => {
   const {
@@ -43,6 +51,23 @@ export const CartDrawer = () => {
 
   useEffect(() => { if (isDrawerOpen) syncCart(); }, [isDrawerOpen, syncCart]);
 
+  // Lock body scroll when drawer is open
+  useEffect(() => {
+    if (isDrawerOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [isDrawerOpen]);
+
+  // Close on Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") closeDrawer(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [closeDrawer]);
+
   const handleCheckout = () => {
     const checkoutUrl = getCheckoutUrl();
     if (checkoutUrl) {
@@ -51,86 +76,120 @@ export const CartDrawer = () => {
     }
   };
 
-  const scrollCrossSell = (dir: number) => {
-    crossSellRef.current?.scrollBy({ left: dir * 200, behavior: "smooth" });
-  };
-
   return (
     <>
-      {/* Trigger button in navbar */}
-      <button onClick={openDrawer} className="relative p-2 rounded-lg border border-border/50 hover:border-primary/30 transition-colors">
-        <ShoppingCart className="h-5 w-5 text-muted-foreground" />
+      {/* ─── TRIGGER BUTTON (used in Navbar) ─── */}
+      <button
+        onClick={openDrawer}
+        className="relative p-2 rounded-lg transition-colors"
+        style={{ border: '1px solid hsl(var(--border))' }}
+      >
+        <ShoppingCart className="h-5 w-5 text-foreground" />
         {totalItems > 0 && (
-          <span className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center">
+          <span
+            className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full text-[10px] font-bold flex items-center justify-center"
+            style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))' }}
+          >
             {totalItems}
           </span>
         )}
       </button>
 
-      {/* Overlay */}
-      {isDrawerOpen && (
-        <div className="fixed inset-0 z-[300] bg-black/50 transition-opacity duration-300" onClick={closeDrawer} />
-      )}
-
-      {/* Drawer */}
+      {/* ─── OVERLAY ─── */}
       <div
-        className={`fixed top-0 right-0 bottom-0 z-[301] w-[90vw] max-w-[420px] flex flex-col transition-transform duration-300 ease-in-out ${isDrawerOpen ? "translate-x-0" : "translate-x-full"}`}
-        style={{ background: "hsl(var(--background))" }}
+        className={`fixed inset-0 z-[9998] transition-all duration-300 ${isDrawerOpen ? "bg-black/70 pointer-events-auto" : "bg-transparent pointer-events-none"}`}
+        onClick={closeDrawer}
+      />
+
+      {/* ─── DRAWER ─── */}
+      <div
+        className={`fixed z-[9999] flex flex-col overflow-hidden transition-transform duration-[380ms] ease-[cubic-bezier(0.4,0,0.2,1)]
+          /* Mobile: slide up from bottom */
+          bottom-0 right-0 w-screen h-[95vh] rounded-t-[20px]
+          /* Desktop: slide from right */
+          md:top-0 md:bottom-auto md:w-[440px] md:h-screen md:rounded-t-none
+          ${isDrawerOpen
+            ? "translate-y-0 md:translate-x-0 md:translate-y-0 shadow-[-20px_0_60px_rgba(0,0,0,0.6)]"
+            : "translate-y-full md:translate-y-0 md:translate-x-full"
+          }`}
+        style={{ background: 'hsl(var(--background))' }}
       >
-        {/* ─── STICKY HEADER ─── */}
-        <div className="flex-shrink-0">
-          {/* Title bar */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-border/30">
-            <h2 className="text-foreground font-bold text-lg">
-              My cart {totalItems > 0 && <span className="text-muted-foreground">• {totalItems}</span>}
-            </h2>
-            <button onClick={closeDrawer} className="text-foreground/70 hover:text-foreground transition-colors p-1">
-              <X size={22} />
-            </button>
+        {/* ─── HEADER ─── */}
+        <div
+          className="flex items-center justify-between px-5 py-4 flex-shrink-0"
+          style={{ borderBottom: '1px solid hsl(var(--border))' }}
+        >
+          <div className="flex items-center gap-2.5">
+            <span className="font-display text-[22px] font-semibold text-foreground tracking-tight">My Cart</span>
+            {totalItems > 0 && (
+              <span
+                className="w-[22px] h-[22px] rounded-full flex items-center justify-center text-[11px] font-bold"
+                style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))' }}
+              >
+                {totalItems}
+              </span>
+            )}
           </div>
-
-          {totalItems > 0 && (
-            <>
-              {/* Countdown */}
-              <div className="py-2.5 text-center" style={{ background: "hsl(var(--raised))" }}>
-                <p className="text-gold text-[12px] font-medium">
-                  Your cart will expire in <span className="font-bold">{countdown}</span> ⏰
-                </p>
-              </div>
-
-              {/* Free shipping progress */}
-              <div className="px-5 py-3 border-b border-border/20">
-                {freeShippingUnlocked ? (
-                  <p className="text-gold text-[13px] font-semibold text-center">🚚 You've unlocked Free Shipping!</p>
-                ) : (
-                  <p className="text-foreground/80 text-[13px] text-center">
-                    Add <span className="text-gold font-bold">${shippingRemaining.toFixed(2)}</span> to unlock <span className="font-semibold">Free shipping</span>!
-                  </p>
-                )}
-                <div className="mt-2 h-2.5 rounded-full overflow-hidden relative" style={{ background: "hsl(var(--card))" }}>
-                  <div
-                    className="h-full rounded-full transition-all duration-500 ease-out"
-                    style={{ width: `${shippingProgress}%`, background: "hsl(var(--gold))" }}
-                  />
-                  {/* Shipping truck icon at end of bar */}
-                  <div className="absolute right-1 top-1/2 -translate-y-1/2 text-[10px]">📦</div>
-                </div>
-                <p className="text-right text-muted-foreground text-[11px] mt-1">🔓 Free shipping</p>
-              </div>
-            </>
-          )}
+          <button
+            onClick={closeDrawer}
+            className="w-9 h-9 rounded-full flex items-center justify-center text-foreground text-[18px] leading-none transition-colors"
+            style={{ background: 'hsl(0 0% 100% / 0.08)', border: '1px solid hsl(var(--border))' }}
+          >
+            ✕
+          </button>
         </div>
 
-        {/* ─── SCROLLABLE CONTENT ─── */}
-        <div className="flex-1 overflow-y-auto">
+        {totalItems > 0 && (
+          <>
+            {/* ─── COUNTDOWN ─── */}
+            <div
+              className="py-2.5 text-center flex-shrink-0"
+              style={{ background: 'hsl(var(--raised))', borderBottom: '1px solid hsl(var(--border))' }}
+            >
+              <span className="text-[12px] font-medium text-gold tracking-wide">
+                ⏱ Your cart will expire in <span className="font-bold">{countdown}</span>
+              </span>
+            </div>
+
+            {/* ─── SHIPPING BAR ─── */}
+            <div
+              className="px-5 py-2.5 flex-shrink-0"
+              style={{ background: 'hsl(var(--raised))', borderBottom: '1px solid hsl(var(--border))' }}
+            >
+              {freeShippingUnlocked ? (
+                <p className="text-[12px] font-semibold text-center" style={{ color: '#2ECC71' }}>
+                  🚚 You've unlocked Free Shipping!
+                </p>
+              ) : (
+                <p className="text-[12px] text-center" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+                  Add <strong className="text-foreground font-semibold">${shippingRemaining.toFixed(2)}</strong> to unlock Free Shipping!
+                </p>
+              )}
+              <div className="mt-1.5 h-1 rounded-full overflow-hidden" style={{ background: 'hsl(0 0% 100% / 0.08)' }}>
+                <div
+                  className="h-full rounded-full transition-all duration-500 ease-out"
+                  style={{ width: `${shippingProgress}%`, background: 'linear-gradient(90deg, hsl(var(--gold)), hsl(var(--gold-hover)))' }}
+                />
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* ─── SCROLLABLE BODY ─── */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden" style={{ scrollbarWidth: 'thin', scrollbarColor: 'hsl(var(--border)) transparent' }}>
           {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full px-5">
-              <ShoppingCart size={48} className="text-muted-foreground mb-4 opacity-40" />
-              <p className="text-foreground/70 text-[15px] mb-6">Your cart is empty.</p>
+            /* ─── EMPTY STATE ─── */
+            <div className="flex flex-col items-center justify-center h-full px-8 text-center gap-4 py-16">
+              <div className="text-[48px] opacity-40">🌙</div>
+              <h3 className="font-display text-[22px] font-semibold text-foreground">Your cart is empty</h3>
+              <p className="text-[13px] leading-relaxed" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+                Your partner is still being woken up by your alarm.<br />Let's fix that.
+              </p>
               <Link
                 to="/product"
                 onClick={closeDrawer}
-                className="w-full py-3.5 rounded-full bg-primary text-primary-foreground font-bold text-[14px] text-center no-underline shadow-gold"
+                className="mt-2 px-7 py-3.5 rounded-full font-bold text-[14px] no-underline"
+                style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))' }}
               >
                 Shop SilentNudge — $99
               </Link>
@@ -141,151 +200,138 @@ export const CartDrawer = () => {
               <div className="px-5 py-4">
                 {items.map((item, idx) => {
                   const price = parseFloat(item.price.amount);
+                  const firstImage = item.product.node.images?.edges?.[0]?.node;
                   return (
                     <div key={item.variantId}>
-                      <div className="flex gap-3.5 py-3.5 relative">
+                      <div className="flex gap-3.5 py-4 relative animate-[itemIn_0.3s_ease_forwards]">
                         {/* Thumbnail */}
-                        <div className="w-[80px] h-[80px] rounded-lg overflow-hidden flex-shrink-0 border border-border/20" style={{ background: "hsl(var(--card))" }}>
-                          {item.product.node.images?.edges?.[0]?.node && (
-                            <img src={item.product.node.images.edges[0].node.url} alt={item.product.node.title} className="w-full h-full object-cover" />
+                        <div
+                          className="w-[72px] h-[72px] rounded-[10px] overflow-hidden flex-shrink-0 flex items-center justify-center"
+                          style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
+                        >
+                          {firstImage ? (
+                            <img src={firstImage.url} alt={item.product.node.title} className="w-full h-full object-cover" />
+                          ) : (
+                            <WristbandPlaceholder />
                           )}
                         </div>
 
-                        {/* Info */}
+                        {/* Details */}
                         <div className="flex-1 min-w-0">
-                          <div className="flex justify-between items-start pr-7">
-                            <h4 className="text-foreground font-bold text-[14px] leading-tight">{item.product.node.title}</h4>
-                            <div className="text-right flex-shrink-0 ml-2">
-                              <p className="text-foreground font-bold text-[15px]">${price.toFixed(2)}</p>
-                            </div>
+                          <div className="text-[14px] font-semibold text-foreground leading-tight mb-0.5">
+                            {item.product.node.title}
+                          </div>
+                          <div className="text-[11px] mb-2" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+                            {item.selectedOptions.map((o) => `${o.name}: ${o.value}`).join(" · ")}
                           </div>
 
-                          <p className="text-muted-foreground text-[12px] mt-0.5">
-                            {item.selectedOptions.map((o) => `${o.name}: ${o.value}`).join(", ")}
-                          </p>
-
-                          {/* Quantity controls */}
-                          <div className="flex items-center justify-between mt-2.5">
-                            <div className="flex items-center border border-border/30 rounded-lg overflow-hidden">
+                          {/* Qty + Price row */}
+                          <div className="flex items-center justify-between">
+                            {/* Pill qty control */}
+                            <div
+                              className="flex items-center rounded-full overflow-hidden"
+                              style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
+                            >
                               <button
                                 onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
-                                className="w-8 h-8 flex items-center justify-center text-foreground/70 hover:text-foreground transition-colors"
+                                className="w-[30px] h-[28px] flex items-center justify-center text-foreground text-[16px] leading-none bg-transparent border-none cursor-pointer transition-colors hover:bg-[hsl(0_0%_100%/0.08)]"
                               >
-                                <Minus size={14} />
+                                −
                               </button>
-                              <span className="w-8 text-center text-foreground text-[14px] font-medium">{item.quantity}</span>
+                              <span className="min-w-[22px] text-center text-[13px] font-semibold text-foreground">
+                                {item.quantity}
+                              </span>
                               <button
                                 onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
-                                className="w-8 h-8 flex items-center justify-center text-foreground/70 hover:text-foreground transition-colors"
+                                className="w-[30px] h-[28px] flex items-center justify-center text-foreground text-[16px] leading-none bg-transparent border-none cursor-pointer transition-colors hover:bg-[hsl(0_0%_100%/0.08)]"
                               >
-                                <Plus size={14} />
+                                +
                               </button>
                             </div>
 
-                            {/* Delete */}
-                            <button
-                              onClick={() => removeItem(item.variantId)}
-                              className="text-muted-foreground hover:text-destructive transition-colors p-1"
-                            >
-                              <Trash2 size={16} />
-                            </button>
+                            {/* Price */}
+                            <div className="text-right">
+                              <span className="block text-[15px] font-bold text-foreground">${(price * item.quantity).toFixed(2)}</span>
+                            </div>
                           </div>
                         </div>
+
+                        {/* Delete */}
+                        <button
+                          onClick={() => removeItem(item.variantId)}
+                          className="flex-shrink-0 self-start mt-0.5 p-1 rounded text-[14px] leading-none transition-colors cursor-pointer bg-transparent border-none"
+                          style={{ color: 'hsl(0 0% 100% / 0.55)' }}
+                          onMouseEnter={(e) => (e.currentTarget.style.color = '#E74C3C')}
+                          onMouseLeave={(e) => (e.currentTarget.style.color = 'hsl(0 0% 100% / 0.55)')}
+                        >
+                          ✕
+                        </button>
                       </div>
-                      {idx < items.length - 1 && <div className="h-px bg-border/20" />}
+                      {idx < items.length - 1 && <div className="h-px" style={{ background: 'hsl(var(--border))' }} />}
                     </div>
                   );
                 })}
               </div>
 
-              {/* ─── CROSS-SELL CAROUSEL ─── */}
-              <div className="px-5 py-4 border-t border-border/20">
-                <p className="text-[10px] text-muted-foreground/40 mb-2">
-                  [ CROSS-SELL PRODUCTS — connect to real Shopify products when added to store ]
-                </p>
-                <div className="relative">
-                  {/* Scroll arrows */}
-                  <button
-                    onClick={() => scrollCrossSell(-1)}
-                    className="absolute left-[-12px] top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full bg-background border border-border/30 flex items-center justify-center text-foreground/60 hover:text-foreground shadow-sm"
-                  >
-                    <ChevronLeft size={16} />
-                  </button>
-                  <button
-                    onClick={() => scrollCrossSell(1)}
-                    className="absolute right-[-12px] top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full bg-background border border-border/30 flex items-center justify-center text-foreground/60 hover:text-foreground shadow-sm"
-                  >
-                    <ChevronRight size={16} />
-                  </button>
-
-                  <div ref={crossSellRef} className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
-                    {crossSellItems.map((cs, i) => {
-                      const savings = cs.originalPrice && cs.price ? cs.originalPrice - cs.price : 0;
-                      const savingsPercent = cs.originalPrice ? Math.round((savings / cs.originalPrice) * 100) : 0;
-                      return (
-                        <div
-                          key={i}
-                          className="min-w-[170px] w-[170px] flex-shrink-0 rounded-xl border border-border/20 p-3 flex flex-col"
-                          style={{ background: "hsl(var(--card))" }}
-                        >
-                          {/* Image placeholder */}
-                          <div className="w-full h-[100px] rounded-lg mb-2.5 flex items-center justify-center overflow-hidden" style={{ background: "hsl(var(--raised2))" }}>
-                            <span className="text-[9px] text-muted-foreground/40 text-center px-2">[ ADD PRODUCT IMAGE ]</span>
-                          </div>
-                          <p className="text-foreground font-bold text-[13px] leading-tight mb-1">{cs.name}</p>
-                          <div className="flex items-baseline gap-1.5 mb-0.5">
-                            <span className="text-foreground font-bold text-[15px]">${cs.price.toFixed(2)}</span>
-                            {cs.originalPrice && (
-                              <span className="text-muted-foreground text-[12px] line-through">${cs.originalPrice.toFixed(2)}</span>
-                            )}
-                          </div>
-                          {savingsPercent > 0 && (
-                            <p className="text-gold text-[11px] font-semibold mb-1.5">You save {savingsPercent}%</p>
-                          )}
-                          <p className="text-muted-foreground text-[10px] leading-snug mb-3 flex-1">{cs.description}</p>
-                          <button
-                            className="w-full py-2 rounded-lg text-[12px] font-bold transition-all bg-primary text-primary-foreground hover:brightness-110"
-                          >
-                            Add to cart
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
+              {/* ─── CROSS-SELL ─── */}
+              <div
+                className="px-5 py-4 flex-shrink-0"
+                style={{ borderTop: '1px solid hsl(var(--border))', background: 'hsl(var(--raised))' }}
+              >
+                <div className="text-[10px] font-bold tracking-[0.12em] uppercase text-gold mb-3">
+                  Complete Your Order
                 </div>
-              </div>
-
-              {/* ─── DISCOUNT & SUBTOTAL ─── */}
-              <div className="px-5 py-4 border-t border-border/20">
-                {/* Discount code */}
-                <button
-                  onClick={() => setDiscountOpen(!discountOpen)}
-                  className="flex items-center gap-1.5 text-muted-foreground text-[13px] mb-3 hover:text-gold transition-colors"
-                >
-                  <ChevronDown size={14} className={`transition-transform ${discountOpen ? "rotate-180" : ""}`} />
-                  Have a discount code?
-                </button>
-                {discountOpen && (
-                  <div className="flex gap-2 mb-4">
-                    <input
-                      type="text"
-                      value={discountCode}
-                      onChange={(e) => setDiscountCode(e.target.value)}
-                      placeholder="Enter code"
-                      className="flex-1 h-9 px-3 rounded-lg text-[13px] border bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/30 border-border/30"
-                    />
-                    <button className="h-9 px-4 rounded-lg text-[13px] font-semibold border border-primary/40 text-gold transition-colors hover:bg-primary hover:text-primary-foreground">
-                      Apply
-                    </button>
-                  </div>
-                )}
-
-                {/* Subtotal */}
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-foreground font-bold text-[15px]">Subtotal</span>
-                  <span className="text-foreground font-bold text-[18px]">${totalPrice.toFixed(2)}</span>
+                <div ref={crossSellRef} className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
+                  {crossSellItems.map((cs, i) => (
+                    <div
+                      key={i}
+                      className="min-w-[148px] flex-shrink-0 rounded-xl p-3 transition-colors"
+                      style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'hsl(var(--gold))')}
+                      onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'hsl(var(--border))')}
+                    >
+                      {/* Image placeholder */}
+                      <div
+                        className="w-full h-[80px] rounded-lg mb-2.5 flex items-center justify-center"
+                        style={{ background: 'hsl(var(--background))', border: '1px dashed hsl(var(--border))' }}
+                      >
+                        <span className="text-[9px] text-center px-2 leading-snug" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+                          [ ADD PRODUCT IMAGE ]
+                        </span>
+                      </div>
+                      <div className="text-[12px] font-semibold text-foreground mb-0.5">{cs.name}</div>
+                      <div className="text-[10px] leading-snug mb-2" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+                        {cs.description}
+                      </div>
+                      <div className="text-[13px] font-bold text-gold mb-2">
+                        ${cs.price}{" "}
+                        {cs.originalPrice && (
+                          <span className="text-[11px] font-normal line-through" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+                            ${cs.originalPrice}
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        className="w-full py-[7px] rounded-md text-[11px] font-bold tracking-wide cursor-pointer transition-colors"
+                        style={{
+                          background: 'hsl(var(--gold) / 0.15)',
+                          border: '1px solid hsl(var(--gold) / 0.4)',
+                          color: 'hsl(var(--gold))',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = 'hsl(var(--gold))';
+                          e.currentTarget.style.color = 'hsl(var(--background))';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'hsl(var(--gold) / 0.15)';
+                          e.currentTarget.style.color = 'hsl(var(--gold))';
+                        }}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  ))}
                 </div>
-                <p className="text-muted-foreground text-[11px]">Taxes and shipping calculated at checkout</p>
               </div>
             </>
           )}
@@ -293,49 +339,135 @@ export const CartDrawer = () => {
 
         {/* ─── STICKY FOOTER ─── */}
         {totalItems > 0 && (
-          <div className="flex-shrink-0 px-5 pb-5 pt-3 border-t border-border/20">
-            {/* Checkout button */}
+          <div className="flex-shrink-0 px-5 pb-5 pt-4" style={{ borderTop: '1px solid hsl(var(--border))', background: 'hsl(var(--background))' }}>
+            {/* Discount */}
+            <div className="mb-3.5">
+              <button
+                onClick={() => setDiscountOpen(!discountOpen)}
+                className="text-[12px] bg-transparent border-none cursor-pointer underline underline-offset-[3px] transition-colors p-0"
+                style={{ color: 'hsl(0 0% 100% / 0.55)', fontFamily: 'inherit' }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'hsl(var(--foreground))')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'hsl(0 0% 100% / 0.55)')}
+              >
+                Have a discount code?
+              </button>
+              {discountOpen && (
+                <div className="flex gap-2 mt-2">
+                  <input
+                    type="text"
+                    value={discountCode}
+                    onChange={(e) => setDiscountCode(e.target.value)}
+                    placeholder="Enter code"
+                    className="flex-1 px-3 py-2.5 rounded-lg text-[13px] text-foreground outline-none transition-colors"
+                    style={{
+                      background: 'hsl(var(--card))',
+                      border: '1px solid hsl(var(--border))',
+                      fontFamily: 'inherit',
+                    }}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = 'hsl(var(--gold))')}
+                    onBlur={(e) => (e.currentTarget.style.borderColor = 'hsl(var(--border))')}
+                  />
+                  <button
+                    className="px-3.5 py-2.5 rounded-lg text-[12px] font-semibold cursor-pointer transition-colors"
+                    style={{
+                      background: 'transparent',
+                      border: '1px solid hsl(var(--gold))',
+                      color: 'hsl(var(--gold))',
+                      fontFamily: 'inherit',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'hsl(var(--gold))';
+                      e.currentTarget.style.color = 'hsl(var(--background))';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent';
+                      e.currentTarget.style.color = 'hsl(var(--gold))';
+                    }}
+                  >
+                    Apply
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Subtotal */}
+            <div className="flex justify-between items-center mb-1.5">
+              <span className="text-[13px]" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>Subtotal</span>
+              <span className="text-[20px] font-bold text-foreground font-display">${totalPrice.toFixed(2)}</span>
+            </div>
+            <p className="text-[11px] mb-3.5" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+              Taxes and shipping calculated at checkout
+            </p>
+
+            {/* Checkout */}
             <button
               onClick={handleCheckout}
               disabled={isLoading || isSyncing}
-              className="w-full py-4 min-h-[56px] rounded-full font-bold text-[15px] flex items-center justify-center gap-2 transition-all hover:brightness-110 disabled:opacity-50 mb-3 bg-primary text-primary-foreground shadow-gold"
+              className="w-full py-4 rounded-full font-bold text-[15px] flex items-center justify-center gap-1.5 tracking-wide cursor-pointer mb-2.5 transition-all disabled:opacity-50"
+              style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))', border: 'none' }}
+              onMouseEnter={(e) => {
+                if (!e.currentTarget.disabled) {
+                  e.currentTarget.style.background = 'hsl(var(--gold-hover))';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'hsl(var(--gold))';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
             >
               {isLoading || isSyncing ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : (
-                <>Checkout • ${totalPrice.toFixed(2)}</>
+                <>Checkout · ${totalPrice.toFixed(2)} →</>
               )}
             </button>
 
-            {/* Express payment buttons */}
-            <div className="flex gap-2 mb-3">
-              <button className="flex-1 h-11 rounded-lg font-bold text-[14px] flex items-center justify-center" style={{ background: "#5a31f4", color: "white" }}>
-                <svg viewBox="0 0 341 80" className="h-5 w-auto" fill="white"><path d="M227.297 0C220.97 0 216.2 4.768 216.2 10.672c0 5.904 4.77 10.672 11.097 10.672 6.327 0 11.097-4.768 11.097-10.672S233.624 0 227.297 0zm0 17.387c-3.648 0-6.715-2.86-6.715-6.715 0-3.856 3.067-6.715 6.715-6.715 3.648 0 6.715 2.86 6.715 6.715 0 3.856-3.067 6.715-6.715 6.715z"/><path d="M227.297 4.768c-3.067 0-5.486 2.442-5.486 5.904 0 3.463 2.419 5.904 5.486 5.904 3.067 0 5.486-2.441 5.486-5.904 0-3.462-2.419-5.904-5.486-5.904z"/></svg>
-                <span className="ml-1.5">shop</span>
+            {/* Express */}
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              <button
+                className="py-2.5 rounded-lg font-bold text-[13px] text-white flex items-center justify-center tracking-wide cursor-pointer border-none transition-opacity hover:opacity-90"
+                style={{ background: '#5A31F4' }}
+              >
+                Shop Pay
               </button>
-              <button className="flex-1 h-11 rounded-lg font-bold text-[14px] flex items-center justify-center border border-border/30" style={{ background: "white", color: "#000" }}>
-                <svg viewBox="0 0 24 24" className="h-5 w-auto mr-1" fill="none"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.96 3.2-2.04 4.12-1.2 1.04-2.96 1.6-5.8 1.6-4.6 0-8.2-3.72-8.2-8.32s3.6-8.32 8.2-8.32c2.32 0 4.04.92 5.32 2.12l2.32-2.32C18.56 1.68 15.92.08 12.48.08 5.76.08.32 5.36.32 12s5.44 11.92 12.16 11.92c3.56 0 6.24-1.16 8.32-3.32 2.16-2.16 2.84-5.16 2.84-7.6 0-.76-.04-1.4-.16-2.04h-11z" fill="currentColor"/></svg>
-                Pay
+              <button
+                className="py-2.5 rounded-lg font-bold text-[13px] flex items-center justify-center tracking-wide cursor-pointer transition-opacity hover:opacity-85"
+                style={{ background: 'white', color: '#1a1a1a', border: '1px solid #e0e0e0' }}
+              >
+                G Pay
               </button>
             </div>
 
             {/* Payment icons */}
             <div className="flex items-center justify-center gap-2 mb-3 flex-wrap">
-              {["Amex", "Visa", "Shop Pay", "Apple Pay", "Amazon", "G Pay", "MC"].map((name) => (
-                <span key={name} className="text-[9px] text-muted-foreground/60 border border-border/20 rounded px-1.5 py-0.5">{name}</span>
+              {["VISA", "MC", "AMEX", "APPLE PAY", "AMAZON PAY", "SHOP PAY"].map((name) => (
+                <span
+                  key={name}
+                  className="text-[10px] font-bold tracking-wide whitespace-nowrap rounded px-2 py-1"
+                  style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', color: 'hsl(0 0% 100% / 0.55)' }}
+                >
+                  {name}
+                </span>
               ))}
             </div>
 
             {/* Continue shopping */}
-            <div className="text-center mb-1.5">
-              <button onClick={closeDrawer} className="text-foreground/70 text-[13px] font-medium hover:underline hover:text-foreground transition-colors">
-                continue shopping
+            <div className="text-center mb-2.5">
+              <button
+                onClick={closeDrawer}
+                className="text-[12px] bg-transparent border-none cursor-pointer underline underline-offset-[3px] transition-colors"
+                style={{ color: 'hsl(0 0% 100% / 0.55)', fontFamily: 'inherit' }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'hsl(var(--foreground))')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'hsl(0 0% 100% / 0.55)')}
+              >
+                ← Continue Shopping
               </button>
             </div>
 
-            {/* Trust line */}
-            <p className="text-center text-gold text-[11px]">
-              🛡️ 100-Night Guarantee · 🔒 Secure Checkout
+            {/* Trust */}
+            <p className="text-center text-gold text-[11px] font-medium tracking-wide">
+              🛡️ 100-Night Guarantee &nbsp;·&nbsp; 🔒 Secure Checkout
             </p>
           </div>
         )}
