@@ -249,18 +249,18 @@ export const CartDrawer = () => {
                               const compareAt = getCompareAtPrice(price);
                               const savings = compareAt ? (compareAt - price) * item.quantity : 0;
                               return (
-                                <div className="text-right flex flex-col items-end gap-0.5">
+                                <div className="text-right flex flex-col items-end gap-0">
                                   {compareAt && (
-                                    <span className="block text-[11px] line-through transition-all duration-200" style={{ color: 'hsl(0 0% 100% / 0.45)' }}>
+                                    <span className="block text-[12px] line-through transition-all duration-200" style={{ color: 'hsl(0 0% 100% / 0.4)' }}>
                                       ${(compareAt * item.quantity).toFixed(2)}
                                     </span>
                                   )}
-                                  <span className="block font-bold text-gold transition-all duration-200" style={{ fontSize: priceSz }}>
+                                  <span className="block font-bold text-foreground transition-all duration-200" style={{ fontSize: priceSz }}>
                                     ${lineTotal.toFixed(2)}
                                   </span>
                                   {savings > 0 && (
-                                    <span className="inline-block text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-primary text-white whitespace-nowrap">
-                                      Save ${savings.toFixed(0)}
+                                    <span className="flex items-center gap-1 mt-0.5 text-[11px] font-semibold" style={{ color: 'hsl(145 45% 50%)' }}>
+                                      <span>🏷️</span> You save ${savings.toFixed(2)}
                                     </span>
                                   )}
                                 </div>
