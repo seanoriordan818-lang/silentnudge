@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Check, ArrowRight, Zap, Brain, Wifi } from 'lucide-react';
 import heroLifestyle from '@/assets/hero-lifestyle.png';
-import reviewPhoto1 from '@/assets/review-photo-1.webp';
 
 const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -204,9 +203,9 @@ const HomePage = () => {
                 <p className="text-[13px] font-semibold text-foreground">
                   — {r.name}, <span className="text-gold-dim font-normal">Verified Buyer</span>
                 </p>
-                <div className="mt-3 rounded-lg overflow-hidden">
-                  <img src={reviewPhoto1} alt="Customer holding SilentNudge wristband" className="w-full h-[180px] object-cover rounded-lg" />
-                </div>
+                <p className="text-[10px] text-faint mt-2 uppercase tracking-wider opacity-40">
+                  [ Placeholder — Replace with real photo reviews ]
+                </p>
               </div>
             ))}
           </div>
