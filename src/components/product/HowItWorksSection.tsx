@@ -8,11 +8,11 @@ const steps = [
 ];
 
 export const HowItWorksSection = () => (
-  <section className="bg-foreground py-16 md:py-20 px-5 md:px-7">
+  <section className="bg-white py-16 md:py-20 px-5 md:px-7">
     <div className="max-w-[1200px] mx-auto">
       <Reveal>
         <div className="text-center mb-10 md:mb-14">
-          <Label><span className="text-primary-foreground/40">How It Works</span></Label>
+          <Label>How It Works</Label>
           <h2 className="font-display text-[clamp(26px,4vw,38px)] leading-[1.15] font-medium text-primary-foreground">
             Set Up in <span style={{ color: 'hsl(var(--gold))' }}>60 Seconds.</span>
           </h2>
@@ -39,7 +39,7 @@ export const HowItWorksSection = () => (
         {steps.map((step, i) => (
           <Reveal key={i} delay={i * 0.08}>
             <div className="text-center md:text-left">
-              <div className="text-[11px] tracking-[3px] uppercase font-semibold mb-2" style={{ color: 'hsl(var(--gold) / 0.5)' }}>
+              <div className="text-[11px] tracking-[3px] uppercase font-semibold mb-2" style={{ color: 'hsl(var(--gold) / 0.7)' }}>
                 Step {step.num}
               </div>
               <h3 className="font-display text-lg md:text-xl font-semibold text-primary-foreground mb-2">{step.title}</h3>

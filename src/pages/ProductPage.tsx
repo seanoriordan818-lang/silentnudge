@@ -26,7 +26,9 @@ const ProductPage = () => {
     searchParams.get('bundle') === 'true' ? 'couples' : 'single'
   );
   const nameRef = useRef<HTMLParagraphElement>(null);
+  const finalCtaRef = useRef<HTMLDivElement>(null);
   const [stickyVisible, setStickyVisible] = useState(false);
+  const [finalCtaVisible, setFinalCtaVisible] = useState(false);
   const [addedBackup, setAddedBackup] = useState(true);
   const addItem = useCartStore((state) => state.addItem);
   const isCartLoading = useCartStore((state) => state.isLoading);
@@ -54,6 +56,17 @@ const ProductPage = () => {
     const observer = new IntersectionObserver(
       ([entry]) => setStickyVisible(!entry.isIntersecting && el.getBoundingClientRect().bottom < 0),
       { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [loading]);
+
+  useEffect(() => {
+    const el = finalCtaRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setFinalCtaVisible(entry.isIntersecting),
+      { threshold: 0.1 }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -194,7 +207,7 @@ const ProductPage = () => {
             <span className="text-[14px] text-faint line-through">${currentBundle.originalPrice}</span>
             <span className="font-display text-[24px] md:text-[28px] text-gold">${currentBundle.price}</span>
             {currentBundle.originalPrice - currentBundle.price > 0 &&
-            <span className="text-[11px] font-bold bg-primary text-primary-foreground px-2.5 py-1 rounded-full uppercase tracking-wide">
+            <span className="text-[11px] font-bold bg-primary text-white px-2.5 py-1 rounded-full uppercase tracking-wide">
                 Save ${currentBundle.originalPrice - currentBundle.price}
               </span>
             }
@@ -230,7 +243,7 @@ const ProductPage = () => {
           <button
             onClick={handleAddToCart}
             disabled={isCartLoading}
-            className="w-full py-4 min-h-[56px] rounded-full bg-primary text-primary-foreground font-bold text-[16px] shadow-gold flex items-center justify-center gap-2.5 transition-all hover:brightness-110 disabled:opacity-50 mb-4">
+            className="w-full py-4 min-h-[56px] rounded-full bg-primary text-white font-bold text-[16px] shadow-gold flex items-center justify-center gap-2.5 transition-all hover:brightness-110 disabled:opacity-50 mb-4">
 
             {isCartLoading ?
             <Loader2 className="w-5 h-5 animate-spin" /> :
@@ -265,8 +278,10 @@ const ProductPage = () => {
       <ProductFeaturesSection />
       <GuaranteeSection onAddToCart={handleAddToCart} isLoading={isCartLoading} />
       <FAQSectionV2 />
-      <FinalCTASection onAddToCart={handleAddToCart} isLoading={isCartLoading} />
-      {stickyVisible && <StickyBottomBar price={total} onAddToCart={handleAddToCart} isLoading={isCartLoading} />}
+      <div ref={finalCtaRef}>
+        <FinalCTASection onAddToCart={handleAddToCart} isLoading={isCartLoading} />
+      </div>
+      {stickyVisible && !finalCtaVisible && <StickyBottomBar price={total} onAddToCart={handleAddToCart} isLoading={isCartLoading} />}
     </>);
 
 };

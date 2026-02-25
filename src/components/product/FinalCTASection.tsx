@@ -28,9 +28,9 @@ export const FinalCTASection = ({ onAddToCart, isLoading }: FinalCTASectionProps
         <button
           onClick={onAddToCart}
           disabled={isLoading}
-          className="w-full md:w-auto md:px-14 py-4 min-h-[56px] rounded-full bg-primary text-primary-foreground font-bold text-base shadow-gold transition-all hover:brightness-110 disabled:opacity-50 mb-6"
+          className="w-full md:w-auto md:px-14 py-4 min-h-[56px] rounded-full bg-primary text-white font-bold text-base shadow-gold transition-all hover:brightness-110 disabled:opacity-50 mb-6"
         >
-          Add to Cart — $99
+          Add to Cart
         </button>
 
         <div className="flex items-center justify-center gap-4 md:gap-6 flex-wrap text-[12px] text-muted-foreground">

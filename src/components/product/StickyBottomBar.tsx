@@ -14,7 +14,7 @@ export const StickyBottomBar = ({ price, onAddToCart, isLoading }: StickyBottomB
     <button
       onClick={onAddToCart}
       disabled={isLoading}
-      className="w-full py-3.5 min-h-[50px] rounded-full bg-primary text-primary-foreground font-bold text-[15px] shadow-gold flex items-center justify-center gap-2 disabled:opacity-50"
+      className="w-full py-3.5 min-h-[50px] rounded-full bg-primary text-white font-bold text-[15px] shadow-gold flex items-center justify-center gap-2 disabled:opacity-50"
     >
       {isLoading ? (
         <Loader2 className="w-4 h-4 animate-spin" />

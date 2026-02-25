@@ -30,11 +30,11 @@ const faqs = [
 ];
 
 export const FAQSectionV2 = () => (
-  <section className="bg-foreground py-16 md:py-20 px-5 md:px-7">
+  <section className="bg-white py-16 md:py-20 px-5 md:px-7">
     <div className="max-w-[700px] mx-auto">
       <Reveal>
         <div className="text-center mb-10 md:mb-12">
-          <Label><span className="text-primary-foreground/40">FAQ</span></Label>
+          <Label>FAQ</Label>
           <h2 className="font-display text-[clamp(24px,3.5vw,36px)] leading-[1.15] font-medium text-primary-foreground">
             Questions We Get <span style={{ color: 'hsl(var(--gold))' }}>Every Day.</span>
           </h2>
@@ -44,7 +44,7 @@ export const FAQSectionV2 = () => (
       <Reveal delay={0.05}>
         <Accordion type="single" collapsible defaultValue="item-0">
           {faqs.map((faq, i) => (
-            <AccordionItem key={i} value={`item-${i}`} className="border-b border-primary-foreground/[0.06]">
+            <AccordionItem key={i} value={`item-${i}`} className="border-b border-primary-foreground/[0.08]">
               <AccordionTrigger className="text-[15px] text-primary-foreground font-medium text-left py-5 hover:no-underline [&>svg]:text-gold">
                 {faq.q}
               </AccordionTrigger>

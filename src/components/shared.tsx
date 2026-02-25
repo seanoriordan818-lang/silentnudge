@@ -5,7 +5,7 @@ export const Divider = () => (
 );
 
 export const Label = ({ children }: { children: ReactNode }) => (
-  <div className="text-[10px] tracking-[4px] uppercase text-gold-dim font-medium mb-4">{children}</div>
+  <div className="text-[10px] tracking-[4px] uppercase text-gold font-medium mb-4">{children}</div>
 );
 
 export const Heading = ({ children, className = '' }: { children: ReactNode; className?: string }) => (
