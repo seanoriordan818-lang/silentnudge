@@ -82,17 +82,15 @@ export const CartDrawer = () => {
 
       {/* ─── OVERLAY ─── */}
       <div
-        className={`fixed inset-0 z-[9998] transition-all duration-300 ${isDrawerOpen ? "bg-black/70 pointer-events-auto" : "bg-transparent pointer-events-none"}`}
+        className={`fixed inset-0 z-[10000] transition-all duration-300 ${isDrawerOpen ? "bg-black/70 pointer-events-auto" : "bg-transparent pointer-events-none"}`}
         onClick={closeDrawer}
       />
 
       {/* ─── DRAWER ─── */}
       <div
-        className={`fixed z-[9999] flex flex-col overflow-hidden transition-transform duration-[380ms] ease-[cubic-bezier(0.4,0,0.2,1)]
-          /* Mobile: slide up from bottom */
-          bottom-0 right-0 w-screen h-[95vh] rounded-t-[20px]
-          /* Desktop: slide from right */
-          md:top-0 md:bottom-auto md:w-[440px] md:h-screen md:rounded-t-none
+        className={`fixed z-[10001] flex flex-col overflow-hidden transition-transform duration-[380ms] ease-[cubic-bezier(0.4,0,0.2,1)]
+          bottom-0 right-0 w-screen h-[100dvh] rounded-t-[16px]
+          md:top-0 md:bottom-auto md:w-[440px] md:h-screen md:rounded-t-none md:rounded-l-none
           ${isDrawerOpen
             ? "translate-y-0 md:translate-x-0 md:translate-y-0 shadow-[-20px_0_60px_rgba(0,0,0,0.6)]"
             : "translate-y-full md:translate-y-0 md:translate-x-full"
@@ -101,14 +99,14 @@ export const CartDrawer = () => {
       >
         {/* ─── HEADER ─── */}
         <div
-          className="flex items-center justify-between px-5 py-4 flex-shrink-0"
+          className="relative flex items-center justify-center px-4 py-3 md:justify-between md:px-5 md:py-4 flex-shrink-0"
           style={{ borderBottom: '1px solid hsl(var(--border))' }}
         >
-          <div className="flex items-center gap-2.5">
-            <span className="font-display text-[22px] font-semibold text-foreground tracking-tight">My Cart</span>
+          <div className="flex items-center gap-2">
+            <span className="font-display text-[18px] md:text-[22px] font-semibold text-foreground tracking-tight">My Cart</span>
             {totalItems > 0 && (
               <span
-                className="w-[22px] h-[22px] rounded-full flex items-center justify-center text-[11px] font-bold"
+                className="w-5 h-5 md:w-[22px] md:h-[22px] rounded-full flex items-center justify-center text-[10px] md:text-[11px] font-bold"
                 style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))' }}
               >
                 {totalItems}
@@ -117,7 +115,7 @@ export const CartDrawer = () => {
           </div>
           <button
             onClick={closeDrawer}
-            className="w-9 h-9 rounded-full flex items-center justify-center text-foreground text-[18px] leading-none transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 md:relative md:right-auto md:top-auto md:translate-y-0 w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center text-foreground text-[16px] md:text-[18px] leading-none transition-colors"
             style={{ background: 'hsl(0 0% 100% / 0.08)', border: '1px solid hsl(var(--border))' }}
           >
             ✕
@@ -126,19 +124,44 @@ export const CartDrawer = () => {
 
         {totalItems > 0 && (
           <>
-            {/* ─── COUNTDOWN ─── */}
+            {/* ─── COMBINED COUNTDOWN + SHIPPING (mobile) / Separate (desktop) ─── */}
             <div
-              className="py-2.5 text-center flex-shrink-0"
+              className="px-4 py-2 md:py-0 flex-shrink-0"
               style={{ background: 'hsl(var(--raised))', borderBottom: '1px solid hsl(var(--border))' }}
             >
-              <span className="text-[12px] font-medium text-gold tracking-wide">
-                ⏱ Your cart will expire in <span className="font-bold">{countdown}</span>
-              </span>
-            </div>
+              {/* Mobile: single compact strip */}
+              <div className="flex items-center justify-between md:hidden">
+                <span className="text-[11px] font-medium text-gold tracking-wide">
+                  ⏱ Expires in <span className="font-bold">{countdown}</span>
+                </span>
+                {freeShippingUnlocked ? (
+                  <span className="text-[11px] font-semibold" style={{ color: '#2ECC71' }}>
+                    🚚 Free Shipping!
+                  </span>
+                ) : (
+                  <span className="text-[11px]" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+                    <strong className="text-foreground font-semibold">${shippingRemaining.toFixed(2)}</strong> to free ship
+                  </span>
+                )}
+              </div>
+              <div className="mt-1.5 mb-1 h-1 rounded-full overflow-hidden md:hidden" style={{ background: 'hsl(0 0% 100% / 0.08)' }}>
+                <div
+                  className="h-full rounded-full transition-all duration-500 ease-out"
+                  style={{ width: `${shippingProgress}%`, background: 'linear-gradient(90deg, hsl(var(--gold)), hsl(var(--gold-hover)))' }}
+                />
+              </div>
 
-            {/* ─── SHIPPING BAR ─── */}
+              {/* Desktop: separate countdown + shipping sections */}
+              <div className="hidden md:block">
+                <div className="py-2.5 text-center">
+                  <span className="text-[12px] font-medium text-gold tracking-wide">
+                    ⏱ Your cart will expire in <span className="font-bold">{countdown}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
             <div
-              className="px-5 py-2.5 flex-shrink-0"
+              className="hidden md:block px-5 py-2.5 flex-shrink-0"
               style={{ background: 'hsl(var(--raised))', borderBottom: '1px solid hsl(var(--border))' }}
             >
               {freeShippingUnlocked ? (
@@ -182,16 +205,16 @@ export const CartDrawer = () => {
           ) : (
             <>
               {/* ─── LINE ITEMS ─── */}
-              <div className="px-5 py-4">
+              <div className="px-4 py-3 md:px-5 md:py-4">
                 {items.map((item, idx) => {
                   const price = parseFloat(item.price.amount);
                   const firstImage = item.product.node.images?.edges?.[0]?.node;
                   return (
                     <div key={item.variantId}>
-                      <div className="flex gap-3.5 py-4 relative animate-[itemIn_0.3s_ease_forwards]">
+                      <div className="flex gap-3 md:gap-3.5 py-3 md:py-4 relative animate-[itemIn_0.3s_ease_forwards]">
                         {/* Thumbnail */}
                         <div
-                          className="w-[72px] h-[72px] rounded-[10px] overflow-hidden flex-shrink-0 flex items-center justify-center"
+                          className="w-[60px] h-[60px] md:w-[72px] md:h-[72px] rounded-[10px] overflow-hidden flex-shrink-0 flex items-center justify-center"
                           style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
                         >
                           {firstImage ? (
@@ -203,7 +226,7 @@ export const CartDrawer = () => {
 
                         {/* Details */}
                         <div className="flex-1 min-w-0">
-                          <div className="text-[14px] font-semibold text-foreground leading-tight mb-0.5">
+                          <div className="text-[13px] md:text-[14px] font-semibold text-foreground leading-tight mb-0.5">
                             {item.product.node.title}
                           </div>
                           <div className="text-[11px] mb-2" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
@@ -324,9 +347,9 @@ export const CartDrawer = () => {
 
         {/* ─── STICKY FOOTER ─── */}
         {totalItems > 0 && (
-          <div className="flex-shrink-0 px-5 pb-5 pt-4" style={{ borderTop: '1px solid hsl(var(--border))', background: 'hsl(var(--background))' }}>
+          <div className="flex-shrink-0 px-4 pb-4 pt-3 md:px-5 md:pb-5 md:pt-4" style={{ borderTop: '1px solid hsl(var(--border))', background: 'hsl(var(--background))' }}>
             {/* Discount */}
-            <div className="mb-3.5">
+            <div className="mb-2 md:mb-3.5">
               <button
                 onClick={() => setDiscountOpen(!discountOpen)}
                 className="text-[12px] bg-transparent border-none cursor-pointer underline underline-offset-[3px] transition-colors p-0"
@@ -376,11 +399,11 @@ export const CartDrawer = () => {
             </div>
 
             {/* Subtotal */}
-            <div className="flex justify-between items-center mb-1.5">
-              <span className="text-[13px]" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>Subtotal</span>
-              <span className="text-[20px] font-bold text-foreground font-display">${totalPrice.toFixed(2)}</span>
+            <div className="flex justify-between items-center mb-0.5 md:mb-1.5">
+              <span className="text-[12px] md:text-[13px]" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>Subtotal</span>
+              <span className="text-[18px] md:text-[20px] font-bold text-foreground font-display">${totalPrice.toFixed(2)}</span>
             </div>
-            <p className="text-[11px] mb-3.5" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+            <p className="text-[10px] md:text-[11px] mb-2 md:mb-3.5" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
               Taxes and shipping calculated at checkout
             </p>
 
@@ -388,7 +411,7 @@ export const CartDrawer = () => {
             <button
               onClick={handleCheckout}
               disabled={isLoading || isSyncing}
-              className="w-full py-4 rounded-full font-bold text-[15px] flex items-center justify-center gap-1.5 tracking-wide cursor-pointer mb-2.5 transition-all disabled:opacity-50"
+              className="w-full py-3 md:py-4 rounded-full font-bold text-[14px] md:text-[15px] flex items-center justify-center gap-1.5 tracking-wide cursor-pointer mb-2 md:mb-2.5 transition-all disabled:opacity-50"
               style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))', border: 'none' }}
               onMouseEnter={(e) => {
                 if (!e.currentTarget.disabled) {
@@ -409,15 +432,15 @@ export const CartDrawer = () => {
             </button>
 
             {/* Express */}
-            <div className="grid grid-cols-2 gap-2 mb-3">
+            <div className="grid grid-cols-2 gap-2 mb-2 md:mb-3">
               <button
-                className="py-2.5 rounded-lg font-bold text-[13px] text-white flex items-center justify-center tracking-wide cursor-pointer border-none transition-opacity hover:opacity-90"
+                className="py-2 md:py-2.5 rounded-lg font-bold text-[12px] md:text-[13px] text-white flex items-center justify-center tracking-wide cursor-pointer border-none transition-opacity hover:opacity-90"
                 style={{ background: '#5A31F4' }}
               >
                 Shop Pay
               </button>
               <button
-                className="py-2.5 rounded-lg font-bold text-[13px] flex items-center justify-center tracking-wide cursor-pointer transition-opacity hover:opacity-85"
+                className="py-2 md:py-2.5 rounded-lg font-bold text-[12px] md:text-[13px] flex items-center justify-center tracking-wide cursor-pointer transition-opacity hover:opacity-85"
                 style={{ background: 'white', color: '#1a1a1a', border: '1px solid #e0e0e0' }}
               >
                 G Pay
@@ -425,11 +448,11 @@ export const CartDrawer = () => {
             </div>
 
             {/* Payment icons */}
-            <div className="flex items-center justify-center gap-2 mb-3 flex-wrap">
+            <div className="flex items-center justify-center gap-1 md:gap-2 mb-2 md:mb-3 flex-nowrap">
               {["VISA", "MC", "AMEX", "APPLE PAY", "AMAZON PAY", "SHOP PAY"].map((name) => (
                 <span
                   key={name}
-                  className="text-[10px] font-bold tracking-wide whitespace-nowrap rounded px-2 py-1"
+                  className="text-[9px] md:text-[10px] font-bold tracking-wide whitespace-nowrap rounded px-1.5 py-0.5 md:px-2 md:py-1"
                   style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', color: 'hsl(0 0% 100% / 0.55)' }}
                 >
                   {name}
@@ -438,7 +461,7 @@ export const CartDrawer = () => {
             </div>
 
             {/* Continue shopping */}
-            <div className="text-center mb-2.5">
+            <div className="text-center mb-1.5 md:mb-2.5">
               <button
                 onClick={(e) => { e.stopPropagation(); closeDrawer(); }}
                 className="text-[12px] bg-transparent border-none cursor-pointer underline underline-offset-[3px] transition-colors"
@@ -451,7 +474,7 @@ export const CartDrawer = () => {
             </div>
 
             {/* Trust */}
-            <p className="text-center text-gold text-[11px] font-medium tracking-wide">
+            <p className="text-center text-gold text-[10px] md:text-[11px] font-medium tracking-wide">
               🛡️ 100-Night Guarantee &nbsp;·&nbsp; 🔒 Secure Checkout
             </p>
           </div>
