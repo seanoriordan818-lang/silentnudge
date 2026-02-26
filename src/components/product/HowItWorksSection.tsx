@@ -1,5 +1,6 @@
 import { Reveal } from '@/components/Reveal';
 import { Label } from '@/components/shared';
+import howItWorksGif from '@/assets/how-it-works.gif';
 
 const steps = [
   { num: '01', title: 'Wear It', desc: "Put it on before bed. Soft, slim — you'll forget it's there." },
@@ -21,16 +22,8 @@ export const HowItWorksSection = () => (
 
       {/* Single media placeholder */}
       <Reveal delay={0.05}>
-        <div
-          className="w-full aspect-video max-w-[800px] mx-auto rounded-[16px] mb-10 md:mb-14 flex items-center justify-center"
-          style={{
-            background: 'hsl(var(--background))',
-            border: '2px dashed hsl(var(--gold) / 0.4)',
-          }}
-        >
-          <p className="text-sm text-muted-foreground text-center px-6 max-w-[500px] leading-relaxed">
-            [ GIF/IMAGE PLACEHOLDER — how to use visual, e.g. wrist wearing band or alarm being set on display. Easy to swap. ]
-          </p>
+        <div className="w-full aspect-video max-w-[800px] mx-auto rounded-[16px] mb-10 md:mb-14 overflow-hidden">
+          <img src={howItWorksGif} alt="How to use SilentNudge wristband alarm" className="w-full h-full object-cover rounded-[16px]" />
         </div>
       </Reveal>
 
