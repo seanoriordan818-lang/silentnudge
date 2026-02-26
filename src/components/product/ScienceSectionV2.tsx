@@ -1,8 +1,8 @@
 import { Reveal } from '@/components/Reveal';
 import { Label } from '@/components/shared';
 
-export const ScienceSectionV2 = () => (
-  <section className="bg-background py-16 md:py-20 px-5 md:px-7">
+export const ScienceSectionV2 = () =>
+<section className="bg-background md:py-20 px-5 md:px-7 py-[30px]">
     <div className="max-w-[1200px] mx-auto">
       <Reveal>
         <div className="text-center mb-10 md:mb-14">
@@ -17,12 +17,12 @@ export const ScienceSectionV2 = () => (
         {/* Left — image placeholder */}
         <Reveal delay={0.05}>
           <div
-            className="w-full aspect-square rounded-[16px] flex items-center justify-center"
-            style={{
-              background: 'hsl(252 18% 12.5%)',
-              border: '2px dashed hsl(var(--gold) / 0.4)',
-            }}
-          >
+          className="w-full aspect-square rounded-[16px] flex items-center justify-center"
+          style={{
+            background: 'hsl(252 18% 12.5%)',
+            border: '2px dashed hsl(var(--gold) / 0.4)'
+          }}>
+
             <p className="text-xs text-muted-foreground text-center px-6 max-w-[280px] leading-relaxed">
               [ IMAGE PLACEHOLDER — science diagram: ear → amygdala stress path (red) vs wrist → Pacinian corpuscles calm path (gold). Commission or illustrate and swap in. ]
             </p>
@@ -56,5 +56,4 @@ export const ScienceSectionV2 = () => (
         </Reveal>
       </div>
     </div>
-  </section>
-);
+  </section>;

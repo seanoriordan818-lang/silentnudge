@@ -2,71 +2,71 @@ import { Reveal } from '@/components/Reveal';
 import { Label } from '@/components/shared';
 import { Check } from 'lucide-react';
 
-const GoldCheck = () => (
-  <Check size={15} className="text-gold inline-block mr-1" strokeWidth={3} />
-);
+const GoldCheck = () =>
+<Check size={15} className="text-gold inline-block mr-1" strokeWidth={3} />;
+
 
 const rows = [
-  {
-    feature: 'Wakes only you',
-    sn: <><GoldCheck /> Wrist vibration</>,
-    aw: '⚠️ Weak haptics',
-    pv: '⚠️ Electric shock',
-    gn: '⚠️ Weak vibration',
-  },
-  {
-    feature: 'Works for deep sleepers',
-    sn: <><GoldCheck /> 5-stage escalation</>,
-    aw: '❌ Single fixed pulse',
-    pv: '✅ Shock-based',
-    gn: '❌ Single intensity',
-  },
-  {
-    feature: 'No phone required',
-    sn: <><GoldCheck /> Fully standalone</>,
-    aw: '❌ App dependent',
-    pv: '❌ App + subscription',
-    gn: '✅ Standalone',
-  },
-  {
-    feature: 'Battery life',
-    sn: <><GoldCheck /> 14+ days</>,
-    aw: '❌ Charge daily',
-    pv: '❌ 2–3 days',
-    gn: '⚠️ Varies',
-  },
-  {
-    feature: 'Subscription',
-    sn: <><GoldCheck /> None, ever</>,
-    aw: '❌ Apple ecosystem',
-    pv: '❌ $4.99/month',
-    gn: '✅ None',
-  },
-  {
-    feature: 'Price',
-    sn: <><GoldCheck /> $99 once</>,
-    aw: '❌ $400+',
-    pv: '❌ $128 + subscription',
-    gn: '⚠️ $30–50 (weak motor)',
-  },
-  {
-    feature: 'Harvard-backed science',
-    sn: <><GoldCheck /> Yes</>,
-    aw: '❌ No',
-    pv: '❌ No',
-    gn: '❌ No',
-  },
-  {
-    feature: '100-night guarantee',
-    sn: <><GoldCheck /> Yes</>,
-    aw: '❌ 14-day return',
-    pv: '❌ 30-day return',
-    gn: '❌ Varies',
-  },
-];
+{
+  feature: 'Wakes only you',
+  sn: <><GoldCheck /> Wrist vibration</>,
+  aw: '⚠️ Weak haptics',
+  pv: '⚠️ Electric shock',
+  gn: '⚠️ Weak vibration'
+},
+{
+  feature: 'Works for deep sleepers',
+  sn: <><GoldCheck /> 5-stage escalation</>,
+  aw: '❌ Single fixed pulse',
+  pv: '✅ Shock-based',
+  gn: '❌ Single intensity'
+},
+{
+  feature: 'No phone required',
+  sn: <><GoldCheck /> Fully standalone</>,
+  aw: '❌ App dependent',
+  pv: '❌ App + subscription',
+  gn: '✅ Standalone'
+},
+{
+  feature: 'Battery life',
+  sn: <><GoldCheck /> 14+ days</>,
+  aw: '❌ Charge daily',
+  pv: '❌ 2–3 days',
+  gn: '⚠️ Varies'
+},
+{
+  feature: 'Subscription',
+  sn: <><GoldCheck /> None, ever</>,
+  aw: '❌ Apple ecosystem',
+  pv: '❌ $4.99/month',
+  gn: '✅ None'
+},
+{
+  feature: 'Price',
+  sn: <><GoldCheck /> $99 once</>,
+  aw: '❌ $400+',
+  pv: '❌ $128 + subscription',
+  gn: '⚠️ $30–50 (weak motor)'
+},
+{
+  feature: 'Harvard-backed science',
+  sn: <><GoldCheck /> Yes</>,
+  aw: '❌ No',
+  pv: '❌ No',
+  gn: '❌ No'
+},
+{
+  feature: '100-night guarantee',
+  sn: <><GoldCheck /> Yes</>,
+  aw: '❌ 14-day return',
+  pv: '❌ 30-day return',
+  gn: '❌ Varies'
+}];
 
-export const ComparisonTableV2 = () => (
-  <section className="bg-white py-12 md:py-20 px-5 md:px-7">
+
+export const ComparisonTableV2 = () =>
+<section className="bg-white md:py-20 px-5 md:px-7 py-[30px]">
     <div className="max-w-[1100px] mx-auto">
       <Reveal>
         <div className="text-center mb-10 md:mb-12">
@@ -92,19 +92,18 @@ export const ComparisonTableV2 = () => (
               </tr>
             </thead>
             <tbody>
-              {rows.map((row, i) => (
-                <tr key={i} className={i < rows.length - 1 ? 'border-b border-[hsl(var(--light-border))]' : ''}>
+              {rows.map((row, i) =>
+            <tr key={i} className={i < rows.length - 1 ? 'border-b border-[hsl(var(--light-border))]' : ''}>
                   <td className="p-4 text-[13px] text-[#1a1a1a]/70 font-medium sticky left-0 bg-white z-10">{row.feature}</td>
                   <td className="p-4 text-[13px] text-[#1a1a1a] font-semibold bg-gold/[0.06] sticky left-[100px] z-10">{row.sn}</td>
                   <td className="p-4 text-[13px] text-[#6b6b6b]">{row.aw}</td>
                   <td className="p-4 text-[13px] text-[#6b6b6b]">{row.pv}</td>
                   <td className="p-4 text-[13px] text-[#6b6b6b]">{row.gn}</td>
                 </tr>
-              ))}
+            )}
             </tbody>
           </table>
         </div>
       </Reveal>
     </div>
-  </section>
-);
+  </section>;
