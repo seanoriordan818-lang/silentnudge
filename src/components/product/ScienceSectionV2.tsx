@@ -84,14 +84,7 @@ export const ScienceSectionV2 = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-12 items-center md:max-w-[1000px] mx-auto">
           {/* Left — desktop: diagram image, mobile: pathway cards */}
           <Reveal delay={0.05}>
-            {/* Desktop image */}
-            <img
-              src={pathwayDiagram}
-              alt="Auditory vs Tactile pathway comparison"
-              className="hidden md:block w-full h-auto object-contain rounded-[16px] max-w-none"
-            />
-            {/* Mobile cards */}
-            <div className="flex flex-col gap-4 md:hidden">
+            <div className="flex flex-col gap-4">
               <SoundPathwayCard />
               <TactilePathwayCard />
             </div>
