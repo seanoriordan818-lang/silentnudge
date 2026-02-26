@@ -1,7 +1,5 @@
 import { Reveal } from '@/components/Reveal';
 import { Label } from '@/components/shared';
-import { PathwayDiagramCompact } from './PathwayDiagramCompact';
-import { PathwayDiagramFull } from './PathwayDiagramFull';
 
 export const ScienceSectionV2 = () =>
 <section className="bg-background md:py-20 px-5 md:px-7 py-[30px]">
@@ -16,20 +14,18 @@ export const ScienceSectionV2 = () =>
       </Reveal>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center max-w-[1000px] mx-auto">
-        {/* Left — diagram preview */}
+        {/* Left — image placeholder */}
         <Reveal delay={0.05}>
-          <div className="flex flex-col gap-8">
-            {/* OPTION A */}
-            <div>
-              <p className="text-[11px] tracking-[3px] uppercase font-semibold text-gold mb-3 text-center">⬇ Option A — Compact (4:3)</p>
-              <PathwayDiagramCompact />
-            </div>
+          <div
+          className="w-full aspect-square rounded-[16px] flex items-center justify-center"
+          style={{
+            background: 'hsl(252 18% 12.5%)',
+            border: '2px dashed hsl(var(--gold) / 0.4)'
+          }}>
 
-            {/* OPTION B */}
-            <div>
-              <p className="text-[11px] tracking-[3px] uppercase font-semibold text-gold mb-3 text-center">⬇ Option B — Full (with icons)</p>
-              <PathwayDiagramFull />
-            </div>
+            <p className="text-xs text-muted-foreground text-center px-6 max-w-[280px] leading-relaxed">
+              [ IMAGE PLACEHOLDER — science diagram: ear → amygdala stress path (red) vs wrist → Pacinian corpuscles calm path (gold). Commission or illustrate and swap in. ]
+            </p>
           </div>
         </Reveal>
 
