@@ -3,10 +3,10 @@ import { Label } from '@/components/shared';
 import pathwayDiagram from '@/assets/science-pathway-diagram.png';
 
 export const ScienceSectionV2 = () =>
-<section className="bg-background md:py-20 px-5 md:px-7 py-[30px]">
+<section className="bg-background md:py-20 px-3 md:px-7 py-[20px] md:py-[30px]">
     <div className="max-w-[1200px] mx-auto">
       <Reveal>
-        <div className="text-center mb-10 md:mb-14">
+        <div className="text-center mb-7 md:mb-14">
           <Label>The Science</Label>
           <h2 className="font-display text-[clamp(26px,4vw,38px)] leading-[1.15] font-medium">
             Why Vibration Works <span className="text-gold">When Sound Fails.</span>
@@ -14,13 +14,13 @@ export const ScienceSectionV2 = () =>
         </div>
       </Reveal>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center max-w-[1000px] mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-12 items-center md:max-w-[1000px] mx-auto">
         {/* Left — image placeholder */}
         <Reveal delay={0.05}>
           <img
             src={pathwayDiagram}
             alt="Auditory vs Tactile pathway comparison — sound triggers cortisol stress response while wrist vibration activates calm arousal"
-            className="w-full rounded-[16px]"
+            className="w-full h-auto rounded-[16px] max-w-none"
           />
         </Reveal>
 
