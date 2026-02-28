@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Check, ArrowRight, Zap, Brain, Wifi } from 'lucide-react';
 import heroLifestyle from '@/assets/hero-lifestyle.png';
+import reviewSarah from '@/assets/reviews/sarah.jpeg';
+import reviewJake from '@/assets/reviews/jake.jpeg';
+import reviewAoife from '@/assets/reviews/aoife.png';
 
 const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -20,14 +23,17 @@ const reviews = [
   {
     quote: "My husband starts work at 5am. I don't have to be up until 7:30. First week with this I slept straight through. I actually cried.",
     name: "Sarah M.",
+    photo: reviewSarah,
   },
   {
     quote: "I have ADHD and I've been setting 9 alarms every night since college. It's been 6 weeks and I've set one alarm every single day. One.",
     name: "Jake T.",
+    photo: reviewJake,
   },
   {
     quote: "Bought it after my partner told me my alarm was affecting our relationship. Three months in, mornings are completely different in our house.",
     name: "Aoife B.",
+    photo: reviewAoife,
   },
 ];
 
@@ -179,21 +185,21 @@ const HomePage = () => {
         <div className="max-w-[1200px] mx-auto">
           <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide">
             {reviews.map((r, i) => (
-              <div
+               <div
                 key={i}
-                className="min-w-[300px] sm:min-w-[340px] flex-1 snap-start rounded-2xl p-6 border"
+                className="min-w-[300px] sm:min-w-[340px] flex-1 snap-start rounded-2xl overflow-hidden border"
                 style={{ background: 'hsl(var(--card))', borderColor: 'hsl(var(--border))' }}
               >
-                <Stars5 />
-                <p className="text-[14px] leading-relaxed text-foreground/85 mt-3 mb-4 font-light italic">
-                  "{r.quote}"
-                </p>
-                <p className="text-[13px] font-semibold text-foreground">
-                  — {r.name}, <span className="text-gold-dim font-normal">Verified Buyer</span>
-                </p>
-                <p className="text-[10px] text-faint mt-2 uppercase tracking-wider opacity-40">
-                  [ Placeholder — Replace with real photo reviews ]
-                </p>
+                <img src={r.photo} alt={`${r.name} with SilentNudge`} className="w-full h-[200px] object-cover" />
+                <div className="p-6">
+                  <Stars5 />
+                  <p className="text-[14px] leading-relaxed text-foreground/85 mt-3 mb-4 font-light italic">
+                    "{r.quote}"
+                  </p>
+                  <p className="text-[13px] font-semibold text-foreground">
+                    — {r.name}, <span className="text-gold-dim font-normal">Verified Buyer</span>
+                  </p>
+                </div>
               </div>
             ))}
           </div>
