@@ -40,8 +40,8 @@ const PathwayComparison = () =>
     {/* Tactile (highlighted) */}
     <div className="flex-1 rounded-xl p-3 bg-gold/[0.08]" style={{ border: '1px solid hsl(var(--gold) / 0.25)' }}>
       <div className="text-[9px] font-bold uppercase tracking-wider text-gold mb-2">✋ Vibration</div>
-      <div className="text-[10px] leading-snug text-gold-dim text-center">
-        Vibration<br/>↓<br/>Pacinian<br/>↓<br/>corpuscles<br/>↓<br/>Calm arousal<br/>↓<br/>Gentle wake-up
+      <div className="text-[10px] leading-snug text-gold-dim">
+        Vibration → Pacinian corpuscles → Calm arousal → Gentle wake-up
       </div>
     </div>
   </div>;const features = [{ visual: <EscalationChart />, title: '5-Stage Escalation Motor', desc: "Starts soft. Gets serious. Impossible to sleep through — even if you've failed with vibrating alarms before.", note: 'Most users wake at Stage 1–2. Stages 4–5 are for the deepest 5% of sleepers.' }, { visual: <PathwayComparison />, title: 'Your Wrist Wakes You Better Than Your Ears.', desc: "Two pathways. One works better. Based on Harvard Medical School research, Cell journal, December 2024.", note: null }, { placeholder: '[ PRODUCT DETAIL SHOT — macro close-up of band on wrist ]', title: '22 Grams. Forget It\'s There.', desc: "Medical-grade silicone. Slimmer than a fitness tracker. Most users forget they're wearing it by night three.", note: null }, { placeholder: '[ PRODUCT DETAIL SHOT — USB charging, no cable ]', title: 'Charges in an Hour. Lasts Two Weeks.', desc: "Remove the display, plug directly into any USB port. No cable required. 14+ days between charges.", note: null }];export const ProductFeaturesSection = () => <section className="bg-background px-5 md:px-0 md:py-[30px] py-[30px]">
