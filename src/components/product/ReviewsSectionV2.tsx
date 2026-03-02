@@ -1,31 +1,35 @@
 import { Reveal } from '@/components/Reveal';
 import { Label, Stars } from '@/components/shared';
 import { Play } from 'lucide-react';
+import reviewSarah from '@/assets/reviews/sarah-v2.jpeg';
+import reviewDavid from '@/assets/reviews/david.jpeg';
+import reviewJake from '@/assets/reviews/jake-v2.jpeg';
+import reviewChloe from '@/assets/reviews/chloe.jpeg';
 
 const reviews = [
 {
   tag: 'Couples',
   quote: "My husband starts work at 5am. I don't have to be up until 7:30. For two years I woke up with him every single morning. First week with this I slept straight through. I actually cried.",
   name: 'Sarah M.',
-  init: 'S'
+  photo: reviewSarah,
 },
 {
   tag: 'Deep Sleeper',
   quote: "Deeply sceptical at $99. I'm a heavy sleeper, nothing wakes me. By night three the escalating pattern got through. My wife hasn't been disturbed once.",
   name: 'David K.',
-  init: 'D'
+  photo: reviewDavid,
 },
 {
   tag: 'ADHD',
   quote: "I've been setting 9 alarms every night since college. It's been 6 weeks and I've set one alarm every single day. One.",
   name: 'Jake T.',
-  init: 'J'
+  photo: reviewJake,
 },
 {
   tag: 'Shift Worker',
   quote: "I'm a nurse on rotating shifts. I've woken my flatmates up more times than I can count. This solved a problem I thought I just had to live with.",
   name: 'Chloe R.',
-  init: 'C'
+  photo: reviewChloe,
 }];
 
 
@@ -53,13 +57,12 @@ export const ReviewsSectionV2 = () =>
           className="p-6 rounded-[16px] bg-white border border-[hsl(var(--light-border))] shadow-card-light">
 
               <div className="flex items-center gap-3 mb-4">
-                {/* Avatar placeholder */}
-                <div
-              className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold text-gold font-display flex-shrink-0"
-              style={{ background: 'hsl(var(--background))' }}>
-
-                  {r.init}
-                </div>
+                {/* Avatar photo */}
+                <img
+              src={r.photo}
+              alt={r.name}
+              className="w-10 h-10 rounded-full object-cover flex-shrink-0"
+            />
                 <div>
                   <div className="text-[13px] font-semibold text-[#1a1a1a]">{r.name}</div>
                   <div className="text-[10px] text-[#6b6b6b]">Verified Buyer</div>
