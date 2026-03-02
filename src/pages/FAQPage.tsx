@@ -37,7 +37,7 @@ const faqs = [
 const FAQPage = () => {
   return (
     <>
-      <Section className="pt-24 text-center">
+      <Section className="pt-10 text-center">
         <Reveal>
           <Label>Frequently Asked Questions</Label>
           <Heading>Before you <Gold>decide.</Gold></Heading>

@@ -8,7 +8,7 @@ const ContactPage = () => {
 
   return (
     <>
-      <Section className="pt-24 text-center">
+      <Section className="pt-10 text-center">
         <Reveal>
           <Label>Contact Us</Label>
           <Heading>We'd love to <Gold>hear from you.</Gold></Heading>

@@ -79,21 +79,6 @@ export const ReviewsSectionV2 = () =>
       </div>
 
       {/* Video placeholder */}
-      <Reveal delay={0.3}>
-        
-
-
-
-
-
-
-
-
-
-
-
-
-      
-      </Reveal>
+      {/* Video section removed */}
     </div>
   </section>;
