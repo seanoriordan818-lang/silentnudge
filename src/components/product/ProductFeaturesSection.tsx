@@ -29,18 +29,18 @@ const EscalationChart = () =>
 
 /* Pathway comparison mini cards */
 const PathwayComparison = () =>
-<div className="flex gap-2 h-full py-4 px-2">
+<div className="flex gap-2 h-full py-2 px-2">
     {/* Auditory (dimmed) */}
-    <div className="flex-1 rounded-xl p-3" style={{ background: 'hsl(0 60% 30% / 0.08)', border: '1px solid hsl(0 60% 40% / 0.15)' }}>
-      <div className="text-[9px] font-bold uppercase tracking-wider mb-2" style={{ color: 'hsl(0 50% 50% / 0.6)' }}>🔊 Sound</div>
-      <div className="text-[10px] leading-snug" style={{ color: 'hsl(0 50% 50% / 0.5)' }}>
+    <div className="flex-1 rounded-xl p-2.5 flex flex-col justify-center" style={{ background: 'hsl(0 60% 30% / 0.08)', border: '1px solid hsl(0 60% 40% / 0.15)' }}>
+      <div className="text-[11px] font-bold uppercase tracking-wider mb-1.5" style={{ color: 'hsl(0 50% 50% / 0.6)' }}>🔊 Sound</div>
+      <div className="text-[12px] leading-relaxed" style={{ color: 'hsl(0 50% 50% / 0.5)' }}>
         Sound → Amygdala → Cortisol spike → Stress wake-up
       </div>
     </div>
     {/* Tactile (highlighted) */}
-    <div className="flex-1 rounded-xl p-3 bg-gold/[0.08]" style={{ border: '1px solid hsl(var(--gold) / 0.25)' }}>
-      <div className="text-[9px] font-bold uppercase tracking-wider text-gold mb-2">✋ Vibration</div>
-      <div className="text-[10px] leading-snug text-gold-dim">
+    <div className="flex-1 rounded-xl p-2.5 flex flex-col justify-center bg-gold/[0.08]" style={{ border: '1px solid hsl(var(--gold) / 0.25)' }}>
+      <div className="text-[11px] font-bold uppercase tracking-wider text-gold mb-1.5">✋ Vibration</div>
+      <div className="text-[12px] leading-relaxed text-gold-dim">
         Vibration → Pacinian corpuscles → Calm arousal → Gentle wake-up
       </div>
     </div>
