@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Check, ArrowRight, Zap, Brain, Wifi } from 'lucide-react';
+import productSingle from '@/assets/product-single.jpeg';
+import product2Pack from '@/assets/product-2pack.jpeg';
 import heroLifestyle from '@/assets/hero-lifestyle.png';
 import reviewSarah from '@/assets/reviews/sarah.jpeg';
 import reviewJake from '@/assets/reviews/jake.jpeg';
@@ -134,8 +136,8 @@ const HomePage = () => {
           <div className="grid grid-cols-2 gap-3 sm:gap-5">
             {/* Card 1 — Best Seller */}
             <div className="rounded-2xl border overflow-hidden" style={{ background: 'hsl(220 18% 13%)', borderColor: 'hsl(var(--gold) / 0.1)' }}>
-            <div className="min-h-[120px] sm:min-h-[200px] flex items-center justify-center" style={{ background: 'hsl(var(--raised2))' }}>
-                <p className="text-[10px] sm:text-[12px] text-muted-foreground opacity-50">[ PRODUCT IMAGE ]</p>
+            <div className="min-h-[120px] sm:min-h-[200px] flex items-center justify-center overflow-hidden" style={{ background: 'hsl(var(--raised2))' }}>
+                <img src={productSingle} alt="SilentNudge Wristband" className="w-full h-full object-cover" />
               </div>
               <div className="p-3 sm:p-6">
                 <span className="text-[9px] sm:text-[11px] font-semibold tracking-wider uppercase text-gold">🏆 Best Seller</span>
@@ -154,8 +156,8 @@ const HomePage = () => {
 
             {/* Card 2 — Couples */}
             <div className="rounded-2xl border overflow-hidden" style={{ background: 'hsl(var(--card))', borderColor: 'hsl(var(--border))' }}>
-              <div className="min-h-[120px] sm:min-h-[200px] flex items-center justify-center" style={{ background: 'hsl(var(--raised2))' }}>
-                <p className="text-[10px] sm:text-[12px] text-muted-foreground opacity-50">[ PRODUCT IMAGE ]</p>
+              <div className="min-h-[120px] sm:min-h-[200px] flex items-center justify-center overflow-hidden" style={{ background: 'hsl(var(--raised2))' }}>
+                <img src={product2Pack} alt="SilentNudge 2-Pack" className="w-full h-full object-cover" />
               </div>
               <div className="p-3 sm:p-6">
                 <span className="text-[9px] sm:text-[11px] font-semibold tracking-wider uppercase text-gold">❤️ Most Popular for Couples</span>
