@@ -34,7 +34,7 @@ const faqs = [
 
 
 export const FAQSectionV2 = () =>
-<section className="bg-white md:py-20 px-5 md:px-7 pb-20 md:pb-20 py-[30px]">
+<section className="bg-white md:py-20 px-5 pb-20 md:pb-20 py-[30px] md:px-[15px]">
     <div className="max-w-[700px] mx-auto">
       <Reveal>
         <div className="text-center mb-10 md:mb-12">

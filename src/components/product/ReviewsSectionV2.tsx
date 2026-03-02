@@ -11,30 +11,30 @@ const reviews = [
   tag: 'Couples',
   quote: "My husband starts work at 5am. I don't have to be up until 7:30. For two years I woke up with him every single morning. First week with this I slept straight through. I actually cried.",
   name: 'Sarah M.',
-  photo: reviewSarah,
+  photo: reviewSarah
 },
 {
   tag: 'Deep Sleeper',
   quote: "Deeply sceptical at $99. I'm a heavy sleeper, nothing wakes me. By night three the escalating pattern got through. My wife hasn't been disturbed once.",
   name: 'David K.',
-  photo: reviewDavid,
+  photo: reviewDavid
 },
 {
   tag: 'ADHD',
   quote: "I've been setting 9 alarms every night since college. It's been 6 weeks and I've set one alarm every single day. One.",
   name: 'Jake T.',
-  photo: reviewJake,
+  photo: reviewJake
 },
 {
   tag: 'Shift Worker',
   quote: "I'm a nurse on rotating shifts. I've woken my flatmates up more times than I can count. This solved a problem I thought I just had to live with.",
   name: 'Chloe R.',
-  photo: reviewChloe,
+  photo: reviewChloe
 }];
 
 
 export const ReviewsSectionV2 = () =>
-<section className="bg-white md:py-20 px-5 md:px-7 py-[30px]">
+<section className="bg-white md:py-20 px-5 py-[30px] md:px-[15px]">
     <div className="max-w-[1200px] mx-auto">
       <Reveal>
         <div className="text-center mb-10 md:mb-12">
@@ -61,8 +61,8 @@ export const ReviewsSectionV2 = () =>
                 <img
               src={r.photo}
               alt={r.name}
-              className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-            />
+              className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+            
                 <div>
                   <div className="text-[13px] font-semibold text-[#1a1a1a]">{r.name}</div>
                   <div className="text-[10px] text-[#6b6b6b]">Verified Buyer</div>
@@ -80,20 +80,20 @@ export const ReviewsSectionV2 = () =>
 
       {/* Video placeholder */}
       <Reveal delay={0.3}>
-        <div
-        className="mt-10 max-w-[800px] mx-auto aspect-video rounded-[16px] flex flex-col items-center justify-center gap-3"
-        style={{
-          background: 'hsl(var(--background))',
-          border: '2px dashed hsl(var(--gold) / 0.3)'
-        }}>
+        
 
-          <div className="w-14 h-14 rounded-full bg-gold/[0.15] flex items-center justify-center">
-            <Play size={24} className="text-gold ml-1" />
-          </div>
-          <p className="text-xs text-muted-foreground text-center px-6 max-w-[400px] leading-relaxed">
-            [ UGC VIDEO REVIEW — 30–60 sec, real customer, iPhone-style. Add when available. ]
-          </p>
-        </div>
+
+
+
+
+
+
+
+
+
+
+
+      
       </Reveal>
     </div>
   </section>;

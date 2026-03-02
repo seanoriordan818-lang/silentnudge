@@ -66,7 +66,7 @@ const rows = [
 
 
 export const ComparisonTableV2 = () =>
-<section className="bg-white md:py-20 px-5 md:px-7 py-[30px]">
+<section className="bg-white md:py-20 px-5 py-[30px] md:px-[15px]">
     <div className="max-w-[1100px] mx-auto">
       <Reveal>
         <div className="text-center mb-10 md:mb-12">
