@@ -3,6 +3,8 @@ import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
+import product2Pack from "@/assets/product-2pack.jpeg";
+import product4Pack from "@/assets/product-4pack.jpeg";
 
 const FREE_SHIPPING_THRESHOLD = 99;
 
@@ -20,8 +22,8 @@ function useCountdown(items: any[]) {
 }
 
 const crossSellItems = [
-  { name: "Couples Pack", price: 169, originalPrice: 258, description: "2× bands — one for each of you" },
-  { name: "Family Pack", price: 299, originalPrice: 516, description: "4× bands — one for everyone in the house" },
+  { name: "Couples Pack", price: 169, originalPrice: 258, description: "2× bands — one for each of you", image: product2Pack },
+  { name: "Family Pack", price: 299, originalPrice: 516, description: "4× bands — one for everyone in the house", image: product4Pack },
 ];
 
 /* Wristband SVG placeholder for items without images */
@@ -268,14 +270,8 @@ export const CartDrawer = () => {
                       onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'hsl(var(--gold))')}
                       onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'hsl(var(--border))')}
                     >
-                      {/* Image placeholder */}
-                      <div
-                        className="w-full h-[80px] rounded-lg mb-2.5 flex items-center justify-center"
-                        style={{ background: 'hsl(var(--background))', border: '1px dashed hsl(var(--border))' }}
-                      >
-                        <span className="text-[9px] text-center px-2 leading-snug" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
-                          [ ADD PRODUCT IMAGE ]
-                        </span>
+                      <div className="w-full h-[80px] rounded-lg mb-2.5 overflow-hidden">
+                        <img src={cs.image} alt={cs.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="text-[12px] font-semibold text-foreground mb-0.5">{cs.name}</div>
                       <div className="text-[10px] leading-snug mb-2" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
