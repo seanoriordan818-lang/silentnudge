@@ -8,7 +8,7 @@ const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 const SciencePage = () => {
   return (
     <>
-      <Section className="pt-24 text-center">
+      <Section className="pt-10 text-center">
         <Reveal>
           <Label>The Science Behind SilentNudge</Label>
           <Heading>Why your wrist wakes you better than <Gold>any sound ever could.</Gold></Heading>

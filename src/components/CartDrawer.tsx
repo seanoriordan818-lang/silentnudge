@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
+import { storefrontApiRequest, STOREFRONT_PRODUCTS_QUERY, ShopifyProduct } from "@/lib/shopify";
 import product2Pack from "@/assets/product-2pack.jpeg";
 import product4Pack from "@/assets/product-4pack.jpeg";
 
@@ -22,9 +23,14 @@ function useCountdown(items: any[]) {
 }
 
 const crossSellItems = [
-  { name: "Couples Pack", price: 169, originalPrice: 258, description: "2× bands — one for each of you", image: product2Pack },
-  { name: "Family Pack", price: 299, originalPrice: 516, description: "4× bands — one for everyone in the house", image: product4Pack },
+  { name: "Couples Pack", price: 169, originalPrice: 258, description: "2× bands — one for each of you", image: product2Pack, bundleType: 'couples', qty: 2 },
+  { name: "Family Pack", price: 299, originalPrice: 516, description: "4× bands — one for everyone in the house", image: product4Pack, bundleType: 'family', qty: 4 },
 ];
+
+const BUNDLE_DISCOUNT_CODES: Record<string, string> = {
+  couples: 'COUPLES-BUNDLE',
+  family: 'FAMILY-BUNDLE',
+};
 
 /* Wristband SVG placeholder for items without images */
 const WristbandPlaceholder = () => (
@@ -36,23 +42,43 @@ const WristbandPlaceholder = () => (
 
 export const CartDrawer = () => {
   const {
-    items, isLoading, isSyncing, isDrawerOpen,
+    items, isLoading, isSyncing, isDrawerOpen, appliedDiscountCode, bundleType,
     updateQuantity, removeItem, getCheckoutUrl, syncCart,
-    openDrawer, closeDrawer,
+    openDrawer, closeDrawer, addBundleItems,
   } = useCartStore();
   const [discountOpen, setDiscountOpen] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
   const crossSellRef = useRef<HTMLDivElement>(null);
+  const [crossSellProduct, setCrossSellProduct] = useState<ShopifyProduct | null>(null);
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce((sum, item) => sum + parseFloat(item.price.amount) * item.quantity, 0);
   const countdown = useCountdown(items);
 
-  const shippingRemaining = Math.max(0, FREE_SHIPPING_THRESHOLD - totalPrice);
-  const shippingProgress = Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100);
-  const freeShippingUnlocked = totalPrice >= FREE_SHIPPING_THRESHOLD;
+  // Calculate discount amount for display
+  const discountAmount = appliedDiscountCode === 'COUPLES-BUNDLE' ? 29 : appliedDiscountCode === 'FAMILY-BUNDLE' ? 97 : 0;
+  const displayTotal = discountAmount > 0 ? totalPrice - discountAmount : totalPrice;
+
+  const shippingRemaining = Math.max(0, FREE_SHIPPING_THRESHOLD - displayTotal);
+  const shippingProgress = Math.min(100, (displayTotal / FREE_SHIPPING_THRESHOLD) * 100);
+  const freeShippingUnlocked = displayTotal >= FREE_SHIPPING_THRESHOLD;
 
   useEffect(() => { if (isDrawerOpen) syncCart(); }, [isDrawerOpen, syncCart]);
+
+  // Fetch product data for cross-sell
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const data = await storefrontApiRequest(STOREFRONT_PRODUCTS_QUERY, { first: 1 });
+        if (data?.data?.products?.edges?.[0]) {
+          setCrossSellProduct(data.data.products.edges[0]);
+        }
+      } catch (err) {
+        console.error('Failed to fetch product for cross-sell:', err);
+      }
+    };
+    if (isDrawerOpen && !crossSellProduct) fetchProduct();
+  }, [isDrawerOpen, crossSellProduct]);
 
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -79,9 +105,37 @@ export const CartDrawer = () => {
     }
   };
 
+  const handleCrossSellAdd = async (cs: typeof crossSellItems[0]) => {
+    if (!crossSellProduct) return;
+    const variants = crossSellProduct.node.variants.edges;
+    const blackVariant = variants.find(v => v.node.title === 'Black' || v.node.selectedOptions?.some(o => o.value === 'Black'));
+    const whiteVariant = variants.find(v => v.node.title === 'White' || v.node.selectedOptions?.some(o => o.value === 'White'));
+
+    if (!blackVariant || !whiteVariant) return;
+
+    const discountCode = BUNDLE_DISCOUNT_CODES[cs.bundleType];
+    const bundleItems = [];
+
+    if (cs.bundleType === 'couples') {
+      bundleItems.push(
+        { product: crossSellProduct, variantId: blackVariant.node.id, variantTitle: blackVariant.node.title, price: blackVariant.node.price, quantity: 1, selectedOptions: blackVariant.node.selectedOptions || [] },
+        { product: crossSellProduct, variantId: whiteVariant.node.id, variantTitle: whiteVariant.node.title, price: whiteVariant.node.price, quantity: 1, selectedOptions: whiteVariant.node.selectedOptions || [] },
+      );
+    } else {
+      bundleItems.push(
+        { product: crossSellProduct, variantId: blackVariant.node.id, variantTitle: blackVariant.node.title, price: blackVariant.node.price, quantity: 2, selectedOptions: blackVariant.node.selectedOptions || [] },
+        { product: crossSellProduct, variantId: whiteVariant.node.id, variantTitle: whiteVariant.node.title, price: whiteVariant.node.price, quantity: 2, selectedOptions: whiteVariant.node.selectedOptions || [] },
+      );
+    }
+
+    await addBundleItems(bundleItems, discountCode, cs.bundleType);
+  };
+
+  // Determine if quantity editing should be locked for bundle items
+  const isBundleLocked = !!bundleType && bundleType !== 'single';
+
   return createPortal(
     <>
-
       {/* ─── OVERLAY ─── */}
       <div
         className={`fixed inset-0 z-[10000] transition-all duration-300 ${isDrawerOpen ? "bg-black/70 pointer-events-auto" : "bg-transparent pointer-events-none"}`}
@@ -176,6 +230,16 @@ export const CartDrawer = () => {
             </div>
           ) : (
             <>
+              {/* Bundle label */}
+              {isBundleLocked && (
+                <div className="px-4 pt-3 pb-1">
+                  <div className="text-[11px] font-bold tracking-wide uppercase text-gold flex items-center gap-2">
+                    🎁 {bundleType === 'couples' ? 'Couples Pack' : 'Family Pack'} Bundle
+                    <span className="text-[10px] font-normal text-muted-foreground">(modify on product page)</span>
+                  </div>
+                </div>
+              )}
+
               {/* ─── LINE ITEMS ─── */}
               <div className="px-4">
                 {items.map((item, idx) => {
@@ -207,27 +271,32 @@ export const CartDrawer = () => {
 
                           {/* Qty + Price row */}
                           <div className="flex items-center justify-between">
-                            {/* Pill qty control */}
-                            <div
-                              className="flex items-center rounded-full overflow-hidden"
-                              style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
-                            >
-                              <button
-                                onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
-                                className="w-[36px] h-[36px] flex items-center justify-center text-foreground text-[18px] leading-none bg-transparent border-none cursor-pointer transition-colors hover:bg-[hsl(0_0%_100%/0.08)]"
+                            {isBundleLocked ? (
+                              <div className="text-[13px] text-muted-foreground">
+                                Qty: {item.quantity}
+                              </div>
+                            ) : (
+                              <div
+                                className="flex items-center rounded-full overflow-hidden"
+                                style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
                               >
-                                −
-                              </button>
-                              <span className="min-w-[24px] text-center text-[14px] font-semibold text-foreground">
-                                {item.quantity}
-                              </span>
-                              <button
-                                onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
-                                className="w-[36px] h-[36px] flex items-center justify-center text-foreground text-[18px] leading-none bg-transparent border-none cursor-pointer transition-colors hover:bg-[hsl(0_0%_100%/0.08)]"
-                              >
-                                +
-                              </button>
-                            </div>
+                                <button
+                                  onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
+                                  className="w-[36px] h-[36px] flex items-center justify-center text-foreground text-[18px] leading-none bg-transparent border-none cursor-pointer transition-colors hover:bg-[hsl(0_0%_100%/0.08)]"
+                                >
+                                  −
+                                </button>
+                                <span className="min-w-[24px] text-center text-[14px] font-semibold text-foreground">
+                                  {item.quantity}
+                                </span>
+                                <button
+                                  onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
+                                  className="w-[36px] h-[36px] flex items-center justify-center text-foreground text-[18px] leading-none bg-transparent border-none cursor-pointer transition-colors hover:bg-[hsl(0_0%_100%/0.08)]"
+                                >
+                                  +
+                                </button>
+                              </div>
+                            )}
 
                             {/* Price */}
                             <div className="text-right">
@@ -279,14 +348,14 @@ export const CartDrawer = () => {
                       </div>
                       <div className="text-[13px] font-bold text-gold mb-2">
                         ${cs.price}{" "}
-                        {cs.originalPrice && (
-                          <span className="text-[11px] font-normal line-through" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
-                            ${cs.originalPrice}
-                          </span>
-                        )}
+                        <span className="text-[11px] font-normal line-through" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+                          ${cs.originalPrice}
+                        </span>
                       </div>
                       <button
-                        className="w-full py-[7px] rounded-md text-[11px] font-bold tracking-wide cursor-pointer transition-colors"
+                        onClick={() => handleCrossSellAdd(cs)}
+                        disabled={isLoading}
+                        className="w-full py-[7px] rounded-md text-[11px] font-bold tracking-wide cursor-pointer transition-colors disabled:opacity-50"
                         style={{
                           background: 'hsl(var(--gold) / 0.15)',
                           border: '1px solid hsl(var(--gold) / 0.4)',
@@ -301,7 +370,7 @@ export const CartDrawer = () => {
                           e.currentTarget.style.color = 'hsl(var(--gold))';
                         }}
                       >
-                        Add to Cart
+                        {isLoading ? '...' : 'Add to Cart'}
                       </button>
                     </div>
                   ))}
@@ -367,8 +436,23 @@ export const CartDrawer = () => {
             {/* Subtotal */}
             <div className="flex justify-between items-center mb-0.5">
               <span className="text-[12px]" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>Subtotal</span>
-              <span className="text-[18px] font-bold text-foreground font-display">${totalPrice.toFixed(2)}</span>
+              <span className="text-[14px] text-foreground">${totalPrice.toFixed(2)}</span>
             </div>
+
+            {/* Bundle discount */}
+            {discountAmount > 0 && (
+              <div className="flex justify-between items-center mb-0.5">
+                <span className="text-[12px]" style={{ color: '#2ECC71' }}>Bundle Discount</span>
+                <span className="text-[14px] font-semibold" style={{ color: '#2ECC71' }}>−${discountAmount.toFixed(2)}</span>
+              </div>
+            )}
+
+            {/* Total */}
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-[13px] font-semibold text-foreground">Total</span>
+              <span className="text-[20px] font-bold text-foreground font-display">${displayTotal.toFixed(2)}</span>
+            </div>
+
             <p className="text-[10px] mb-2" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
               Taxes and shipping calculated at checkout
             </p>
@@ -393,7 +477,7 @@ export const CartDrawer = () => {
               {isLoading || isSyncing ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : (
-                <>Checkout · ${totalPrice.toFixed(2)} →</>
+                <>Checkout · ${displayTotal.toFixed(2)} →</>
               )}
             </button>
 

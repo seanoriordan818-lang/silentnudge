@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 
+
 const SHOPIFY_API_VERSION = '2025-07';
 const SHOPIFY_STORE_PERMANENT_DOMAIN = 'store-launchpad-sprn5.myshopify.com';
 const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
@@ -175,7 +176,7 @@ export async function storefrontApiRequest(query: string, variables: Record<stri
   return data;
 }
 
-// Cart mutations
+// Cart queries & mutations
 export const CART_QUERY = `
   query cart($id: ID!) {
     cart(id: $id) { id totalQuantity }
@@ -225,6 +226,15 @@ export const CART_LINES_REMOVE_MUTATION = `
   }
 `;
 
+export const CART_DISCOUNT_CODES_UPDATE_MUTATION = `
+  mutation cartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!]) {
+    cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $discountCodes) {
+      cart { id checkoutUrl }
+      userErrors { field message }
+    }
+  }
+`;
+
 function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
@@ -268,6 +278,28 @@ export async function createShopifyCart(item: CartItem): Promise<{ cartId: strin
   return { cartId: cart.id, checkoutUrl: formatCheckoutUrl(cart.checkoutUrl), lineId };
 }
 
+export async function createShopifyCartMulti(lines: Array<{ quantity: number; merchandiseId: string }>): Promise<{ cartId: string; checkoutUrl: string; lineIds: Array<{ variantId: string; lineId: string }> } | null> {
+  const data = await storefrontApiRequest(CART_CREATE_MUTATION, {
+    input: { lines: lines.map(l => ({ quantity: l.quantity, merchandiseId: l.merchandiseId })) },
+  });
+
+  if (data?.data?.cartCreate?.userErrors?.length > 0) {
+    console.error('Cart creation failed:', data.data.cartCreate.userErrors);
+    return null;
+  }
+
+  const cart = data?.data?.cartCreate?.cart;
+  if (!cart?.checkoutUrl) return null;
+
+  const edges = cart.lines.edges || [];
+  const lineIds = edges.map((e: { node: { id: string; merchandise: { id: string } } }) => ({
+    variantId: e.node.merchandise.id,
+    lineId: e.node.id,
+  }));
+
+  return { cartId: cart.id, checkoutUrl: formatCheckoutUrl(cart.checkoutUrl), lineIds };
+}
+
 export async function addLineToShopifyCart(cartId: string, item: CartItem): Promise<{ success: boolean; lineId?: string; cartNotFound?: boolean }> {
   const data = await storefrontApiRequest(CART_LINES_ADD_MUTATION, {
     cartId,
@@ -278,9 +310,27 @@ export async function addLineToShopifyCart(cartId: string, item: CartItem): Prom
   if (isCartNotFoundError(userErrors)) return { success: false, cartNotFound: true };
   if (userErrors.length > 0) return { success: false };
 
-  const lines = data?.data?.cartLinesAdd?.cart?.lines?.edges || [];
-  const newLine = lines.find((l: { node: { id: string; merchandise: { id: string } } }) => l.node.merchandise.id === item.variantId);
+  const allLines = data?.data?.cartLinesAdd?.cart?.lines?.edges || [];
+  const newLine = allLines.find((l: { node: { id: string; merchandise: { id: string } } }) => l.node.merchandise.id === item.variantId);
   return { success: true, lineId: newLine?.node?.id };
+}
+
+export async function addLinesToShopifyCart(cartId: string, lines: Array<{ quantity: number; merchandiseId: string }>): Promise<{ success: boolean; lineIds?: Array<{ variantId: string; lineId: string }>; cartNotFound?: boolean }> {
+  const data = await storefrontApiRequest(CART_LINES_ADD_MUTATION, {
+    cartId,
+    lines: lines.map(l => ({ quantity: l.quantity, merchandiseId: l.merchandiseId })),
+  });
+
+  const userErrors = data?.data?.cartLinesAdd?.userErrors || [];
+  if (isCartNotFoundError(userErrors)) return { success: false, cartNotFound: true };
+  if (userErrors.length > 0) return { success: false };
+
+  const allLines = data?.data?.cartLinesAdd?.cart?.lines?.edges || [];
+  const lineIds = lines.map(l => {
+    const found = allLines.find((e: { node: { id: string; merchandise: { id: string } } }) => e.node.merchandise.id === l.merchandiseId);
+    return { variantId: l.merchandiseId, lineId: found?.node?.id || '' };
+  });
+  return { success: true, lineIds };
 }
 
 export async function updateShopifyCartLine(cartId: string, lineId: string, quantity: number): Promise<{ success: boolean; cartNotFound?: boolean }> {
@@ -305,4 +355,21 @@ export async function removeLineFromShopifyCart(cartId: string, lineId: string):
   if (isCartNotFoundError(userErrors)) return { success: false, cartNotFound: true };
   if (userErrors.length > 0) return { success: false };
   return { success: true };
+}
+
+export async function applyDiscountCodesToCart(cartId: string, discountCodes: string[]): Promise<{ success: boolean; checkoutUrl?: string }> {
+  const data = await storefrontApiRequest(CART_DISCOUNT_CODES_UPDATE_MUTATION, {
+    cartId,
+    discountCodes,
+  });
+
+  const userErrors = data?.data?.cartDiscountCodesUpdate?.userErrors || [];
+  if (userErrors.length > 0) {
+    console.error('Discount code application failed:', userErrors);
+    return { success: false };
+  }
+
+  const cart = data?.data?.cartDiscountCodesUpdate?.cart;
+  const checkoutUrl = cart?.checkoutUrl ? formatCheckoutUrl(cart.checkoutUrl) : undefined;
+  return { success: true, checkoutUrl };
 }
