@@ -33,52 +33,9 @@ const PathwayComparison = () =>
     {/* Auditory (dimmed) */}
     <div className="flex-1 rounded-xl p-3" style={{ background: 'hsl(0 60% 30% / 0.08)', border: '1px solid hsl(0 60% 40% / 0.15)' }}>
       <div className="text-[9px] font-bold uppercase tracking-wider mb-2" style={{ color: 'hsl(0 50% 50% / 0.6)' }}>🔊 Sound</div>
-      <div className="text-[10px] leading-snug" style={{ color: 'hsl(0 50% 50% / 0.5)' }}>
-        
-        
-        
-        
-        
-        
-        
-        
-       
-      
-    
-   Sound 
-      ↓ 
-Amygdala
-      ↓ 
- Cortisol spike 
-      ↓ 
-Stress wake-up
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-    </div>
+      <div className="text-[10px] leading-snug text-center" style={{ color: 'hsl(0 50% 50% / 0.5)' }}>
+        Sound<br/>↓<br/>Amygdala<br/>↓<br/>Cortisol spike<br/>↓<br/>Stress wake-up
+      </div>
     </div>
     {/* Tactile (highlighted) */}
     <div className="flex-1 rounded-xl p-3 bg-gold/[0.08]" style={{ border: '1px solid hsl(var(--gold) / 0.25)' }}>
