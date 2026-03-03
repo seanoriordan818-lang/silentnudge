@@ -40,11 +40,49 @@ const WristbandPlaceholder = () => (
   </svg>
 );
 
+/* Color variant dropdown for line items */
+const ColorDropdown = ({
+  currentColor,
+  colors,
+  onChangeColor,
+  disabled,
+}: {
+  currentColor: string;
+  colors: string[];
+  onChangeColor: (color: string) => void;
+  disabled: boolean;
+}) => (
+  <select
+    value={currentColor}
+    onChange={(e) => onChangeColor(e.target.value)}
+    disabled={disabled}
+    className="text-[12px] py-1 px-2 rounded-md bg-transparent cursor-pointer outline-none transition-colors disabled:opacity-50"
+    style={{
+      border: '1px solid hsl(var(--border))',
+      color: 'hsl(var(--foreground))',
+      fontFamily: 'inherit',
+      WebkitAppearance: 'none',
+      MozAppearance: 'none',
+      appearance: 'none',
+      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'right 6px center',
+      paddingRight: '22px',
+    }}
+  >
+    {colors.map((c) => (
+      <option key={c} value={c} style={{ background: 'hsl(var(--background))', color: 'hsl(var(--foreground))' }}>
+        {c}
+      </option>
+    ))}
+  </select>
+);
+
 export const CartDrawer = () => {
   const {
     items, isLoading, isSyncing, isDrawerOpen, appliedDiscountCode, bundleType,
     updateQuantity, removeItem, getCheckoutUrl, syncCart,
-    openDrawer, closeDrawer, addBundleItems,
+    openDrawer, closeDrawer, addBundleItems, swapVariant,
   } = useCartStore();
   const [discountOpen, setDiscountOpen] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
@@ -131,6 +169,26 @@ export const CartDrawer = () => {
     await addBundleItems(bundleItems, discountCode, cs.bundleType);
   };
 
+  // Handle color variant swap for a line item
+  const handleColorChange = async (item: typeof items[0], newColor: string) => {
+    const currentColor = item.selectedOptions.find(o => o.name === 'Color')?.value || item.variantTitle;
+    if (newColor === currentColor) return;
+
+    // Find the new variant from the product data
+    const variants = item.product.node.variants.edges;
+    const newVariant = variants.find(v =>
+      v.node.title === newColor || v.node.selectedOptions?.some(o => o.name === 'Color' && o.value === newColor)
+    );
+    if (!newVariant) return;
+
+    await swapVariant(item.variantId, newVariant.node.id, newVariant.node.title, newVariant.node.price, newVariant.node.selectedOptions || []);
+  };
+
+  // Get available colors from first item's product
+  const getAvailableColors = (item: typeof items[0]): string[] => {
+    return item.product.node.options?.find(o => o.name === 'Color')?.values || ['Black', 'White'];
+  };
+
   // Determine if quantity editing should be locked for bundle items
   const isBundleLocked = !!bundleType && bundleType !== 'single';
 
@@ -145,13 +203,18 @@ export const CartDrawer = () => {
       {/* ─── DRAWER ─── */}
       <div
         className={`fixed z-[10001] flex flex-col overflow-hidden transition-transform duration-[380ms] ease-[cubic-bezier(0.4,0,0.2,1)]
-          bottom-0 right-0 w-screen h-[100dvh] rounded-t-[16px]
+          bottom-0 right-0 w-screen rounded-t-[16px]
           md:top-0 md:bottom-auto md:w-[420px] md:h-screen md:rounded-t-none md:rounded-l-none
           ${isDrawerOpen
             ? "translate-y-0 md:translate-x-0 md:translate-y-0 shadow-[-20px_0_60px_rgba(0,0,0,0.6)]"
             : "translate-y-full md:translate-y-0 md:translate-x-full"
           }`}
-        style={{ background: 'hsl(var(--background))' }}
+        style={{
+          background: 'hsl(var(--background))',
+          height: '100dvh',
+          maxHeight: '100dvh',
+          WebkitOverflowScrolling: 'touch',
+        }}
       >
         {/* ─── HEADER ─── */}
         <div
@@ -210,7 +273,14 @@ export const CartDrawer = () => {
         )}
 
         {/* ─── SCROLLABLE BODY ─── */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden" style={{ scrollbarWidth: 'thin', scrollbarColor: 'hsl(var(--border)) transparent' }}>
+        <div
+          className="flex-1 overflow-y-auto overflow-x-hidden"
+          style={{
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'hsl(var(--border)) transparent',
+            WebkitOverflowScrolling: 'touch',
+          }}
+        >
           {items.length === 0 ? (
             /* ─── EMPTY STATE ─── */
             <div className="flex flex-col items-center justify-center h-full px-8 text-center gap-4 py-16">
@@ -245,6 +315,9 @@ export const CartDrawer = () => {
                 {items.map((item, idx) => {
                   const price = parseFloat(item.price.amount);
                   const firstImage = item.product.node.images?.edges?.[0]?.node;
+                  const currentColor = item.selectedOptions.find(o => o.name === 'Color')?.value || item.variantTitle;
+                  const availableColors = getAvailableColors(item);
+
                   return (
                     <div key={item.variantId}>
                       <div className="flex gap-4 py-5 relative animate-[itemIn_0.3s_ease_forwards]">
@@ -254,7 +327,7 @@ export const CartDrawer = () => {
                           style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
                         >
                           {firstImage ? (
-                            <img src={firstImage.url} alt={item.product.node.title} className="w-full h-full object-cover" />
+                            <img src={firstImage.url} alt={item.product.node.title} className="w-full h-full object-cover block" />
                           ) : (
                             <WristbandPlaceholder />
                           )}
@@ -265,9 +338,22 @@ export const CartDrawer = () => {
                           <div className="text-[16px] font-semibold text-foreground leading-tight mb-0.5">
                             {item.product.node.title}
                           </div>
-                          <div className="text-[11px] mb-3" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
-                            {item.selectedOptions.map((o) => `${o.name}: ${o.value}`).join(" · ")}
-                          </div>
+
+                          {/* Color dropdown */}
+                          {availableColors.length > 1 ? (
+                            <div className="mb-2 mt-1">
+                              <ColorDropdown
+                                currentColor={currentColor}
+                                colors={availableColors}
+                                onChangeColor={(newColor) => handleColorChange(item, newColor)}
+                                disabled={isLoading}
+                              />
+                            </div>
+                          ) : (
+                            <div className="text-[11px] mb-3" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>
+                              {item.selectedOptions.map((o) => `${o.name}: ${o.value}`).join(" · ")}
+                            </div>
+                          )}
 
                           {/* Qty + Price row */}
                           <div className="flex items-center justify-between">
@@ -339,8 +425,28 @@ export const CartDrawer = () => {
                       onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'hsl(var(--gold))')}
                       onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'hsl(var(--border))')}
                     >
-                      <div className="w-full h-[80px] rounded-lg mb-2.5 overflow-hidden">
-                        <img src={cs.image} alt={cs.name} className="w-full h-full object-cover" />
+                      {/* Safari-safe image container */}
+                      <div
+                        className="w-full rounded-lg mb-2.5 overflow-hidden relative"
+                        style={{
+                          aspectRatio: '16 / 9',
+                          minHeight: '110px',
+                        }}
+                      >
+                        <img
+                          src={cs.image}
+                          alt={cs.name}
+                          className="block"
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            objectPosition: 'center',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                          }}
+                        />
                       </div>
                       <div className="text-[12px] font-semibold text-foreground mb-0.5">{cs.name}</div>
                       <div className="text-[10px] leading-snug mb-2" style={{ color: 'hsl(0 0% 100% / 0.55)' }}>

@@ -19,9 +19,9 @@ export function Footer() {
               Wake only you. Never miss. No panic. The first alarm engineered for how your brain actually wakes up.
             </p>
           </div>
-          {[
+        {[
           { title: 'Shop', items: [['SilentNudge Wristband', '/product']] },
-          { title: 'Learn', items: [['The Science', '/science'], ['Our Story', '/story'], ['Reviews', '/reviews'], ['FAQ', '/faq']] },
+          { title: 'Learn', items: [['The Science', '/science'], ['Our Story', '/story'], ['FAQ', '/faq']] },
           { title: 'Support', items: [['Contact Us', '/contact'], ['Shipping & Returns', '/faq'], ['100-Night Guarantee', '/faq']] }].
           map((col, i) =>
           <div key={i}>
