@@ -8,15 +8,7 @@ interface FinalCTASectionProps {
 
 export const FinalCTASection = ({ onAddToCart, isLoading }: FinalCTASectionProps) => (
   <section className="relative bg-background py-16 md:py-28 px-5 md:px-7 overflow-hidden">
-    {/* Background image placeholder — swap in a hero lifestyle image */}
-    <div
-      className="absolute inset-0 flex items-center justify-center opacity-[0.07]"
-      aria-hidden
-    >
-      <p className="text-xs text-muted-foreground text-center max-w-[300px]">
-        [ HERO LIFESTYLE IMAGE — dark bedroom, person waking calmly, partner asleep. Overlay text on top. ]
-      </p>
-    </div>
+    <div className="absolute inset-0 bg-[hsl(var(--raised))]" aria-hidden />
 
     <div className="relative max-w-[600px] mx-auto text-center">
       <Reveal>
