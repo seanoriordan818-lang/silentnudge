@@ -38,6 +38,7 @@ interface CartStore {
   addBundleItems: (items: BundleLineItem[], discountCode: string, bundleType: string) => Promise<void>;
   updateQuantity: (variantId: string, quantity: number) => Promise<void>;
   removeItem: (variantId: string) => Promise<void>;
+  swapVariant: (oldVariantId: string, newVariantId: string, newVariantTitle: string, newPrice: { amount: string; currencyCode: string }, newSelectedOptions: Array<{ name: string; value: string }>) => Promise<void>;
   clearCart: () => void;
   syncCart: () => Promise<void>;
   getCheckoutUrl: () => string | null;
@@ -196,6 +197,72 @@ export const useCartStore = create<CartStore>()(
           } else if (result.cartNotFound) clearCart();
         } catch (error) {
           console.error('Failed to remove item:', error);
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      swapVariant: async (oldVariantId, newVariantId, newVariantTitle, newPrice, newSelectedOptions) => {
+        const { items, cartId, clearCart, appliedDiscountCode, bundleType } = get();
+        const oldItem = items.find(i => i.variantId === oldVariantId);
+        if (!oldItem?.lineId || !cartId) return;
+
+        // Check if new variant already exists in cart
+        const existingNewItem = items.find(i => i.variantId === newVariantId);
+
+        set({ isLoading: true });
+        try {
+          // Remove old line
+          const removeResult = await removeLineFromShopifyCart(cartId, oldItem.lineId);
+          if (!removeResult.success) {
+            if (removeResult.cartNotFound) clearCart();
+            return;
+          }
+
+          if (existingNewItem?.lineId) {
+            // Merge: update existing line quantity
+            const newQty = existingNewItem.quantity + oldItem.quantity;
+            const updateResult = await updateShopifyCartLine(cartId, existingNewItem.lineId, newQty);
+            if (updateResult.success) {
+              set({
+                items: get().items
+                  .filter(i => i.variantId !== oldVariantId)
+                  .map(i => i.variantId === newVariantId ? { ...i, quantity: newQty } : i),
+              });
+            } else if (updateResult.cartNotFound) clearCart();
+          } else {
+            // Add new line
+            const newCartItem: CartItem = {
+              ...oldItem,
+              variantId: newVariantId,
+              variantTitle: newVariantTitle,
+              price: newPrice,
+              selectedOptions: newSelectedOptions,
+              lineId: null,
+            };
+            const addResult = await addLineToShopifyCart(cartId, newCartItem);
+            if (addResult.success) {
+              set({
+                items: get().items
+                  .filter(i => i.variantId !== oldVariantId)
+                  .concat([{ ...newCartItem, lineId: addResult.lineId ?? null }]),
+              });
+            } else if (addResult.cartNotFound) clearCart();
+          }
+
+          // Recalculate bundle discount based on total quantity
+          const currentItems = get().items;
+          const totalQty = currentItems.reduce((sum, i) => sum + i.quantity, 0);
+
+          if (totalQty === 2 && !appliedDiscountCode) {
+            const result = await applyDiscountCodesToCart(cartId, ['COUPLES-BUNDLE']);
+            if (result.success) set({ appliedDiscountCode: 'COUPLES-BUNDLE', bundleType: 'couples', checkoutUrl: result.checkoutUrl || get().checkoutUrl });
+          } else if (totalQty === 4 && !appliedDiscountCode) {
+            const result = await applyDiscountCodesToCart(cartId, ['FAMILY-BUNDLE']);
+            if (result.success) set({ appliedDiscountCode: 'FAMILY-BUNDLE', bundleType: 'family', checkoutUrl: result.checkoutUrl || get().checkoutUrl });
+          }
+        } catch (error) {
+          console.error('Failed to swap variant:', error);
         } finally {
           set({ isLoading: false });
         }
