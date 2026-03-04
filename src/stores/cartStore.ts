@@ -12,6 +12,7 @@ import {
   storefrontApiRequest,
   CART_QUERY,
   ShopifyProduct,
+  formatCheckoutUrl,
 } from '@/lib/shopify';
 
 export type { CartItem } from '@/lib/shopify';
@@ -253,13 +254,7 @@ export const useCartStore = create<CartStore>()(
           // Re-fetch checkoutUrl after line changes
           const refreshData = await storefrontApiRequest(CART_QUERY, { id: cartId });
           if (refreshData?.data?.cart?.checkoutUrl) {
-            try {
-              const url = new URL(refreshData.data.cart.checkoutUrl);
-              url.searchParams.set('channel', 'online_store');
-              set({ checkoutUrl: url.toString() });
-            } catch {
-              set({ checkoutUrl: refreshData.data.cart.checkoutUrl });
-            }
+            set({ checkoutUrl: formatCheckoutUrl(refreshData.data.cart.checkoutUrl) });
           }
 
           // Recalculate bundle discount based on total quantity
@@ -300,13 +295,7 @@ export const useCartStore = create<CartStore>()(
             clearCart();
           } else if (cart.checkoutUrl) {
             // Refresh checkoutUrl from Shopify (handles stale/expired URLs)
-            try {
-              const url = new URL(cart.checkoutUrl);
-              url.searchParams.set('channel', 'online_store');
-              set({ checkoutUrl: url.toString() });
-            } catch {
-              set({ checkoutUrl: cart.checkoutUrl });
-            }
+            set({ checkoutUrl: formatCheckoutUrl(cart.checkoutUrl) });
           }
         } catch (error) {
           console.error('Failed to sync cart:', error);
