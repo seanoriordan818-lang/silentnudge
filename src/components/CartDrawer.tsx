@@ -81,11 +81,12 @@ const ColorDropdown = ({
 export const CartDrawer = () => {
   const {
     items, isLoading, isSyncing, isDrawerOpen, appliedDiscountCode, bundleType,
-    updateQuantity, removeItem, getCheckoutUrl, syncCart,
+    updateQuantity, removeItem, getFreshCheckoutUrl, syncCart,
     openDrawer, closeDrawer, addBundleItems, swapVariant,
   } = useCartStore();
   const [discountOpen, setDiscountOpen] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const crossSellRef = useRef<HTMLDivElement>(null);
   const [crossSellProduct, setCrossSellProduct] = useState<ShopifyProduct | null>(null);
 
@@ -135,21 +136,21 @@ export const CartDrawer = () => {
     return () => document.removeEventListener("keydown", handler);
   }, [closeDrawer]);
 
-  const handleCheckout = () => {
-    const checkoutUrl = getCheckoutUrl();
-    if (!checkoutUrl) {
-      // No checkout URL available — attempt re-sync
-      syncCart();
-      alert("Checkout is loading — please try again in a moment.");
-      return;
+  const handleCheckout = async () => {
+    setIsRedirecting(true);
+    try {
+      const freshCheckoutUrl = await getFreshCheckoutUrl();
+      if (!freshCheckoutUrl) {
+        await syncCart();
+        alert("Checkout is loading — please try again in a moment.");
+        return;
+      }
+
+      window.location.assign(formatCheckoutUrl(freshCheckoutUrl));
+      closeDrawer();
+    } finally {
+      setIsRedirecting(false);
     }
-    // Try window.open; fall back to redirect if popup blocked
-    const safeCheckoutUrl = formatCheckoutUrl(checkoutUrl);
-    const newWindow = window.open(safeCheckoutUrl, "_blank");
-    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-      window.location.href = safeCheckoutUrl;
-    }
-    closeDrawer();
   };
 
   const handleCrossSellAdd = async (cs: typeof crossSellItems[0]) => {
@@ -575,7 +576,7 @@ export const CartDrawer = () => {
             {/* Checkout */}
             <button
               onClick={handleCheckout}
-              disabled={isLoading || isSyncing}
+              disabled={isLoading || isSyncing || isRedirecting}
               className="w-full py-3 rounded-full font-bold text-[14px] flex items-center justify-center gap-1.5 tracking-wide cursor-pointer mb-2 transition-all disabled:opacity-50"
               style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))', border: 'none' }}
               onMouseEnter={(e) => {
@@ -589,7 +590,7 @@ export const CartDrawer = () => {
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
-              {isLoading || isSyncing ? (
+              {isLoading || isSyncing || isRedirecting ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : (
                 <>Checkout · ${displayTotal.toFixed(2)} →</>
