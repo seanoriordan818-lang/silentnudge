@@ -137,10 +137,18 @@ export const CartDrawer = () => {
 
   const handleCheckout = () => {
     const checkoutUrl = getCheckoutUrl();
-    if (checkoutUrl) {
-      window.open(checkoutUrl, "_blank");
-      closeDrawer();
+    if (!checkoutUrl) {
+      // No checkout URL available — attempt re-sync
+      syncCart();
+      alert("Checkout is loading — please try again in a moment.");
+      return;
     }
+    // Try window.open; fall back to redirect if popup blocked
+    const newWindow = window.open(checkoutUrl, "_blank");
+    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+      window.location.href = checkoutUrl;
+    }
+    closeDrawer();
   };
 
   const handleCrossSellAdd = async (cs: typeof crossSellItems[0]) => {
