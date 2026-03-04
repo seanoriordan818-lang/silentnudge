@@ -250,16 +250,31 @@ export const useCartStore = create<CartStore>()(
             } else if (addResult.cartNotFound) clearCart();
           }
 
+          // Re-fetch checkoutUrl after line changes
+          const refreshData = await storefrontApiRequest(CART_QUERY, { id: cartId });
+          if (refreshData?.data?.cart?.checkoutUrl) {
+            try {
+              const url = new URL(refreshData.data.cart.checkoutUrl);
+              url.searchParams.set('channel', 'online_store');
+              set({ checkoutUrl: url.toString() });
+            } catch {
+              set({ checkoutUrl: refreshData.data.cart.checkoutUrl });
+            }
+          }
+
           // Recalculate bundle discount based on total quantity
           const currentItems = get().items;
           const totalQty = currentItems.reduce((sum, i) => sum + i.quantity, 0);
 
-          if (totalQty === 2 && !appliedDiscountCode) {
+          if (totalQty === 2) {
             const result = await applyDiscountCodesToCart(cartId, ['COUPLES-BUNDLE']);
             if (result.success) set({ appliedDiscountCode: 'COUPLES-BUNDLE', bundleType: 'couples', checkoutUrl: result.checkoutUrl || get().checkoutUrl });
-          } else if (totalQty === 4 && !appliedDiscountCode) {
+          } else if (totalQty === 4) {
             const result = await applyDiscountCodesToCart(cartId, ['FAMILY-BUNDLE']);
             if (result.success) set({ appliedDiscountCode: 'FAMILY-BUNDLE', bundleType: 'family', checkoutUrl: result.checkoutUrl || get().checkoutUrl });
+          } else if (appliedDiscountCode) {
+            await applyDiscountCodesToCart(cartId, []);
+            set({ appliedDiscountCode: null, bundleType: null });
           }
         } catch (error) {
           console.error('Failed to swap variant:', error);
@@ -281,7 +296,18 @@ export const useCartStore = create<CartStore>()(
           const data = await storefrontApiRequest(CART_QUERY, { id: cartId });
           if (!data) return;
           const cart = data?.data?.cart;
-          if (!cart || cart.totalQuantity === 0) clearCart();
+          if (!cart || cart.totalQuantity === 0) {
+            clearCart();
+          } else if (cart.checkoutUrl) {
+            // Refresh checkoutUrl from Shopify (handles stale/expired URLs)
+            try {
+              const url = new URL(cart.checkoutUrl);
+              url.searchParams.set('channel', 'online_store');
+              set({ checkoutUrl: url.toString() });
+            } catch {
+              set({ checkoutUrl: cart.checkoutUrl });
+            }
+          }
         } catch (error) {
           console.error('Failed to sync cart:', error);
         } finally {

@@ -179,7 +179,7 @@ export async function storefrontApiRequest(query: string, variables: Record<stri
 // Cart queries & mutations
 export const CART_QUERY = `
   query cart($id: ID!) {
-    cart(id: $id) { id totalQuantity }
+    cart(id: $id) { id totalQuantity checkoutUrl }
   }
 `;
 
