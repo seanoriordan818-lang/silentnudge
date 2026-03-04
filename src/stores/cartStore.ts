@@ -43,6 +43,7 @@ interface CartStore {
   clearCart: () => void;
   syncCart: () => Promise<void>;
   getCheckoutUrl: () => string | null;
+  getFreshCheckoutUrl: () => Promise<string | null>;
   openDrawer: () => void;
   closeDrawer: () => void;
 }
@@ -280,6 +281,24 @@ export const useCartStore = create<CartStore>()(
 
       clearCart: () => set({ items: [], cartId: null, checkoutUrl: null, appliedDiscountCode: null, bundleType: null }),
       getCheckoutUrl: () => get().checkoutUrl,
+      getFreshCheckoutUrl: async () => {
+        const { cartId, checkoutUrl } = get();
+        const fallbackUrl = checkoutUrl ? formatCheckoutUrl(checkoutUrl) : null;
+        if (!cartId) return fallbackUrl;
+
+        try {
+          const data = await storefrontApiRequest(CART_QUERY, { id: cartId });
+          const freshCheckoutUrl = data?.data?.cart?.checkoutUrl;
+          if (!freshCheckoutUrl) return fallbackUrl;
+
+          const formatted = formatCheckoutUrl(freshCheckoutUrl);
+          set({ checkoutUrl: formatted });
+          return formatted;
+        } catch (error) {
+          console.error('Failed to refresh checkout URL:', error);
+          return fallbackUrl;
+        }
+      },
       openDrawer: () => set({ isDrawerOpen: true }),
       closeDrawer: () => set({ isDrawerOpen: false }),
 
