@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
-import { storefrontApiRequest, STOREFRONT_PRODUCTS_QUERY, ShopifyProduct } from "@/lib/shopify";
+import { storefrontApiRequest, STOREFRONT_PRODUCTS_QUERY, ShopifyProduct, formatCheckoutUrl } from "@/lib/shopify";
 import product2Pack from "@/assets/product-2pack.jpeg";
 import product4Pack from "@/assets/product-4pack.jpeg";
 
@@ -144,9 +144,10 @@ export const CartDrawer = () => {
       return;
     }
     // Try window.open; fall back to redirect if popup blocked
-    const newWindow = window.open(checkoutUrl, "_blank");
+    const safeCheckoutUrl = formatCheckoutUrl(checkoutUrl);
+    const newWindow = window.open(safeCheckoutUrl, "_blank");
     if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-      window.location.href = checkoutUrl;
+      window.location.href = safeCheckoutUrl;
     }
     closeDrawer();
   };

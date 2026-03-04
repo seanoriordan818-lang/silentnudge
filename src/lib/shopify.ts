@@ -235,9 +235,11 @@ export const CART_DISCOUNT_CODES_UPDATE_MUTATION = `
   }
 `;
 
-function formatCheckoutUrl(checkoutUrl: string): string {
+export function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
+    // Force checkout through the actual Shopify storefront domain (prevents custom-domain 404s)
+    url.hostname = SHOPIFY_STORE_PERMANENT_DOMAIN;
     url.searchParams.set('channel', 'online_store');
     return url.toString();
   } catch {
