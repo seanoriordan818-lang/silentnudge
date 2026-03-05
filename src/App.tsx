@@ -18,6 +18,7 @@ const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
 const FAQPage = lazy(() => import("./pages/FAQPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const ShopifyCheckoutRedirect = lazy(() => import("./pages/ShopifyCheckoutRedirect"));
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ function AppContent() {
           <Route path="/reviews" element={<ReviewsPage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/cart/c/*" element={<ShopifyCheckoutRedirect />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
