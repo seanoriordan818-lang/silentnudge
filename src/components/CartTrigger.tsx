@@ -8,6 +8,7 @@ export const CartTrigger = () => {
   return (
     <button
       onClick={openDrawer}
+      aria-label="Shopping cart"
       className="relative p-2 rounded-lg transition-colors"
       style={{ border: '1px solid hsl(var(--border))' }}
     >
