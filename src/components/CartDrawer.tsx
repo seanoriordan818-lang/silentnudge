@@ -146,7 +146,8 @@ export const CartDrawer = () => {
         return;
       }
 
-      window.location.assign(formatCheckoutUrl(freshCheckoutUrl));
+      const url = formatCheckoutUrl(freshCheckoutUrl);
+      window.open(url, "_blank");
       closeDrawer();
     } finally {
       setIsRedirecting(false);
