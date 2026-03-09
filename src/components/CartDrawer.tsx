@@ -147,8 +147,7 @@ export const CartDrawer = () => {
       }
 
       const url = formatCheckoutUrl(freshCheckoutUrl);
-      window.open(url, "_blank");
-      closeDrawer();
+      window.location.assign(url);
     } finally {
       setIsRedirecting(false);
     }
