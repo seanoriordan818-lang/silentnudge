@@ -333,6 +333,11 @@ const ProductPage = () => {
                 <button
                   onClick={handleAddToCart}
                   disabled={isCartLoading || !isBundleValid}
+                  data-add-to-cart
+                  data-product-id={findVariant(selectedColor)?.node.id || ''}
+                  data-product-name={product.node.title}
+                  data-price={total}
+                  data-currency="USD"
                   className="w-full py-4 min-h-[56px] rounded-full bg-primary text-white font-bold text-[16px] shadow-gold flex items-center justify-center gap-2.5 transition-all hover:brightness-110 disabled:opacity-50 mb-4"
                 >
                   {isCartLoading ? (

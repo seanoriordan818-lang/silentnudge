@@ -14,6 +14,11 @@ export const StickyBottomBar = ({ price, onAddToCart, isLoading }: StickyBottomB
     <button
       onClick={onAddToCart}
       disabled={isLoading}
+      data-add-to-cart
+      data-product-id=""
+      data-product-name="SilentNudge Wristband Alarm"
+      data-price={price}
+      data-currency="USD"
       className="w-full py-3.5 min-h-[50px] rounded-full bg-primary text-white font-bold text-[15px] shadow-gold flex items-center justify-center gap-2 disabled:opacity-50"
     >
       {isLoading ? (
