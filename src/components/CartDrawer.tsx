@@ -577,6 +577,7 @@ export const CartDrawer = () => {
             <button
               onClick={handleCheckout}
               disabled={isLoading || isSyncing || isRedirecting}
+              data-start-checkout
               className="w-full py-3 rounded-full font-bold text-[14px] flex items-center justify-center gap-1.5 tracking-wide cursor-pointer mb-2 transition-all disabled:opacity-50"
               style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))', border: 'none' }}
               onMouseEnter={(e) => {
