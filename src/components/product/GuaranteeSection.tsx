@@ -20,6 +20,11 @@ export const GuaranteeSection = ({ onAddToCart, isLoading }: GuaranteeSectionPro
         <button
         onClick={onAddToCart}
         disabled={isLoading}
+        data-add-to-cart
+        data-product-id=""
+        data-product-name="SilentNudge Wristband Alarm"
+        data-price="99"
+        data-currency="USD"
         className="w-full md:w-auto md:px-12 py-4 min-h-[56px] rounded-full bg-primary text-white font-bold text-base shadow-gold transition-all hover:brightness-110 disabled:opacity-50 mb-4">
 
           Try It Risk-Free — $99

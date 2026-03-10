@@ -471,6 +471,11 @@ export const CartDrawer = () => {
                       <button
                         onClick={() => handleCrossSellAdd(cs)}
                         disabled={isLoading}
+                        data-add-to-cart
+                        data-product-id=""
+                        data-product-name={cs.name}
+                        data-price={cs.price}
+                        data-currency="USD"
                         className="w-full py-[7px] rounded-md text-[11px] font-bold tracking-wide cursor-pointer transition-colors disabled:opacity-50"
                         style={{
                           background: 'hsl(var(--gold) / 0.15)',
@@ -577,6 +582,7 @@ export const CartDrawer = () => {
             <button
               onClick={handleCheckout}
               disabled={isLoading || isSyncing || isRedirecting}
+              data-start-checkout
               className="w-full py-3 rounded-full font-bold text-[14px] flex items-center justify-center gap-1.5 tracking-wide cursor-pointer mb-2 transition-all disabled:opacity-50"
               style={{ background: 'hsl(var(--gold))', color: 'hsl(var(--background))', border: 'none' }}
               onMouseEnter={(e) => {
