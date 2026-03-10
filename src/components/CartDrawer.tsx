@@ -471,6 +471,11 @@ export const CartDrawer = () => {
                       <button
                         onClick={() => handleCrossSellAdd(cs)}
                         disabled={isLoading}
+                        data-add-to-cart
+                        data-product-id=""
+                        data-product-name={cs.name}
+                        data-price={cs.price}
+                        data-currency="USD"
                         className="w-full py-[7px] rounded-md text-[11px] font-bold tracking-wide cursor-pointer transition-colors disabled:opacity-50"
                         style={{
                           background: 'hsl(var(--gold) / 0.15)',
