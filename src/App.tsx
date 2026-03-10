@@ -31,6 +31,7 @@ const PageLoader = () => (
 
 function AppContent() {
   useCartSync();
+  useMetaPixelTracking();
   return (
     <>
       <div className="grain-overlay" />
